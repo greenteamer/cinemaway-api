@@ -1,7 +1,7 @@
 # coding: utf8
 from rest_framework import serializers
 from account.models import Worker, Employer
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 
 class WorkerSZ(serializers.ModelSerializer):
