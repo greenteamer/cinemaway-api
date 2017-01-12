@@ -20,4 +20,3 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return "Profile - %s" % self.user
-

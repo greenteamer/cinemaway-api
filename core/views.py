@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-# from django.shortcuts import render
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
-# import pyipinfodb
 from django_ipgeobase.models import IPGeoBase
 from core import utils
-
-# from allauth.socialaccount.models import SocialToken
-from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 
 
@@ -33,18 +28,12 @@ def index(request):
     })
 
 
-
-
 def facebook(request):
     return render(request, 'core/facebook.html')
 
 
 def success(request):
     print "%s: " % request
-    # tokens_query = SocialToken.objects.filter(account__user=request.user, account__provider='facebook')
-    # tokens = []
-    # for token in tokens_query:
-    #     tokens.append(token.token)
     token = Token.objects.get_or_create(user=request.user)
     url = '/success?token=%s' % token[0].key
     return redirect(url)

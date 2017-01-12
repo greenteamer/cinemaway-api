@@ -7,12 +7,10 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import HttpResponse
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
-# from allauth.socialaccount.models import SocialToken, SocialApp, SocialAccount
 import ast
 import json
 from authentication.utils import generate_random_username
 from restapi.serializers import serializers
-from restapi.utils import serialize_data
 
 
 def logout_user(request):
@@ -114,5 +112,3 @@ class CurrentUserView(views.APIView):
         else:
             data = json.dumps(None)
             return HttpResponse(data, content_type='application/json')
-
-

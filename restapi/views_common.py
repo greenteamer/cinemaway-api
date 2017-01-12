@@ -1,18 +1,9 @@
 # -*- coding: utf-8 -*-
-from rest_framework import views
-from django.contrib.auth.models import User
 from authentication.models import Profile
-from django.contrib.auth import login, logout, authenticate
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import HttpResponse
-from rest_framework.authtoken.models import Token
-# from allauth.socialaccount.models import SocialToken, SocialApp, SocialAccount
-# from django.core import serializers
 from restapi.serializers.serializers import UserSZ, ProfileSZ
 from rest_framework.renderers import JSONRenderer
-import ast
-import json
-from authentication.utils import generate_random_username
 
 
 def all_data(request):
