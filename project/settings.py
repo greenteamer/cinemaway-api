@@ -14,16 +14,18 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__).decode('utf-8')).replace('\\', '/')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+3u5#_qz2*$q&6iok=*-piy-j#$pnkt)l055iz*v(xr-bt(d@7'
+SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+WEBPACK_DEV_SERVER = True
 
 ALLOWED_HOSTS = []
 
@@ -37,17 +39,45 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # installed apps:
+    # 'mptt',
+    # 'mptt_tree_editor',
+    # 'sitetree',
     'rest_framework',
-    'account',
-    'corsheaders',
+    'rest_framework.authtoken',
+    'django_ipgeobase',
+    'ipgeo',
+    # 'corsheaders',
+    # custom apps:
+    'authentication',
+    'core',
+    'restapi'
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CONN_MAX_AGE = 10000
+IPGEOBASE_CODING = 'cp1251'
+IPGEOBASE_SEND_MESSAGE_FOR_ERRORS = False
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'core.middleware.CookieProcessingMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -60,7 +90,9 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'project/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -105,17 +137,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.TokenAuthentication',
-    # ),
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -141,6 +162,6 @@ MEDIA_URL = '/media/'
 
 
 try:
-    from settings_local import * # NOQA
+    from settings_local import *
 except Exception:
     pass

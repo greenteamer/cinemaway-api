@@ -1,0 +1,9 @@
+image: node:latest
+
+test js:
+  stage: test
+  script:
+    - apt-get update -qq
+    - apt-get install -qy libelf1
+    - npm install
+    - npm run lint
