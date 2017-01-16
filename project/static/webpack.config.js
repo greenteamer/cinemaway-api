@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const env = process.env;
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+var BundleTracker = require('webpack-bundle-tracker')
 
 
 module.exports = {
@@ -11,12 +12,22 @@ module.exports = {
   entry: {
     bundle: ['babel-polyfill', './src/main'],
   },
+  // entry: [
+  //   'webpack-dev-server/client?http://localhost:8080',
+  //   'webpack/hot/only-dev-server',
+  //   './src/main'
+  // ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
     chunkFilename: '[id].js',
     publicPath: '/static/',
   },
+  // output: {
+  //   path: path.resolve('./dist/'),
+  //   filename: '[name]-[hash].js',
+  //   publicPath: 'http://localhost:8080/static/dist/', // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
+  // },
   resolve: {
     extensions: ['', '.js', '.jsx'],
     modulesDirectories: ['node_modules'],
@@ -47,6 +58,9 @@ module.exports = {
     ]
   },
   plugins: [
+    // new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NoErrorsPlugin(), // don't reload if there is an error
+    // new BundleTracker({filename: './webpack-stats.json'}),
     new ExtractTextPlugin('[name].css'),
     new webpack.ProvidePlugin({
       jQuery: 'jquery',

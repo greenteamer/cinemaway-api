@@ -2,7 +2,6 @@
 from rest_framework import views
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from authentication import models as auth_models
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import HttpResponse
 from rest_framework.authtoken.models import Token
@@ -35,22 +34,16 @@ def login_user(request):
             if user is not None:
                 # логинем пользователя
                 login(request, user)
-                try:
-                    # получаем профиль
-                    profile = auth_models.Profile.objects.get(user=user.id)
-                except ObjectDoesNotExist, e:
-                    print "error: %s" % e
-                    # создаем профиль если его еще нет
-                    profile = auth_models.Profile(user=user)
-                    profile.save()
-                # сериализация пользователя и профиля для ответа сервера
+                # try:
+                #     # получаем профиль
+                #     profile = auth_models.Profile.objects.get(owner=user.id)
+                # except ObjectDoesNotExist, e:
+                #     print "error: %s" % e
+                #     # создаем профиль если его еще нет
+                #     profile = auth_models.Profile(owner=user)
+                #     profile.save()
+                # # сериализация пользователя и профиля для ответа сервера
                 s_user = serializers.UserSZ(user, context={'request': request})
-                # s_profile = serializers.ProfileSZ(profile, context={'request': request})
-                # result_data = {
-                #     "user": s_user.data,
-                #     "profile": s_profile.data,
-                # }
-                # data = JSONRenderer().render(result_data)
                 data = JSONRenderer().render(s_user.data)
             else:
                 data = json.dumps(None)
@@ -81,16 +74,10 @@ def registration_user(request):
             # создаем ему токен в куки
             Token.objects.get_or_create(user=user)
             # создаем профиль пользователю
-            profile = auth_models.Profile(user=user)
-            profile.save()
+            # profile = auth_models.Profile(owner=user)
+            # profile.save()
             # сериализуем пользователя и его проифиль
             s_user = serializers.UserSZ(user, context={'request': request})
-            # s_profile = serializers.ProfileSZ(profile, context={'request': request})
-            # result_data = {
-            #     "user": s_user.data,
-            #     "profile": s_profile.data,
-            # }
-            # data = JSONRenderer().render(result_data)
             data = JSONRenderer().render(s_user.data)
         except Exception, e:
             print "** error: %s" % e

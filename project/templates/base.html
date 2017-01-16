@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,7 +15,10 @@
 {#  <link href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css" rel="stylesheet">#}
 {#  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap-flex.css" rel="stylesheet">#}
 {#  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css" rel="stylesheet">#}
-  <link rel="stylesheet" href="/static/dist/bundle.css">
+
+  <link rel="stylesheet" href="{% static 'dist/bundle.css' %}">
+
+{#  <link rel="stylesheet" href="http://localhost:8080/static/dist/bundle.css">#}
 </head>
 <body>
   <div id="react"></div>
@@ -24,6 +29,9 @@
 {#  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>#}
 {#  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>#}
 {#  <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>#}
-  <script src="/static/dist/bundle.js"></script>
+
+  <script src="{% static 'dist/bundle.js' %}"></script>
+
+{#  <script src="http://localhost:8080/bundle.js"></script>#}
 </body>
 </html>

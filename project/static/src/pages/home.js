@@ -5,9 +5,11 @@ import { Button } from '../components/ui/buttons';
 
 @inject('store') @observer
 export default class Home extends React.Component {
+  static propTypes = {
+    store: React.PropTypes.obj,
+  }
   render() {
-    const { store, uiStore } = this.props;
-    console.log('Home products: ', store.products);
+    const { store } = this.props;
     // const params = new URL(window.location.href).searchParams;
     // if (params.get('token')) {
     //   console.log('location params: ', params.get('token'));
@@ -23,7 +25,3 @@ export default class Home extends React.Component {
   }
 }
 
-// Home.propTypes = {
-//   getProducts: React.PropTypes.func,
-//   products: React.PropTypes.array,
-// };

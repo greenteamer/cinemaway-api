@@ -12,6 +12,14 @@ class UserSZ(serializers.ModelSerializer):
 
 
 class ProfileSZ(serializers.ModelSerializer):
+
     class Meta:
         model = Profile
-        fields = ('url', 'id', 'user', 'firstname', 'lastname')
+        fields = '__all__'
+
+
+class ProtectedProfileSZ(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        exclude = ('id', 'owner', 'isWorker')

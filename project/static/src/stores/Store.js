@@ -11,29 +11,39 @@ class Store extends singleton {
   @observable token;
   @observable user = null;
   @observable profile = null;
-  @observable products = [];
+  @observable dialog = {};
+
 
   constructor() {
     super();
-    this.isLoading = false;
-
+    Object.assign(this, initialData);
+    uiStore.startLoading();
     this.getUser();
     this.getAllData();
 
     autorun(() => {
-      console.log('Store user: ', toJS(this.user));
+      // console.log('Store user: ', toJS(this.user));
       if (!this.user) {
         browserHistory.push('/auth');
       }
     });
+
+    autorun(() => {
+      if (this.profile) {
+        uiStore.finishLoading();
+      }
+    });
+  }
+
+  @action clearData() {
+    Object.assign(this, initialData);
   }
 
   async getUser() {
-    // console.log('TESTStore getUser this: ', this);
     const response = await API.request(API.ENDPOINTS.GET_USER());
+    console.log('Store getUser response: ', response);
     if (response) {
       this.user = response;
-      this.profile = new Profile(this, response);
       browserHistory.push('/profile');
     }
   }
@@ -41,7 +51,11 @@ class Store extends singleton {
   async getAllData() {
     const response = await API.request(API.ENDPOINTS.GET_ALL_DATA());
     if (response) {
-      console.log('+++ Store all data: ', response);
+      console.log('Store getAllData response:', response);
+      if (response.user) {
+        this.user = response.user;
+        this.profile = new Profile(response.profile);
+      }
       // browserHistory.push('/profile');
     }
   }
@@ -50,7 +64,7 @@ class Store extends singleton {
     const response = await API.request(API.ENDPOINTS.REGISTER(), { email, password1, password2 });
     if (response) {
       this.user = response;
-      this.profile = new Profile(this, response);
+      this.profile = new Profile();
       browserHistory.push('/profile');
     }
   }
@@ -59,7 +73,6 @@ class Store extends singleton {
     const response = await API.request(API.ENDPOINTS.LOGIN(), { email, password });
     if (response) {
       this.user = response;
-      this.profile = new Profile(this, response);
       browserHistory.push('/profile');
     }
   }
@@ -68,15 +81,22 @@ class Store extends singleton {
     const response = await API.request(API.ENDPOINTS.LOGOUT());
     if (!response) {
       this.user = response;
+      this.clearData();
     }
   }
 
-  @action getProducts() {
-    console.log('store get products');
-  }
+
 }
 
 const store = Store.get();
 window.store = store;
+window.uiStore = uiStore;
 window.mobx = {action, observable, runInAction, computed, toJS};
 export default store;
+
+
+const initialData = {
+  user: null,
+  profile: null,
+};
+

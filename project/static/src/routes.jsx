@@ -2,7 +2,6 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'mobx-react';
 import { Store, UIStore } from './stores';
-// components
 import { Home, Register, Profile } from './pages';
 import { Layout, BGLayout } from './components';
 import { Nav } from './components/Nav';
@@ -34,7 +33,7 @@ export const routes = <Router history={browserHistory}>
     </Route>
     <Route component={Layout}>
       <Route path="profile">
-        <IndexRoute components={{ content: Profile, nav: Nav}} />
+        <IndexRoute components={{ content: Profile, nav: Nav }} />
       </Route>
       <IndexRoute components={{ content: Home, nav: Nav}} />
       <Route path="oauth">
@@ -45,7 +44,6 @@ export const routes = <Router history={browserHistory}>
     </Route>
   </Route>
 </Router>;
-
 
 
 export default function RouterContainer() {

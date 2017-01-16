@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from restapi.serializers import serializers
 from authentication.models import Profile
 from django.contrib.auth.models import User
-
+from restapi import permissions
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -17,5 +17,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsOwnerOrReadOnly, )
     queryset = Profile.objects.all()
     serializer_class = serializers.ProfileSZ
+
+    def get_serializer_class(self):
+        serializer_class = self.serializer_class
+        if self.request.method == 'PUT':
+            serializer_class = serializers.ProtectedProfileSZ
+        return serializer_class
