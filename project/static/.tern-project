@@ -1,0 +1,9 @@
+{
+  "libs": [
+  ],
+  "plugins": {
+    "webpack": {
+      "configPath": "./lib/webpack.prod.js"
+    }
+  }
+}

@@ -6,8 +6,6 @@ require('isomorphic-fetch');
 export async function request(endpoint, data = undefined) {
   const csrf_token = getCookie("csrftoken");
   const token = getCookie("token");
-  console.log('api request csrf_token: ', csrf_token);
-  console.log('api request endpoint: ', endpoint);
   const response = await fetch(`/${endpoint.url}`, {
     method: endpoint.method,
     credentials: 'same-origin',

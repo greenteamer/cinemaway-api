@@ -1,15 +1,17 @@
 export const HOST = '';
 
 
-export const GET_ALL_DATA = () => ({url: `api/v1/all-data/`, method: 'GET'});
+export const GET_ALL_DATA = () => ({url: 'api/v1/all-data/', method: 'GET'});
 // export const GET_WORKERS = () => ({url: `api/v1/workers/`, method: 'GET'});
 // export const REGISTER = () => ({url: `rest-auth/registration/`, method: 'POST'});
 // export const REGISTER = () => ({url: `${HOST}/oauth/registration/`, method: 'POST'});
 // export const LOGIN = () => ({url: `rest-auth/login/`, method: 'POST'});
-export const LOGIN = () => ({url: `api/v1/login/`, method: 'POST'});
-export const REGISTER = () => ({url: `api/v1/registration/`, method: 'POST'});
-export const LOGOUT = () => ({url: `api/v1/logout/`, method: 'POST'});
-export const GET_USER = () => ({url: `api/v1/current-user/`, method: 'GET'});
+export const LOGIN = () => ({url: 'api/v1/login/', method: 'POST'});
+export const REGISTER = () => ({url: 'api/v1/registration/', method: 'POST'});
+export const LOGOUT = () => ({url: 'api/v1/logout/', method: 'POST'});
+export const GET_USER = () => ({url: 'api/v1/current-user/', method: 'GET'});
+export const POST_PROFILE = () => ({url: 'api/v1/profiles/', method: 'POST'});
+export const PUT_PROFILE = (id) => ({url: `api/v1/profiles/${id}/`, method: 'PUT'});
 
 
 export const GET_PRODUCT = (id) => ({url: `api/v1/products/${id}`, method: 'GET'});

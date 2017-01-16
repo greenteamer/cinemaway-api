@@ -1,13 +1,19 @@
-import { action, observable } from 'mobx';
+import { action, autorun, observable } from 'mobx';
 import singleton from 'singleton';
 
 
 class UIStore extends singleton {
   @observable isLoading = false;
-
+  @observable dialog = false;
   constructor() {
     super();
     this.isLoading = false;
+    autorun(() => {
+      console.log('isLoading: ', this.isLoading);
+    });
+    autorun(() => {
+      console.log('uiStore dialog : ', this.dialog);
+    });
   }
 
   @action startLoading = () => {
@@ -17,6 +23,16 @@ class UIStore extends singleton {
   @action finishLoading = () => {
     this.isLoading = false;
   }
+
+  @action openDialog() {
+    this.dialog = true;
+  }
+
+  @action closeDialog() {
+    console.log('closeDialog this: ', this);
+    this.dialog = false;
+  }
+
 }
 
 const uiStore = UIStore.get();
