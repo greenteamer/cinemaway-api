@@ -22,15 +22,9 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__).decode('utf-8')).replac
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 WEBPACK_DEV_SERVER = True
-
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,14 +34,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # installed apps:
-    # 'mptt',
-    # 'mptt_tree_editor',
-    # 'sitetree',
+    'mptt',
+    'mptt_tree_editor',
+    'sitetree',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_ipgeobase',
-    'ipgeo',
-    # 'corsheaders',
+    # 'django_ipgeobase',
+    # 'ipgeo',
+
     # custom apps:
     'authentication',
     'core',
@@ -160,6 +154,7 @@ STATIC_ROOT = ''
 MEDIA_ROOT = '%s/project/media' % BASE_DIR
 MEDIA_URL = '/media/'
 
+AUTH_USER_MODEL = 'authentication.ExtUser'
 
 try:
     from settings_local import * # noqa

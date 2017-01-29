@@ -2,31 +2,42 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { inject, observer } from 'mobx-react';
 import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Checkbox from 'material-ui/Checkbox';
+// import { SimpleDialog } from '../../components/dialog';
 import { SimpleDialog } from '../../components/dialog';
+import styles from './styles';
 
 
 @inject('store', 'uiStore') @observer
-export default class WorkerForm extends Component {
+export default class ProfileForm extends Component {
   static propTypes = {
     store: React.PropTypes.object,
-    styles: React.PropTypes.object,
     uiStore: React.PropTypes.object,
   }
 
   _handleFileChange = () => {
   }
 
-  handleRoleChange = (e, value) => {
+  _handleRoleChange = (e, value) => {
     const { store } = this.props;
-    store.profile.setRole(value);
+    console.log('start role change');
+    store.user.setRole(value);
   };
 
   _handleSaveProfile = () => {
-    const { store: { profile } } = this.props;
-    console.log('_handleSaveProfile start');
-    profile.save();
+    const { uiStore } = this.props;
+    // store.user.save();
+    uiStore.openDialog();
+  }
+
+  _handleRubricOnCheck = (e) => {
+    console.log('rubruc e: ', e.target.value);
+    const { store } = this.props;
+    const id = parseInt(e.target.value, 10);
+    store.user.toggleRubric(id);
   }
 
   _openFileDialog = () => {
@@ -35,35 +46,50 @@ export default class WorkerForm extends Component {
   }
 
   _handleFieldChange = (e, value) => {
-    const { store: { profile } } = this.props;
-    profile.setData(e.target.name, value);
+    const { store: { user } } = this.props;
+    user.setData(e.target.name, value);
   }
 
   render() {
-    const { store: { profile }, styles, uiStore } = this.props;
-    if (!profile) {
+    const { store: { user, rubrics } } = this.props;
+    if (!user) {
       return null;
     }
-    return <div style={styles}>
-
+    console.log('user: ', user);
+    return <div style={styles.fields}>
       <h4>Выберите вашу роль</h4>
-      <RadioButtonGroup name="selectRole" onChange={this.handleRoleChange} defaultSelected={profile.role}>
+      <RadioButtonGroup
+        name="selectRole"
+        defaultSelected={user.protected ? user.groups[0] : 2}
+        onChange={this._handleRoleChange}>
         <RadioButton
-          value="worker"
-          label="Соискатель"
-          disabled={profile.isSaved} />
+          value={2}
+          disabled={user.protected}
+          label="Соискатель"/>
         <RadioButton
-          value="employer"
-          label="Работодатель"
-          disabled={profile.isSaved} />
+          value={1}
+          disabled={user.protected}
+          label="Работодатель" />
       </RadioButtonGroup>
+
+      <Divider style={styles.divider}/>
+      <h4>Выберите подходящие рубрики</h4>
+      {rubrics.length !== 0
+        && rubrics.map((rubric, key) => <Checkbox
+          key={key}
+          label={rubric.name}
+          checked={user.rubrics.includes(rubric.id)}
+          onCheck={this._handleRubricOnCheck}
+          value={rubric.id}
+          style={styles.checkbox} />
+      )}
 
       <TextField
         type="text"
         name="firstname"
         fullWidth={true}
         floatingLabelText="Имя"
-        value={profile.firstname}
+        value={user.firstname ? user.firstname : ''}
         onChange={this._handleFieldChange}/>
 
       <TextField
@@ -71,13 +97,13 @@ export default class WorkerForm extends Component {
         name="lastname"
         fullWidth={true}
         floatingLabelText="Фамилия"
-        value={profile.lastname}
+        value={user.lastname ? user.lastname : ''}
         onChange={this._handleFieldChange}/>
 
       <TextField
         type="text"
         name="city"
-        value={profile.city}
+        value={user.city ? user.city : ''}
         fullWidth={true}
         onChange={this._handleFieldChange}
         floatingLabelText="Город" />
@@ -85,51 +111,54 @@ export default class WorkerForm extends Component {
       <TextField
         type="text"
         name="phone"
-        value={profile.phone}
+        value={user.phone ? user.phone : ''}
         fullWidth={true}
         onChange={this._handleFieldChange}
         floatingLabelText="Телефон" />
+      {console.log('test:', user.groups.length === 0 || user.groups[0] === 2 )}
+      {(user.groups.length === 0 || user.groups[0] === 2) &&
+        <div>
+          <TextField
+            type="text"
+            name="edu"
+            value={user.edu ? user.edu : ''}
+            fullWidth={true}
+            multiLine={true}
+            rows={3}
+            onChange={this._handleFieldChange}
+            floatingLabelText="Образование" />
 
-      <TextField
-        type="text"
-        name="edu"
-        value={profile.edu}
-        fullWidth={true}
-        multiLine={true}
-        rows={3}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Образование" />
+          <TextField
+            type="text"
+            name="filmography"
+            value={user.filmography ? user.filmography : ''}
+            fullWidth={true}
+            multiLine={true}
+            rows={3}
+            onChange={this._handleFieldChange}
+            floatingLabelText="Фильмография" />
 
-      <TextField
-        type="text"
-        name="filmography"
-        value={profile.filmography}
-        fullWidth={true}
-        multiLine={true}
-        rows={3}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Фильмография" />
+          <TextField
+            type="text"
+            name="ad"
+            value={user.ad ? user.ad : ''}
+            fullWidth={true}
+            multiLine={true}
+            rows={3}
+            onChange={this._handleFieldChange}
+            floatingLabelText="Реклама" />
 
-      <TextField
-        type="text"
-        name="ad"
-        value={profile.ad}
-        fullWidth={true}
-        multiLine={true}
-        rows={3}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Реклама" />
-
-      <TextField
-        name="languages"
-        type="text"
-        value={profile.languages}
-        fullWidth={true}
-        multiLine={true}
-        rows={3}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Занание языков" />
-
+          <TextField
+            name="languages"
+            type="text"
+            value={user.languages ? user.languages : ''}
+            fullWidth={true}
+            multiLine={true}
+            rows={3}
+            onChange={this._handleFieldChange}
+            floatingLabelText="Занание языков" />
+        </div>
+      }
       <RaisedButton
         label="Primary"
         primary={true}
@@ -145,7 +174,7 @@ export default class WorkerForm extends Component {
       <TextField
         name="text"
         multiLine={true}
-        value={profile.text}
+        value={user.text ? user.text : ''}
         rows={3}
         fullWidth={true}
         onChange={this._handleFieldChange}
@@ -157,16 +186,11 @@ export default class WorkerForm extends Component {
         fullWidth={true}
         onTouchTap={this._handleSaveProfile} />
 
-        <SimpleDialog
-          show={uiStore.dialog}
-          onSubmit={() => {
-            profile.serverSave();
-            uiStore.closeDialog();
-          }}
-          onCancel={() => uiStore.closeDialog()}>
-          <p>Hello</p>
-        </SimpleDialog>
+      <SimpleDialog
+        onSubmit={() => user.serverSave()}
+        onCancel={() => console.log('test on cancel')}>
+        <p>После сохранения Вы не сможете изменить свою роль</p>
+      </SimpleDialog>
     </div>;
   }
 }
-

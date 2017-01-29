@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'mobx-react';
 import { Store, UIStore } from './stores';
-import { Home, Register, Profile } from './pages';
+import { Home, SubRubrics, Register, Profile, Vacancies } from './pages';
 import { Layout, BGLayout } from './components';
 import { Nav } from './components/Nav';
 
@@ -32,15 +32,18 @@ export const routes = <Router history={browserHistory}>
       <IndexRoute components={{ content: Register, nav: Nav}} />
     </Route>
     <Route component={Layout}>
+      <IndexRoute components={{ content: Home, nav: Nav}} />
       <Route path="profile">
         <IndexRoute components={{ content: Profile, nav: Nav }} />
+        <Route path="vacancies" components={{ content: Vacancies, nav: Nav}} />
       </Route>
-      <IndexRoute components={{ content: Home, nav: Nav}} />
+      <Route path="rubrics">
+        <Route path=":rubricId" components={{ content: SubRubrics, nav: Nav}} />
+      </Route>
       <Route path="oauth">
         <Route path="success" components={{ content: Oauth, nav: Nav}} />
         <Route path="fail" components={{ content: Fail, nav: Nav}} />
       </Route>
-
     </Route>
   </Route>
 </Router>;

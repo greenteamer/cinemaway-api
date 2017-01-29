@@ -12,5 +12,14 @@ export default {
   resultData: {
     width: '50%',
   },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  floatingButton: {
+    position: 'fixed',
+    bottom: 25,
+    right: 25,
+  },
 };
 

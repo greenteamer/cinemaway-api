@@ -1,21 +1,22 @@
 import './Forms.sass';
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import FontIcon from 'material-ui/FontIcon';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 
 
 
 @inject('store') @observer
 export class RegisterForm extends React.Component {
+
+  static propTypes = {
+    store: React.PropTypes.object,
+  }
+
   actionHandler = (e) => {
     e.preventDefault();
-    console.log('Form actionHandler e: ', e.target.email.value);
     const { store } = this.props;
-    console.log('Form register action: ', store.register);
     const email = e.target.email.value;
     const password1 = e.target.password1.value;
     const password2 = e.target.password2.value;
@@ -71,6 +72,11 @@ export class RegisterForm extends React.Component {
 
 @inject('store') @observer
 export class LoginForm extends React.Component {
+
+  static propTypes = {
+    store: React.PropTypes.object,
+  }
+
   actionHandler = (e) => {
     e.preventDefault();
     console.log('Form actionHandler e: ', e.target.email.value);
