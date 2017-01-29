@@ -1,20 +1,27 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import { UIStore } from '../../stores';
 
 
-const SimpleDialog = ({ show, onSubmit, onCancel, children }) => {
+const SimpleDialog = observer(({ onSubmit, onCancel, children, autoScrollBodyContent }) => {
   const actions = [
     <FlatButton
-      label="Cancel"
+      label="Отмена"
       primary={true}
-      onTouchTap={onCancel}
+      onTouchTap={() => {
+        onCancel();
+        UIStore.closeDialog();
+      }}
     />,
     <FlatButton
-      label="Submit"
+      label="Ок"
       primary={true}
-      onTouchTap={onSubmit}
+      onTouchTap={() => {
+        onSubmit();
+        UIStore.closeDialog();
+      }}
     />,
   ];
   return <div>
@@ -22,14 +29,22 @@ const SimpleDialog = ({ show, onSubmit, onCancel, children }) => {
       title="Внимание"
       actions={actions}
       modal={true}
-      open={show}
+      open={UIStore.dialog}
+      autoScrollBodyContent={autoScrollBodyContent}
     >
       {children
         && children}
     </Dialog>
-  </div>
-}
+  </div>;
+});
+
+SimpleDialog.propTypes = {
+  onSubmit: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
+  children: React.PropTypes.object,
+  autoScrollBodyContent: React.PropTypes.bool,
+};
 
 export {
   SimpleDialog,
-}
+};

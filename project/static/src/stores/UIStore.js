@@ -5,6 +5,8 @@ import singleton from 'singleton';
 class UIStore extends singleton {
   @observable isLoading = false;
   @observable dialog = false;
+  @observable dialogMessage = 'dialog message';
+
   constructor() {
     super();
     this.isLoading = false;
@@ -29,7 +31,6 @@ class UIStore extends singleton {
   }
 
   @action closeDialog() {
-    console.log('closeDialog this: ', this);
     this.dialog = false;
   }
 

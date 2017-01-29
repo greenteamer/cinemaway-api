@@ -1,25 +1,64 @@
 # coding: utf8
 from rest_framework import serializers
-from authentication.models import Profile
-from django.contrib.auth.models import User
+#  from authentication.models import Profile
+# from django.contrib.auth.models import User
+from core.models import Rubric, Vacancy, UserRequest, UserResponse
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class UserSZ(serializers.ModelSerializer):
     # user = User.objects.all()
     class Meta:
         model = User
-        fields = ('url', 'id', 'username', 'email')
+        exclude = (
+            'password',
+            'is_superuser',
+            'is_admin',
+            'user_permissions'
+        )
 
 
-class ProfileSZ(serializers.ModelSerializer):
-
-    class Meta:
-        model = Profile
-        fields = '__all__'
-
-
-class ProtectedProfileSZ(serializers.ModelSerializer):
+class ProtectedUserSZ(serializers.ModelSerializer):
 
     class Meta:
-        model = Profile
-        exclude = ('id', 'owner', 'isWorker')
+        model = User
+        exclude = (
+            'password',
+            'is_superuser',
+            'is_admin',
+            'is_active',
+            'user_permissions',
+            'id',
+            'groups'
+        )
+
+
+class RubricSZ(serializers.ModelSerializer):
+    url = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Rubric
+        fields = ('url', 'id', 'name', 'parent', 'image', 'level', 'tree_id')
+
+
+class VacancySZ(serializers.ModelSerializer):
+    url = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Vacancy
+        fields = ('url', 'id', 'name', 'owner', 'description', 'rubrics')
+
+
+class UserRequestSZ(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserRequest
+        fields = ('id', 'owner', 'vacancy', 'object', 'text')
+
+
+class UserResponseSZ(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserResponse
+        fields = ('id', 'owner', 'userRequest', 'status', 'text')

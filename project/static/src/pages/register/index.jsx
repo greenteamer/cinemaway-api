@@ -8,18 +8,25 @@ import SwipeableViews from 'react-swipeable-views';
 
 @inject('store') @observer
 export default class TabsExampleSwipeable extends React.Component {
+  static propTypes = {
+    store: React.PropTypes.object,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       slideIndex: 0,
     };
   }
+
   handleChange = (value) => {
     this.setState({
       slideIndex: value,
     });
   };
+
   render() {
+    const { store } = this.props;
     return (
       <div className="auth-container">
         <div className="box">

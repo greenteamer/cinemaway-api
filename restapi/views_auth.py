@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from rest_framework import views
-from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import Group
 from django.shortcuts import HttpResponse
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
 import ast
 import json
-from authentication.utils import generate_random_username
+#  from authentication.utils import generate_random_username
 from restapi.serializers import serializers
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def logout_user(request):
@@ -29,8 +31,7 @@ def login_user(request):
         try:
             if body['email'] == "":
                 raise Exception('Пустое поле email')
-            find_user = User.objects.get(email=body['email'])
-            user = authenticate(username=find_user.username, password=body['password'])
+            user = authenticate(email=body['email'], password=body['password'])
             if user is not None:
                 # логинем пользователя
                 login(request, user)
@@ -68,13 +69,13 @@ def registration_user(request):
         except ObjectDoesNotExist, e:
             if body['email'] == "":
                 raise Exception('** Пустое поле email')
-            user = User.objects.create_user(generate_random_username(), body['email'], body['password1'])
+            user = User.objects.create_user(body['email'], body['password1'])
             # логиним пользователя
             login(request, user)
             # создаем ему токен в куки
             Token.objects.get_or_create(user=user)
             # создаем профиль пользователю
-            # profile = auth_models.Profile(owner=user)
+            # profile = Profile(owner=user)
             # profile.save()
             # сериализуем пользователя и его проифиль
             s_user = serializers.UserSZ(user, context={'request': request})
@@ -92,10 +93,27 @@ class CurrentUserView(views.APIView):
         if request.user.is_authenticated:
             data = json.dumps({
                 "id": request.user.id,
-                "username": request.user.username,
+                # "username": request.user.username,
                 "email": request.user.email,
             })
             return HttpResponse(data, content_type='application/json')
         else:
             data = json.dumps(None)
             return HttpResponse(data, content_type='application/json')
+
+
+def set_group_user_view(request):
+    group_name = request.POST.get('group', '')
+    try:
+        group = Group.objects.get(name=group_name)
+        if request.user.groups.length != 0:
+            request.user.groups.add(group.id)
+            s_user = serializers.UserSZ(request.user, context={'request': request})
+            data = JSONRenderer().render(s_user.data)
+            return HttpResponse(data, content_type='application/json')
+        else:
+            data = json.dumps(None)
+            return HttpResponse(data, content_type='application/json')
+    except Exception:
+        data = json.dumps(None)
+        return HttpResponse(data, content_type='application/json')
