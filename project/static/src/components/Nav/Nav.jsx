@@ -32,7 +32,7 @@ class Logged extends Component {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem className="menu-item" primaryText="Мой профиль" onTouchTap={() => browserHistory.push('/profile')}/>
-      <MenuItem className="menu-item" primaryText="Вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
+      <MenuItem className="menu-item" primaryText="Мои вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
       <MenuItem className="menu-item" primaryText="Выйти" onTouchTap={this.logout} />
     </IconMenu>;
   }

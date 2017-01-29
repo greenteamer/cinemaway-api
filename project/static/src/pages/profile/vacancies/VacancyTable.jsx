@@ -9,12 +9,14 @@ import { inject, observer } from 'mobx-react';
 // import { SimpleDialog } from '../../../components/dialog';
 import styles from '../styles';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import IconButton from 'material-ui/IconButton';
 
 
 @inject('store', 'uiStore') @observer
 export default class Vacancies extends Component {
   static propTypes = {
     store: React.PropTypes.object,
+    vacancies: React.PropTypes.object,
     uiStore: React.PropTypes.object,
     ActionButton: React.PropTypes.func,
   }
@@ -27,8 +29,12 @@ export default class Vacancies extends Component {
     console.log('_handleOnCheck start value:', value);
   }
 
+  _handleEditVacancy = () => {
+    console.log('_handleEditVacancy star:');
+  }
+
   render() {
-    const { store: { user, vacancies } } = this.props;
+    const { store: { user }, vacancies } = this.props;
     if (!user) {
       return <div>no user</div>;
     }
@@ -49,11 +55,16 @@ export default class Vacancies extends Component {
               <TableRowColumn>{v.id}</TableRowColumn>
               <TableRowColumn>{v.name}</TableRowColumn>
               <TableRowColumn>{v.status}</TableRowColumn>
-              <TableRowColumn>{v.status}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton
+                  iconClassName="ion-edit"
+                  onTouchTap={this._handleEditVacancy}
+                />
+              </TableRowColumn>
             </TableRow>)
           }
         </TableBody>
-      </Table>
+        </Table>
     </div>;
   }
 }

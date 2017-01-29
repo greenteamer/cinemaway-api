@@ -82,7 +82,7 @@ export default class Vacancies extends Component {
     ];
     console.log('Vacancies render tmpVacancy:', toJS( this.tmpVacancy ));
     return <div style={{height: '100%'}}>
-      <VacancyTable />
+      <VacancyTable vacancies={user.vacancies} />
       <Dialog
         title="Вакансия"
         actions={dialogActions}

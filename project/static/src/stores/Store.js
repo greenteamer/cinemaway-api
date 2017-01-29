@@ -36,15 +36,6 @@ class Store extends singleton {
     Object.assign(this, initialData);
   }
 
-  // async getUser() {
-  //   const response = await API.request(API.ENDPOINTS.GET_USER());
-  //   console.log('Store getUser response: ', response);
-  //   if (response) {
-  //     this.user = response;
-  //     browserHistory.push('/profile');
-  //   }
-  // }
-
   @action getAllData = async () => {
     uiStore.startLoading();
     console.log('Store getAllData ');
@@ -65,8 +56,7 @@ class Store extends singleton {
   async register(email, password1, password2) {
     const response = await API.request(API.ENDPOINTS.REGISTER(), { email, password1, password2 });
     if (response) {
-      this.user = new User(response.user);
-      // this.getAllData();
+      this.user = new User(response);
       browserHistory.push('/profile');
     }
   }
@@ -77,7 +67,6 @@ class Store extends singleton {
     if (response) {
       console.log('login response: ', response);
       this.user = new User(response);
-      // this.getAllData();
       browserHistory.push('/profile');
     }
   }
@@ -86,7 +75,6 @@ class Store extends singleton {
     const response = await API.request(API.ENDPOINTS.LOGOUT());
     if (!response) {
       this.user = response;
-      // this.clearData();
     }
   }
 
