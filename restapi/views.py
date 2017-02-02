@@ -65,5 +65,6 @@ class UserRequestViewSet(viewsets.ModelViewSet):
 
 
 class UserResponseViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsOwnerOrReadOnly, )
     queryset = UserResponse.objects.all()
     serializer_class = serializers.UserResponseSZ

@@ -3,7 +3,7 @@ import * as API from '../api';
 import User from './User';
 import Vacancy from './Vacancy';
 import UserRequest from './UserRequest';
-import userResponse from './UserResponse.js';
+import UserResponse from './UserResponse';
 import uiStore from './UIStore';
 import singleton from 'singleton';
 import { browserHistory } from 'react-router';
@@ -20,8 +20,7 @@ class Store extends singleton {
   @observable rubrics = [];
   @observable vacancies = [];
   @observable userRequests = [];
-  @observable userResponse = [];
-
+  @observable userResponses = [];
 
   constructor() {
     super();
@@ -65,7 +64,7 @@ class Store extends singleton {
         this.rubrics.replace(response.rubrics);
         this.vacancies.replace(response.vacancies.map(v => new Vacancy(v)));
         this.userRequests.replace(response.requests.map(req => new UserRequest(req)));
-        this.userResponse.replace(response.responses.map(res => new userResponse(res)));
+        this.userResponses.replace(response.responses.map(res => new UserResponse(res)));
       }
       uiStore.finishLoading();
     });
@@ -110,7 +109,6 @@ class Store extends singleton {
 
   @action addUserRequest = async (owner, vacancy, object, text) => {
     console.log('Store addUserRequest vacancy: ', vacancy);
-    // const response = await API.request(API.ENDPOINTS.POST_USERREQUEST(), {});
     const userRequest = new UserRequest({owner, vacancy, object, text});
     userRequest.save();
   }
@@ -118,6 +116,11 @@ class Store extends singleton {
   @action deleteRequest = async (id) => {
     await API.request(API.ENDPOINTS.DELETE_USERREQUEST(id));
     this.userRequests.replace(this.userRequests.filter(req => req.id !== id));
+  }
+
+  @action addUserResponse = async (owner, userRequest, status, text) => {
+    const userResponse = new UserResponse({owner, userRequest, status, text});
+    userResponse.save();
   }
 }
 

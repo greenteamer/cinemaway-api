@@ -1,55 +1,25 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Modal, ModalManager, Effect } from '../../components/dialog';
-import { browserHistory } from 'react-router';
-
-
-const VacancyCard = ({vacancy, onRequest}) => <Card>
-  <CardHeader
-    title={vacancy.name}
-    subtitle="Subtitle"
-    actAsExpander={true}
-    showExpandableButton={true}
-  />
-  <CardActions>
-    <FlatButton
-      label="Откликнуться"
-      onTouchTap={() => onRequest(vacancy)}
-    />
-    <FlatButton
-      label="Подробнее"
-      onTouchTap={() => browserHistory.push(vacancy.absoluteUrl)}
-    />
-  </CardActions>
-  <CardText expandable={true}>
-    {vacancy.description}
-  </CardText>
-</Card>;
-VacancyCard.propTypes = {
-  vacancy: React.PropTypes.object,
-  onRequest: React.PropTypes.func,
-};
 
 
 @inject('store') @observer
-export default class VacancyList extends React.Component {
-
-  @observable tmpObj = { text: '' };
-
+class VacancyCard extends React.Component {
   static propTypes = {
     store: React.PropTypes.object,
-    vacancies: React.PropTypes.array,
+    params: React.PropTypes.object,
   }
+
+  @observable tmpObj = { text: '' };
 
   handleChangeText = (e, value) => {
     this.tmpObj.text = value;
   }
 
-  _handleOnRequest = (vacancy) => {
+  onRequest = (vacancy) => {
     console.log('_handleOnRequest vacancy: ', vacancy);
     const { store } = this.props;
     const self = this;
@@ -85,19 +55,23 @@ export default class VacancyList extends React.Component {
   }
 
   render() {
-    const { store, vacancies } = this.props;
-    console.log('store.avaliableVacancies: ', store.avaliableVacancies);
+    const { store, params } = this.props;
+    const id = parseInt(params.vacancyId, 10);
+    const vacancy = store.vacancies.find(v => v.id === id);
     return <div>
-      {vacancies.length &&
-        vacancies.map((vacancy, key) => {
-          return <VacancyCard
-            key={key}
-            vacancy={vacancy}
-            onRequest={this._handleOnRequest}
-          />;
-        }) ||
-        <h1>Нет доступных вакансий</h1>
-      }
+      <h1>{vacancy.name}</h1>
+      <FlatButton
+        label="Откликнуться"
+        onTouchTap={() => this.onRequest(vacancy)}
+      />
+      <p>{vacancy.description}</p>
     </div>;
   }
 }
+
+VacancyCard.propTypes = {
+  vacancy: React.PropTypes.object,
+  onRequest: React.PropTypes.func,
+};
+
+export default VacancyCard;

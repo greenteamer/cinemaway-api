@@ -35,5 +35,8 @@ export default class UserRequest {
     return store.users.find(u => u.id === this.object);
   }
 
+  @computed get userResponse() {
+    return store.userResponses.find(res => res.userRequest === this.id);
+  }
 }
 

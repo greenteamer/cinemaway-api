@@ -54,6 +54,9 @@ export default class User {
     return observable( store.userRequests.filter(req => req.owner === this.id) );
   }
 
+  @computed get requestsInvites() {
+    return observable( store.userRequests.filter(req => req.object === this.id) );
+  }
 }
 
 
