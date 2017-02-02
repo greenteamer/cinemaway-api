@@ -1,33 +1,30 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
+// import Formsy from 'formsy-react';
+// import { FormsyCheckbox, FormsyText } from 'formsy-material-ui/lib';
 import { inject, observer } from 'mobx-react';
 import TextField from 'material-ui/TextField';
-// import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-// import { SimpleDialog } from '../../../components/dialog';
-import styles from '../styles';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 
 @inject('store') @observer
-export default class Vacancies extends Component {
-  // static propTypes = {
-  //   uiStore: React.PropTypes.object,
-  //   ActionButton: React.PropTypes.func,
-  // }
+export class VacancyFormFields extends Component {
+
   static propTypes = {
     vacancy: React.PropTypes.object,
     store: React.PropTypes.object,
   }
 
-  _handleAddVacancy = () => {
+  _handleOnBlur = (e) => {
+    console.log('_handleOnBlur value: ', this.refs[e.target.name]);
+  }
+
+  _handileAddVacancy = () => {
     console.log('handle add vacancy');
   }
 
   _handleOnCheck = (e, value) => {
-    console.log('_handleOnCheck start value:', value);
-    console.log('_handleOnCheck start e:', e.target.value);
     const { vacancy } = this.props;
     if (value) {
       vacancy.rubrics.push(parseInt(e.target.value, 10));
@@ -37,41 +34,109 @@ export default class Vacancies extends Component {
     }
   }
 
+
   render() {
-    // const { store: { user, rubrics } } = this.props;
     const { vacancy, store } = this.props;
-    // console.log('VacancyForm vacancy:', vacancy);
-    return <div style={styles.fields}>
+    return <div className="row">
 
-      <TextField
-        hintText="Заголовок"
-        floatingLabelText="Заголовок"
-        value={vacancy.name}
-        onChange={(e) => { vacancy.name = e.target.value; }}
-      />
-      <br />
-      <TextField
-        hintText="Описание"
-        floatingLabelText="Описание вакансии"
-        multiLine={true}
-        rows={3}
-        value={vacancy.description}
-        onChange={(e) => { vacancy.description = e.target.value; }}
-      />
+      <div className="col-sm-12 col-md-6">
+        <TextField
+          ref="name"
+          name="name"
+          hintText="Заголовок"
+          errorText=""
+          onBlur={this._handleOnBlur}
+          floatingLabelText="Заголовок"
+          defaultValue={vacancy.name}
+          onChange={(e) => { vacancy.name = e.target.value; }}
+        />
+        <br />
+        <TextField
+          hintText="Описание"
+          floatingLabelText="Описание вакансии"
+          defaultValue={vacancy.description}
+          multiLine={true}
+          rows={3}
+          onChange={(e) => { vacancy.description = e.target.value; }}
+        />
+      </div>
 
-      <h4>Выберите рубрики</h4>
+      <div className="col-sm-12 col-md-6">
+        <TextField
+          type="number"
+          hintText="Оплата"
+          floatingLabelText="Оплата"
+          defaultValue={vacancy.price}
+          onChange={(e) => { vacancy.price = parseInt( e.target.value, 10 ); }}
+        />
+        <br />
+        <h4>Выберите рубрики</h4>
 
-      {store.rubrics.length &&
-        store.rubrics.map(( r, key ) =>
-          <Checkbox
-            key={key}
-            label={r.name}
-            checked={vacancy.rubrics.includes(r.id)}
-            onCheck={this._handleOnCheck}
-            value={r.id}
-          />
-        )
-      }
+        {store.rubrics.length &&
+          store.rubrics.map(( r, key ) =>
+            <Checkbox
+              key={key}
+              label={r.name}
+              checked={vacancy.rubrics.includes(r.id)}
+              onCheck={this._handleOnCheck}
+              value={r.id}
+            />
+          )
+        }
+
+      </div>
     </div>;
+  }
+}
+
+
+@inject('store') @observer
+export default class VacancyDialog extends React.Component {
+
+  static propTypes = {
+    dialog: React.PropTypes.object,
+    vacancy: React.PropTypes.object,
+    onSubmit: React.PropTypes.func,
+    children: React.PropTypes.element,
+  }
+
+  _handleCancelVacancy = () => {
+    this.props.dialog.show = false;
+  }
+
+  _handleSaveVacancy = () => {
+    this.props.vacancy.save();
+    this.props.dialog.show = false;
+  }
+
+  render() {
+    const { vacancy, onSubmit, children } = this.props;
+    console.log('VacancyForm dialog vacancy : ', vacancy);
+    const dialogActions = [
+      <FlatButton
+        label="Отмена"
+        primary={true}
+        onTouchTap={this._handleCancelVacancy}
+      />,
+      <FlatButton
+        label="Сохранить"
+        primary={true}
+        onTouchTap={onSubmit ? onSubmit : this._handleSaveVacancy}
+      />,
+    ];
+    return <Dialog
+      ref="dialog"
+      title="Вакансия"
+      actions={dialogActions}
+      modal={true}
+      open={this.props.dialog.show}
+      autoScrollBodyContent={true}
+    >
+      {children && children ||
+        <VacancyFormFields
+          vacancy={vacancy}
+        />
+      }
+    </Dialog>;
   }
 }

@@ -4,12 +4,13 @@ from restapi.serializers import serializers
 from core.models import Rubric, Vacancy, UserRequest, UserResponse
 #  from authentication.models import ExtUser
 from restapi import permissions
+#  from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsOwnerOrReadOnly, )
+    permission_classes = (permissions.IsProfileOwnerOrReadOnly, )
     queryset = User.objects.all()
     serializer_class = serializers.UserSZ
 
@@ -46,6 +47,7 @@ class RubricViewSet(viewsets.ModelViewSet):
 
 class VacancyViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsOwnerOrReadOnly, )
+    #  permission_classes = (AllowAny, )
     queryset = Vacancy.objects.all()
     serializer_class = serializers.VacancySZ
 
@@ -57,6 +59,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
 
 class UserRequestViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsOwnerOrReadOnly, )
     queryset = UserRequest.objects.all()
     serializer_class = serializers.UserRequestSZ
 

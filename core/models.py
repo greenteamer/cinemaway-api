@@ -29,6 +29,7 @@ class Vacancy(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     rubrics = models.ManyToManyField(Rubric)
+    price = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = u'Вакансия'
@@ -52,13 +53,14 @@ class UserRequest(models.Model):
     class Meta:
         verbose_name = u'Запрос пользователя'
         verbose_name_plural = u'Запросы пользователей'
+        unique_together = ['owner', 'vacancy', 'object']
     #  def __unicode__(self):
     #      return self.name
 
 
 class UserResponse(models.Model):
     owner = models.ForeignKey(ExtUser)
-    userRequest = models.ForeignKey(UserRequest)
+    userRequest = models.OneToOneField(UserRequest)
     status = models.BooleanField(default=False)
 
     text = models.TextField()

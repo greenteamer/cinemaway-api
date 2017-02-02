@@ -50,6 +50,10 @@ export default class User {
     return observable( store.vacancies.filter(v => v.owner === this.id) );
   }
 
+  @computed get requests() {
+    return observable( store.userRequests.filter(req => req.owner === this.id) );
+  }
+
 }
 
 

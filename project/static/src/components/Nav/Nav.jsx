@@ -23,6 +23,7 @@ class Logged extends Component {
   }
   render() {
     const { store } = this.props;
+    if (!store.user) return null;
     return <IconMenu
       iconButtonElement={store.profile && store.profile.image
         ? <IconButton><Avatar size={26} src={store.profile.image} /></IconButton>
@@ -32,7 +33,10 @@ class Logged extends Component {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem className="menu-item" primaryText="Мой профиль" onTouchTap={() => browserHistory.push('/profile')}/>
-      <MenuItem className="menu-item" primaryText="Мои вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
+      {!store.user.isWorker
+        && <MenuItem className="menu-item" primaryText="Мои вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
+      }
+      <MenuItem className="menu-item" primaryText="Отклики и приглашения" onTouchTap={() => browserHistory.push('/profile/requests')}/>
       <MenuItem className="menu-item" primaryText="Выйти" onTouchTap={this.logout} />
     </IconMenu>;
   }

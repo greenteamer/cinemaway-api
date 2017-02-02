@@ -11,3 +11,12 @@ export const PUT_USER = (id) => ({url: `api/v1/users/${id}/`, method: 'PUT'});
 
 export const POST_VACANCY = () => ({url: 'api/v1/vacancies/', method: 'POST'});
 export const PUT_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'PUT'});
+export const DELETE_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'DELETE'});
+
+export const POST_USERREQUEST = () => ({url: 'api/v1/requests/', method: 'POST'});
+export const PUT_USERREQUEST = (id) => ({url: `api/v1/requests/${id}/`, method: 'PUT'});
+export const DELETE_USERREQUEST = (id) => ({url: `api/v1/requests/${id}/`, method: 'DELETE'});
+
+export const POST_USERRESPONSE = () => ({url: 'api/v1/responses/', method: 'POST'});
+export const PUT_USERRESPONSE = (id) => ({url: `api/v1/responses/${id}/`, method: 'PUT'});
+export const DELETE_USERRESPONSE = (id) => ({url: `api/v1/responses/${id}/`, method: 'DELETE'});

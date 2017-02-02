@@ -47,7 +47,7 @@ class VacancySZ(serializers.ModelSerializer):
 
     class Meta:
         model = Vacancy
-        fields = ('url', 'id', 'name', 'owner', 'description', 'rubrics')
+        fields = ('url', 'id', 'name', 'owner', 'description', 'rubrics', 'price')
 
 
 class UserRequestSZ(serializers.ModelSerializer):
