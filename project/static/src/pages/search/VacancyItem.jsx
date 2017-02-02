@@ -11,6 +11,7 @@ class VacancyCard extends React.Component {
   static propTypes = {
     store: React.PropTypes.object,
     params: React.PropTypes.object,
+    onRequest: React.PropTypes.func,
   }
 
   @observable tmpObj = { text: '' };
@@ -68,10 +69,5 @@ class VacancyCard extends React.Component {
     </div>;
   }
 }
-
-VacancyCard.propTypes = {
-  vacancy: React.PropTypes.object,
-  onRequest: React.PropTypes.func,
-};
 
 export default VacancyCard;
