@@ -7,8 +7,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Checkbox from 'material-ui/Checkbox';
 // import { SimpleDialog } from '../../components/dialog';
-import { SimpleDialog } from '../../components/dialog';
+// import { SimpleDialog } from '../../components/dialog';
 import styles from './styles';
+import FlatButton from 'material-ui/FlatButton';
+import { Modal, ModalManager, Effect } from '../../components/dialog';
 
 
 @inject('store', 'uiStore') @observer
@@ -23,14 +25,39 @@ export default class ProfileForm extends Component {
 
   _handleRoleChange = (e, value) => {
     const { store } = this.props;
-    console.log('start role change');
     store.user.setRole(value);
   };
 
+  // _handleSaveProfile = () => {
+  //   const { uiStore } = this.props;
+  //   // store.user.save();
+  //   uiStore.openDialog();
+  // }
+
   _handleSaveProfile = () => {
-    const { uiStore } = this.props;
-    // store.user.save();
-    uiStore.openDialog();
+    const { store } = this.props;
+    ModalManager.open(<Modal
+      effect={Effect.Newspaper}
+      onRequestClose={() => true}>
+      <div style={{ padding: 10 }}>
+        <p>После сохранения Вы не сможете изменить свою роль</p>
+        <div style={{ float: 'right', padding: 10 }}>
+          <FlatButton
+            label="Отмена"
+            primary={true}
+            onTouchTap={ModalManager.close}
+          />
+          <FlatButton
+            label="Сохранить"
+            primary={true}
+            onTouchTap={() => {
+              store.user.serverSave();
+              ModalManager.close();
+            }}
+          />
+        </div>
+      </div>
+    </Modal>);
   }
 
   _handleRubricOnCheck = (e) => {
@@ -115,7 +142,6 @@ export default class ProfileForm extends Component {
         fullWidth={true}
         onChange={this._handleFieldChange}
         floatingLabelText="Телефон" />
-      {console.log('test:', user.groups.length === 0 || user.groups[0] === 2 )}
       {(user.groups.length === 0 || user.groups[0] === 2) &&
         <div>
           <TextField
@@ -185,12 +211,6 @@ export default class ProfileForm extends Component {
         primary={true}
         fullWidth={true}
         onTouchTap={this._handleSaveProfile} />
-
-      <SimpleDialog
-        onSubmit={() => user.serverSave()}
-        onCancel={() => console.log('test on cancel')}>
-        <p>После сохранения Вы не сможете изменить свою роль</p>
-      </SimpleDialog>
     </div>;
   }
 }

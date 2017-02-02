@@ -1,6 +1,5 @@
 import { action, observable, extendObservable, computed, toJS} from 'mobx';
-// import { Store, UIStore } from '../stores';
-import { UIStore } from '../stores';
+import { Store as store, UIStore as uiStore } from '../stores';
 import * as API from '../api';
 
 
@@ -32,7 +31,7 @@ export default class User {
   }
 
   @action save() {
-    UIStore.openDialog();
+    uiStore.openDialog();
   }
 
   async serverSave() {
@@ -40,10 +39,24 @@ export default class User {
       await API.request(API.ENDPOINTS.PUT_USER(this.id), toJS(this));
     }
     else {
-      await API.request(API.ENDPOINTS.POST_USER(), toJS(this));
+      const response = await API.request(API.ENDPOINTS.POST_USER(), toJS(this));
+      if (response) {
+        this.id = response.id;
+      }
     }
   }
 
+  @computed get vacancies() {
+    return observable( store.vacancies.filter(v => v.owner === this.id) );
+  }
+
+  @computed get requests() {
+    return observable( store.userRequests.filter(req => req.owner === this.id) );
+  }
+
+  @computed get requestsInvites() {
+    return observable( store.userRequests.filter(req => req.object === this.id) );
+  }
 }
 
 

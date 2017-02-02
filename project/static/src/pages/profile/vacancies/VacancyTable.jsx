@@ -1,39 +1,66 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
 import { inject, observer } from 'mobx-react';
-// import TextField from 'material-ui/TextField';
-// import Divider from 'material-ui/Divider';
-// import Checkbox from 'material-ui/Checkbox';
-// import RaisedButton from 'material-ui/RaisedButton';
-// import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-// import { SimpleDialog } from '../../../components/dialog';
 import styles from '../styles';
+import VacancyDialog from './VacancyForm';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import IconButton from 'material-ui/IconButton';
+import { observable } from 'mobx';
+import FlatButton from 'material-ui/FlatButton';
+import { Modal, ModalManager, Effect } from '../../../components/dialog';
 
 
 @inject('store', 'uiStore') @observer
 export default class Vacancies extends Component {
+
+  @observable dialog = {
+    show: false,
+    delete: false,
+  };
+  @observable tmpVacancy = initialVacancy;
+
   static propTypes = {
     store: React.PropTypes.object,
+    vacancies: React.PropTypes.object,
     uiStore: React.PropTypes.object,
     ActionButton: React.PropTypes.func,
   }
 
-  _handleAddVacancy = () => {
-    console.log('handle add vacancy');
+  _handleEditVacancy = (vacancy) => {
+    this.dialog.show = true;
+    this.tmpVacancy = vacancy;
   }
 
-  _handleOnCheck = (e, value) => {
-    console.log('_handleOnCheck start value:', value);
+  _handleDeleteVacancy(id) {
+    const { store } = this.props;
+    ModalManager.open(<Modal
+      effect={Effect.Newspaper}
+      onRequestClose={() => true}>
+      <div style={{ padding: 10 }}>
+        <h2>Удалить вакансию ?</h2>
+        <div style={{ float: 'right', padding: 10 }}>
+          <FlatButton
+            label="Закрыть"
+            primary={true}
+            onTouchTap={ModalManager.close}
+          />
+          <FlatButton
+            label="Удалить"
+            primary={true}
+            onTouchTap={() => store.deleteVacancy(id)}
+          />
+        </div>
+      </div>
+    </Modal>);
   }
+
 
   render() {
-    const { store: { user, vacancies } } = this.props;
+    const { store: { user }, vacancies } = this.props;
     if (!user) {
       return <div>no user</div>;
     }
     return <div style={styles.fields}>
-      <h4>Выберите рубрики</h4>
+      <h1>Ваши ваканисии</h1>
       <Table>
         <TableHeader>
           <TableRow>
@@ -49,11 +76,33 @@ export default class Vacancies extends Component {
               <TableRowColumn>{v.id}</TableRowColumn>
               <TableRowColumn>{v.name}</TableRowColumn>
               <TableRowColumn>{v.status}</TableRowColumn>
-              <TableRowColumn>{v.status}</TableRowColumn>
+              <TableRowColumn>
+                <IconButton
+                  iconClassName="ion-edit"
+                  onTouchTap={() => this._handleEditVacancy(v)}
+                />
+                <IconButton
+                  iconClassName="ion-trash-b"
+                  onTouchTap={() => this._handleDeleteVacancy(v.id)}
+                />
+              </TableRowColumn>
             </TableRow>)
           }
         </TableBody>
       </Table>
+      <VacancyDialog
+        ref='dialog'
+        dialog={this.dialog}
+        vacancy={this.tmpVacancy}
+      />
     </div>;
   }
 }
+
+
+const initialVacancy = {
+  name: '',
+  description: '',
+  rubrics: [],
+  owner: null,
+};

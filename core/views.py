@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
+import json
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
+from project.settings import ADMIN_EMAIL
 # from django_ipgeobase.models import IPGeoBase
 #  from core import utils
 from rest_framework.authtoken.models import Token
+from django.shortcuts import HttpResponse
+from rest_framework.renderers import JSONRenderer
+from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -33,6 +38,21 @@ def index(request, **kwargs):
     return render(request, 'core/index.html', {
         'user': request.user
     })
+
+
+# @ensure_csrf_cookie
+def mailer(request):
+    received_json_data = json.loads(request.body)
+    ownerEMail = User.objects.get(id=received_json_data['owner']).email
+    objectEMail = User.objects.get(id=received_json_data['object']).email
+    subject = u'Уведомление cw'
+    message = u'Новые действия на сайте'
+    send_mail(subject, message, ADMIN_EMAIL, [ownerEMail, objectEMail], fail_silently=False)
+    response_object = {
+        'response': 'ok'
+    }
+    response_data = JSONRenderer().render(response_object)
+    return HttpResponse(response_data, content_type='application/json')
 
 
 def facebook(request):

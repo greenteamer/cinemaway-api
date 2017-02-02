@@ -1,5 +1,5 @@
-import { action, extendObservable, observable, toJS} from 'mobx';
-// import { Store, UIStore } from '../stores';
+import { action, computed, extendObservable, observable, toJS} from 'mobx';
+import { Store as store } from '../stores';
 import * as API from '../api';
 
 
@@ -22,8 +22,13 @@ export default class Vacancy {
       const response = await API.request(API.ENDPOINTS.POST_VACANCY(), toJS(this));
       if (response) {
         this.id = response.id;
+        store.vacancies.push(this);
       }
     }
+  }
+
+  @computed get absoluteUrl() {
+    return `/vacancies/${this.id}`;
   }
 
 }
