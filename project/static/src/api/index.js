@@ -4,7 +4,6 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 
-
 export async function request(endpoint, data = undefined) {
   const csrf_token = getCookie("csrftoken");
   const token = getCookie("token");
@@ -28,35 +27,5 @@ export async function request(endpoint, data = undefined) {
   return responseData;
 }
 import * as ENDPOINTS from './endpoints';
-export {ENDPOINTS, myAjax};
+export {ENDPOINTS};
 
-
-function myAjax(data = undefined) {
-  const csrf_token = getCookie("csrftoken");
-  const token = getCookie("token");
-  $.ajax({
-    type: "POST",
-    url: '/send-mail/',
-    data: {
-      'csrfmiddlewaretoken': csrf_token,
-      ...data
-    },
-    headers: {
-      "X-CSRFToken": getCookie("csrftoken"),
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "Authorization": `Token ${token}`
-    },
-
-    success: function (data) {
-      // Вывод текста результата отправки
-      // $("#response").html(data);
-      console.log(data)
-    },
-    error: function (jqXHR, text, error) {
-      // Вывод текста ошибки отправки
-      // $("#response").html(error);
-      console.log(error)
-    }
-  });
-}

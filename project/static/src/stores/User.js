@@ -39,7 +39,7 @@ export default class User {
       await API.request(API.ENDPOINTS.PUT_USER(this.id), toJS(this));
     }
     else {
-      const response = await API.request(API.ENDPOINTS.POST_USER(), toJS(this));
+      const response = await API.request(API.ENDPOINTS.POST_USER(), toцJS(this));
       if (response) {
         this.id = response.id;
       }

@@ -110,8 +110,7 @@ class Store extends singleton {
   @action addUserRequest = async (owner, vacancy, object, text) => {
     console.log('Store addUserRequest vacancy: ', vacancy);
     const userRequest = new UserRequest({owner, vacancy, object, text});
-    // userRequest.save();
-    // API.myAjax({ owner, object });
+    userRequest.save();
     await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
   }
 
