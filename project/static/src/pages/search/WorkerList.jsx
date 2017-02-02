@@ -11,7 +11,7 @@ import { Modal, ModalManager, Effect } from '../../components/dialog';
 
 const WorkerCard = ({worker, onRequest}) => <Card>
   <CardHeader
-    title={worker.firstname}
+    title={`${worker.firstname} ${worker.lastname}`}
     subtitle="Subtitle"
     actAsExpander={true}
     showExpandableButton={true}
@@ -23,7 +23,12 @@ const WorkerCard = ({worker, onRequest}) => <Card>
     />
   </CardActions>
   <CardText expandable={true}>
-    {worker.description}
+    <h3>Образование</h3>
+    {worker.edu}
+    <h3>Фильмография</h3>
+    {worker.filmography}
+    <h3>Реклама</h3>
+    {worker.ad}
   </CardText>
 </Card>;
 
