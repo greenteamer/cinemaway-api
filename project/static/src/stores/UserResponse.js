@@ -18,7 +18,7 @@ export default class UserResponse {
       const response = await API.request(API.ENDPOINTS.POST_USERRESPONSE(), toJS(this));
       if (response) {
         this.id = response.id;
-        store.userResponse.push(this);
+        store.userResponses.push(this);
       }
     }
   }

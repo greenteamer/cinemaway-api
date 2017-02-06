@@ -1,11 +1,13 @@
 from django.contrib import admin
 #  from authentication.models import Profile
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+#  from django import forms
 #  from django.contrib.auth.models import Group
 
-from .forms import UserChangeForm
-from .forms import UserCreationForm
-from .models import ExtUser
+#  from .forms import UserChangeForm
+#  from .forms import UserCreationForm
+from .models import ExtUser, Resume, Company
 
 
 class UserAdmin(UserAdmin):
@@ -61,5 +63,7 @@ class UserAdmin(UserAdmin):
 
 # Register ExtUser admin panel in Django
 admin.site.register(ExtUser, UserAdmin)
+admin.site.register(Resume)
+admin.site.register(Company)
 #  admin.site.register(Group)
 #  admin.site.register(Profile)

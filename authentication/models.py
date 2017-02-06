@@ -52,14 +52,7 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         default=False
     )
 
-    city = models.CharField(max_length=200, blank=True, null=True)
-    phone = models.CharField(max_length=12, blank=True, null=True)
-    edu = models.TextField(blank=True, null=True)
-    filmography = models.TextField(blank=True, null=True)
-    ad = models.TextField(blank=True, null=True)
-    languages = models.TextField(blank=True, null=True)
-    text = models.TextField(blank=True, null=True)
-    rubrics = models.ManyToManyField('core.Rubric')
+    #  rubrics = models.ManyToManyField('core.Rubric')
 
     # Django require define this method
     def get_full_name(self):
@@ -94,3 +87,38 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'user'
         verbose_name_plural = 'users'
         # db_table = 'extuser'
+
+
+class Resume(models.Model):
+    owner = models.OneToOneField(ExtUser)
+    city = models.CharField(max_length=200, blank=True, null=True)
+    phone = models.CharField(max_length=12, blank=True, null=True)
+    edu = models.TextField(blank=True, null=True)
+    filmography = models.TextField(blank=True, null=True)
+    ad = models.TextField(blank=True, null=True)
+    languages = models.TextField(blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = u'Резюме'
+        verbose_name_plural = u'Список резюме'
+
+    def __str__(self):
+        u"""String representation of model. Email by default."""
+        return self.user.email
+
+
+class Company(models.Model):
+    owner = models.OneToOneField(ExtUser)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    city = models.CharField(max_length=200, blank=True, null=True)
+    phone = models.CharField(max_length=12, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = u'Компания'
+        verbose_name_plural = u'Список компаний'
+
+    def __str__(self):
+        u"""String representation of model. Email by default."""
+        return self.user.email

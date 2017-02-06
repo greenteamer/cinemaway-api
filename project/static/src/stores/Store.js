@@ -7,7 +7,7 @@ import UserResponse from './UserResponse';
 import uiStore from './UIStore';
 import singleton from 'singleton';
 import { browserHistory } from 'react-router';
-import _ from 'underscore';
+// import _ from 'underscore';
 
 
 class Store extends singleton {
@@ -38,8 +38,8 @@ class Store extends singleton {
 
   @computed get avaliableVacancies() {
     if (!this.user) return [];
-    const vacancies = this.vacancies.filter(v => _.intersection(v.rubrics, this.user.rubrics).length);
-    return observable(vacancies.filter(v => {
+    // const vacancies = this.vacancies.filter(v => _.intersection(v.rubrics, this.user.rubrics).length);
+    return observable(this.vacancies.filter(v => {
       return !this.user.requests.map(req => req.vacancy).includes(v.id);
     }));
   }
@@ -81,8 +81,8 @@ class Store extends singleton {
   async login(email, password) {
     console.log('Store login');
     const response = await API.request(API.ENDPOINTS.LOGIN(), { email, password });
+    console.log('login response: ', response);
     if (response) {
-      console.log('login response: ', response);
       this.user = new User(response);
       browserHistory.push('/profile');
     }
@@ -108,10 +108,14 @@ class Store extends singleton {
   }
 
   @action addUserRequest = async (owner, vacancy, object, text) => {
-    console.log('Store addUserRequest vacancy: ', vacancy);
     const userRequest = new UserRequest({owner, vacancy, object, text});
-    userRequest.save();
-    await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
+    if (userRequest.varified) {
+      userRequest.save();
+      await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
+    }
+    else {
+      console.log('userRequest not verified');
+    }
   }
 
   @action deleteRequest = async (id) => {

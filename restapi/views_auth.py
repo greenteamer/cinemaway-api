@@ -31,19 +31,13 @@ def login_user(request):
         try:
             if body['email'] == "":
                 raise Exception('Пустое поле email')
+            test = User.objects.get(email=body['email'])
+            print "Password check passes?"
+            print "%s" % test.check_password(body['password'])  # Logs True!!!
             user = authenticate(email=body['email'], password=body['password'])
             if user is not None:
                 # логинем пользователя
                 login(request, user)
-                # try:
-                #     # получаем профиль
-                #     profile = auth_models.Profile.objects.get(owner=user.id)
-                # except ObjectDoesNotExist, e:
-                #     print "error: %s" % e
-                #     # создаем профиль если его еще нет
-                #     profile = auth_models.Profile(owner=user)
-                #     profile.save()
-                # # сериализация пользователя и профиля для ответа сервера
                 s_user = serializers.UserSZ(user, context={'request': request})
                 data = JSONRenderer().render(s_user.data)
             else:

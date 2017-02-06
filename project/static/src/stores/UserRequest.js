@@ -9,9 +9,6 @@ export default class UserRequest {
 
   constructor(obj) {
     extendObservable(this, obj ? obj : {});
-    // autorun(() => {
-    //   console.log('userRequest');
-    // });
   }
 
   @action save = async () => {
@@ -27,12 +24,20 @@ export default class UserRequest {
     }
   }
 
+  @computed get verified() {
+    return this.owner !== this.object; 
+  }
+
   @computed get vacancyObj() {
     return store.vacancies.find(v => v.id === this.vacancy);
   }
 
   @computed get objectObj() {
     return store.users.find(u => u.id === this.object);
+  }
+
+  @computed get ownerObj() {
+    return store.users.find(u => u.id === this.owner);
   }
 
   @computed get userResponse() {

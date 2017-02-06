@@ -19,12 +19,12 @@ export default class User {
     this.groups.replace([value]);
   }
 
-  @action toggleRubric(value) {
-    const newArr = this.rubrics.includes(value)
-      ? this.rubrics.filter(r => r !== value)
-      : [...this.rubrics, value];
-    this.rubrics.replace(newArr);
-  }
+  // @action toggleRubric(value) {
+  //   const newArr = this.rubrics.includes(value)
+  //     ? this.rubrics.filter(r => r !== value)
+  //     : [...this.rubrics, value];
+  //   this.rubrics.replace(newArr);
+  // }
 
   @action setData(name, value) {
     this[name] = value;
@@ -39,7 +39,7 @@ export default class User {
       await API.request(API.ENDPOINTS.PUT_USER(this.id), toJS(this));
     }
     else {
-      const response = await API.request(API.ENDPOINTS.POST_USER(), toцJS(this));
+      const response = await API.request(API.ENDPOINTS.POST_USER(), toJS(this));
       if (response) {
         this.id = response.id;
       }
@@ -71,7 +71,6 @@ const initialData = {
   languages: '',
   avatar: '',
   text: '',
-  rubrics: [],
   groups: [],
 };
 
