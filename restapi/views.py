@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from restapi.serializers import serializers
-#  from authentication.models import Profile
+from authentication.models import Resume, Company
 from core.models import Rubric, Vacancy, UserRequest, UserResponse
 #  from authentication.models import ExtUser
 from restapi import permissions
@@ -38,6 +38,18 @@ class UserViewSet(viewsets.ModelViewSet):
 #          if self.request.method == 'PUT':
 #              serializer_class = serializers.ProtectedProfileSZ
 #          return serializer_class
+
+
+class ResumeViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsProfileOwnerOrReadOnly, )
+    queryset = Resume.objects.all()
+    serializer_class = serializers.ResumeSZ
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsProfileOwnerOrReadOnly, )
+    queryset = Company.objects.all()
+    serializer_class = serializers.CompanySZ
 
 
 class RubricViewSet(viewsets.ModelViewSet):

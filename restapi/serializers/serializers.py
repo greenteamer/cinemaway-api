@@ -1,6 +1,6 @@
 # coding: utf8
 from rest_framework import serializers
-#  from authentication.models import Profile
+from authentication.models import Resume, Company
 # from django.contrib.auth.models import User
 from core.models import Rubric, Vacancy, UserRequest, UserResponse
 from django.contrib.auth import get_user_model
@@ -32,6 +32,17 @@ class ProtectedUserSZ(serializers.ModelSerializer):
             'id',
             'groups'
         )
+
+
+class ResumeSZ(serializers.ModelSerializer):
+    class Meta:
+        model = Resume
+        fields = '__all__'
+
+class CompanySZ(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = '__all__'
 
 
 class RubricSZ(serializers.ModelSerializer):

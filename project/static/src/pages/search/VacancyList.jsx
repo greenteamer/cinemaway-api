@@ -50,7 +50,6 @@ export default class VacancyList extends React.Component {
   }
 
   _handleOnRequest = (vacancy) => {
-    console.log('_handleOnRequest vacancy: ', vacancy);
     const { store } = this.props;
     const self = this;
     ModalManager.open(<Modal

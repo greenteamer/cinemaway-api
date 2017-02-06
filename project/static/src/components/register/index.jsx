@@ -79,7 +79,6 @@ export class LoginForm extends React.Component {
 
   actionHandler = (e) => {
     e.preventDefault();
-    console.log('Form actionHandler e: ', e.target.email.value);
     const { store } = this.props;
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -90,6 +89,12 @@ export class LoginForm extends React.Component {
     return <Card id="login-form">
       <CardTitle title="Вход" subtitle="Введите данные в поля ниже" />
       <CardText>
+        <p>employer: </p>
+        <p>employer@test.ru</p>
+        <p>test123123</p>
+        <p>worker: </p>
+        <p>user@test.ru</p>
+        <p>test123123</p>
         <form className="form" onSubmit={this.actionHandler}>
           <TextField
             type="email"

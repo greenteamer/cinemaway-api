@@ -9,6 +9,8 @@ admin.autodiscover()
 
 router = routers.DefaultRouter()
 router.register(r'users', viewsets.UserViewSet)
+router.register(r'resumes', viewsets.ResumeViewSet)
+router.register(r'companies', viewsets.CompanyViewSet)
 #  router.register(r'profiles', viewsets.ProfileViewSet)
 router.register(r'rubrics', viewsets.RubricViewSet)
 router.register(r'vacancies', viewsets.VacancyViewSet)

@@ -190,7 +190,7 @@ export class RequestsInvites extends React.Component {
               <TableRowColumn><Status user={store.user} req={req} isInvites/></TableRowColumn>
               <TableRowColumn>{req.vacancyObj ? req.vacancyObj.name : ''}</TableRowColumn>
               {!store.user.isWorker &&
-                <TableRowColumn>{req.objectObj ? req.objectObj.firstname : ''}</TableRowColumn>
+                <TableRowColumn>{req.objectObj ? req.ownerObj.firstname : ''}</TableRowColumn>
               }
               <TableRowColumn>
                 <IconButton
