@@ -1,6 +1,7 @@
 import { action, autorun, observable, runInAction, computed, toJS} from 'mobx';
 import * as API from '../api';
 import User from './User';
+import Resume from './Resume';
 import Vacancy from './Vacancy';
 import UserRequest from './UserRequest';
 import UserResponse from './UserResponse';
@@ -16,6 +17,7 @@ class Store extends singleton {
   @observable user = null;
   @observable groups = [];
   @observable users = [];
+  @observable resumes = [];
   @observable dialog = {};
   @observable rubrics = [];
   @observable vacancies = [];
@@ -45,7 +47,7 @@ class Store extends singleton {
   }
 
   @computed get workers() {
-    return observable(this.users.filter(user => user.isWorker));
+    return observable(this.users.filter(user => !!user.resume));
   }
 
   @action clearData() {
@@ -60,6 +62,7 @@ class Store extends singleton {
       if (response) {
         this.user = response.user ? new User(response.user) : response.user;
         this.users.replace(response.users.map(u => new User(u)));
+        this.resumes.replace(response.resumes.map(r => new Resume(r)));
         this.groups.replace(response.groups);
         this.rubrics.replace(response.rubrics);
         this.vacancies.replace(response.vacancies.map(v => new Vacancy(v)));
@@ -95,6 +98,11 @@ class Store extends singleton {
     }
   }
 
+  @action addResume(resume) {
+    const newObj = new Resume(resume);
+    newObj.save();
+  }
+
   @action addVacancy(vacancy) {
     const newObj = new Vacancy(vacancy);
     newObj.save();
@@ -108,8 +116,9 @@ class Store extends singleton {
   }
 
   @action addUserRequest = async (owner, vacancy, object, text) => {
-    const userRequest = new UserRequest({owner, vacancy, object, text});
-    if (userRequest.varified) {
+    if (owner !== object) {
+      const userRequest = new UserRequest({owner, vacancy, object, text});
+      console.log('new userRequest: ', userRequest);
       userRequest.save();
       await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
     }
@@ -139,6 +148,7 @@ export default store;
 const initialData = {
   user: null,
   users: [],
+  resumes: [],
   groups: [],
   rubrics: [],
   vacancies: [],

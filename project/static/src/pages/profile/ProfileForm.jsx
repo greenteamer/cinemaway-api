@@ -84,8 +84,6 @@ export default class ProfileForm extends Component {
     }
     console.log('user: ', user);
     return <div style={styles.fields}>
-
-
       <TextField
         type="text"
         name="firstname"
@@ -102,64 +100,6 @@ export default class ProfileForm extends Component {
         value={user.lastname ? user.lastname : ''}
         onChange={this._handleFieldChange}/>
 
-      <TextField
-        type="text"
-        name="city"
-        value={user.city ? user.city : ''}
-        fullWidth={true}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Город" />
-
-      <TextField
-        type="text"
-        name="phone"
-        value={user.phone ? user.phone : ''}
-        fullWidth={true}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Телефон" />
-      {(user.groups.length === 0 || user.groups[0] === 2) &&
-        <div>
-          <TextField
-            type="text"
-            name="edu"
-            value={user.edu ? user.edu : ''}
-            fullWidth={true}
-            multiLine={true}
-            rows={3}
-            onChange={this._handleFieldChange}
-            floatingLabelText="Образование" />
-
-          <TextField
-            type="text"
-            name="filmography"
-            value={user.filmography ? user.filmography : ''}
-            fullWidth={true}
-            multiLine={true}
-            rows={3}
-            onChange={this._handleFieldChange}
-            floatingLabelText="Фильмография" />
-
-          <TextField
-            type="text"
-            name="ad"
-            value={user.ad ? user.ad : ''}
-            fullWidth={true}
-            multiLine={true}
-            rows={3}
-            onChange={this._handleFieldChange}
-            floatingLabelText="Реклама" />
-
-          <TextField
-            name="languages"
-            type="text"
-            value={user.languages ? user.languages : ''}
-            fullWidth={true}
-            multiLine={true}
-            rows={3}
-            onChange={this._handleFieldChange}
-            floatingLabelText="Занание языков" />
-        </div>
-      }
       <RaisedButton
         label="Primary"
         primary={true}

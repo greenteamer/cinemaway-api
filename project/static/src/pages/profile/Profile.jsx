@@ -2,9 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
+// import RaisedButton from 'material-ui/RaisedButton';
 
 import styles from './styles';
 import ProfileForm from './ProfileForm';
+import ResumeForm from './ResumeForm';
 import { UIStore } from '../../stores';
 
 
@@ -44,9 +46,10 @@ export default class Profile extends React.Component {
 
       <CardText style={styles.cartText}>
         <Paper zDepth={1} rounded={false}  style={styles.form}>
-
           <ProfileForm />
-
+        </Paper>
+        <Paper zDepth={1} rounded={false}  style={styles.form}>
+          <ResumeForm />
         </Paper>
       </CardText>
 

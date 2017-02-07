@@ -24,11 +24,11 @@ const WorkerCard = ({worker, onRequest}) => <Card>
   </CardActions>
   <CardText expandable={true}>
     <h3>Образование</h3>
-    {worker.edu}
+    {worker.resume.edu}
     <h3>Фильмография</h3>
-    {worker.filmography}
+    {worker.resume.filmography}
     <h3>Реклама</h3>
-    {worker.ad}
+    {worker.resume.ad}
   </CardText>
 </Card>;
 

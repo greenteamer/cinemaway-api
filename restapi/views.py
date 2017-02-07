@@ -41,7 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ResumeViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsProfileOwnerOrReadOnly, )
+    permission_classes = (permissions.IsOwnerOrReadOnly, )
     queryset = Resume.objects.all()
     serializer_class = serializers.ResumeSZ
 
