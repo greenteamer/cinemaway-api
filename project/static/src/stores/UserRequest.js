@@ -1,4 +1,4 @@
-import { action, computed, extendObservable, observable, toJS} from 'mobx';
+import { action, autorun, computed, extendObservable, observable, toJS} from 'mobx';
 import * as API from '../api';
 import { Store as store } from '../stores';
 
@@ -9,6 +9,9 @@ export default class UserRequest {
 
   constructor(obj) {
     extendObservable(this, obj ? obj : {});
+    autorun(() => {
+      console.log('user request verified:', this.owner, this.object);
+    });
   }
 
   @action save = async () => {
@@ -25,7 +28,7 @@ export default class UserRequest {
   }
 
   @computed get verified() {
-    return this.owner !== this.object; 
+    return this.owner !== this.object;
   }
 
   @computed get vacancyObj() {

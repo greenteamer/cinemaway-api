@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from authentication.models import ExtUser
+from authentication.models import ExtUser, Resume
 from core.models import Rubric, Vacancy, UserRequest, UserResponse
 #  from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import Group
 #  from django.core.serializers import serialize
 from django.shortcuts import HttpResponse
-from restapi.serializers.serializers import UserSZ, RubricSZ, VacancySZ, UserRequestSZ, UserResponseSZ
+from restapi.serializers.serializers import UserSZ, RubricSZ, VacancySZ, UserRequestSZ, UserResponseSZ, ResumeSZ
 from rest_framework.renderers import JSONRenderer
 #  from django.core.serializers.json import DjangoJSONEncoder
 #  import json
@@ -21,6 +21,8 @@ def all_data(request):
         user_data = None
     users_q = ExtUser.objects.all()
     users_sz = UserSZ(users_q, many=True)
+    resumes_q = Resume.objects.all()
+    resumes_sz = ResumeSZ(resumes_q, many=True)
     # получение остальных данных
     groups_q = Group.objects.all().values('id', 'name')
     #  rubrics_q = Rubric.objects.all().values('id', 'name', 'parent', 'image', 'level', 'tree_id')
@@ -35,6 +37,7 @@ def all_data(request):
     response_object = {
         "user": user_data,
         "users": users_sz.data,
+        "resumes": resumes_sz.data,
         "groups": list(groups_q),
         "rubrics": rubrics_sz.data,
         "vacancies": vacancies_sz.data,

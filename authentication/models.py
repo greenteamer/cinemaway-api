@@ -105,7 +105,7 @@ class Resume(models.Model):
 
     def __str__(self):
         u"""String representation of model. Email by default."""
-        return self.user.email
+        return self.owner.email
 
 
 class Company(models.Model):

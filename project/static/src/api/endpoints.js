@@ -9,6 +9,9 @@ export const GET_USER = () => ({url: 'api/v1/current-user/', method: 'GET'});
 export const POST_USER = () => ({url: 'api/v1/users/', method: 'POST'});
 export const PUT_USER = (id) => ({url: `api/v1/users/${id}/`, method: 'PUT'});
 
+export const POST_RESUME = () => ({url: 'api/v1/resumes/', method: 'POST'});
+export const PUT_RESUME = (id) => ({url: `api/v1/resumes/${id}/`, method: 'PUT'});
+
 export const POST_VACANCY = () => ({url: 'api/v1/vacancies/', method: 'POST'});
 export const PUT_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'PUT'});
 export const DELETE_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'DELETE'});

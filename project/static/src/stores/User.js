@@ -46,6 +46,10 @@ export default class User {
     }
   }
 
+  @computed get resume() {
+    return store.resumes.find(r => r.owner === this.id);
+  }
+
   @computed get vacancies() {
     return observable( store.vacancies.filter(v => v.owner === this.id) );
   }
