@@ -3,6 +3,7 @@ import * as API from '../api';
 import User from './User';
 import Resume from './Resume';
 import Vacancy from './Vacancy';
+import Rent from './Rent';
 import UserRequest from './UserRequest';
 import UserResponse from './UserResponse';
 import uiStore from './UIStore';
@@ -21,6 +22,7 @@ class Store extends singleton {
   @observable dialog = {};
   @observable rubrics = [];
   @observable vacancies = [];
+  @observable rents = [];
   @observable userRequests = [];
   @observable userResponses = [];
 
@@ -42,7 +44,7 @@ class Store extends singleton {
     if (!this.user) return [];
     // const vacancies = this.vacancies.filter(v => _.intersection(v.rubrics, this.user.rubrics).length);
     return observable(this.vacancies.filter(v => {
-      return !this.user.requests.map(req => req.vacancy).includes(v.id);
+      return !this.user.inputRequests.map(req => req.vacancy).includes(v.id);
     }));
   }
 
@@ -66,6 +68,7 @@ class Store extends singleton {
         this.groups.replace(response.groups);
         this.rubrics.replace(response.rubrics);
         this.vacancies.replace(response.vacancies.map(v => new Vacancy(v)));
+        this.rents.replace(response.rents.map(rent => new Rent(rent)));
         this.userRequests.replace(response.requests.map(req => new UserRequest(req)));
         this.userResponses.replace(response.responses.map(res => new UserResponse(res)));
       }
@@ -115,11 +118,19 @@ class Store extends singleton {
     this.vacancies.replace(this.vacancies.filter(v => v.id !== id));
   }
 
-  @action addUserRequest = async (owner, vacancy, object, text) => {
-    if (owner !== object) {
-      const userRequest = new UserRequest({owner, vacancy, object, text});
-      console.log('new userRequest: ', userRequest);
+  @action addRent(rent) {
+    const newObj = new Rent(rent);
+    newObj.save();
+    console.log('store add rent id: ', newObj.id);
+  }
+
+  @action addUserRequest = async (userRequestObj) => {
+    const checkOwner = userRequestObj.owner !== userRequestObj.object;
+    const checkSubject = userRequestObj.vacancy || userRequestObj.rent;
+    if (checkOwner && checkSubject) {
+      const userRequest = new UserRequest(userRequestObj);
       userRequest.save();
+      const { owner, object } = userRequestObj;
       await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
     }
     else {
@@ -152,6 +163,7 @@ const initialData = {
   groups: [],
   rubrics: [],
   vacancies: [],
+  rents: [],
   userRequests: [],
   userResponses: [],
 };

@@ -13,7 +13,7 @@ import Status from '../../../components/status';
 
 
 @inject('store') @observer
-export class Requests extends React.Component {
+export class InputRequests extends React.Component {
   static propTypes = {
     store: React.PropTypes.object,
     requests: React.PropTypes.object,
@@ -59,9 +59,7 @@ export class Requests extends React.Component {
           <TableRow>
             <TableHeaderColumn>Отправленные предложения</TableHeaderColumn>
             <TableHeaderColumn>Вакансия</TableHeaderColumn>
-            {!store.user.isWorker &&
-              <TableHeaderColumn>Резюме</TableHeaderColumn>
-            }
+            <TableHeaderColumn>Резюме</TableHeaderColumn>
             <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
@@ -72,9 +70,7 @@ export class Requests extends React.Component {
             requests.map( (req, index) => <TableRow key={index}>
               <TableRowColumn><Status user={store.user} req={req} /></TableRowColumn>
               <TableRowColumn>{req.vacancyObj ? req.vacancyObj.name : ''}</TableRowColumn>
-              {!store.user.isWorker &&
-                <TableRowColumn>{req.objectObj ? req.objectObj.firstname : ''}</TableRowColumn>
-              }
+              <TableRowColumn>{req.objectObj ? req.objectObj.firstname : ''}</TableRowColumn>
               <TableRowColumn>
               </TableRowColumn>
             </TableRow>
@@ -85,8 +81,9 @@ export class Requests extends React.Component {
   }
 }
 
+
 @inject('store') @observer
-export class RequestsInvites extends React.Component {
+export class OutputRequests extends React.Component {
 
   @observable tmpObj = { text: '' };
 
@@ -218,9 +215,9 @@ export default class RequestList extends React.Component {
     const { store } = this.props;
     if (!store.user) return null;
     return <div>
-      <Requests requests={store.user.requests}/>
+      <InputRequests requests={store.user.inputRequests}/>
       <br />
-      <RequestsInvites requests={store.user.requestsInvites}/>
+      <OutputRequests requests={store.user.outputRequests}/>
     </div>;
   }
 }

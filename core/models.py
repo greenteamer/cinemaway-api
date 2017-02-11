@@ -5,6 +5,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 #  from django.contrib.auth import get_user_model
 #  User = get_user_model()
 from authentication.models import ExtUser
+from django.core.exceptions import ValidationError
 
 
 class Rubric(MPTTModel):
@@ -43,9 +44,28 @@ class Vacancy(models.Model):
         return "/vacancies/%s/" % self.id
 
 
+class Rent(models.Model):
+    owner = models.ForeignKey(ExtUser)
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    price = models.PositiveIntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = u'Аренда'
+        verbose_name_plural = u'Список аренды'
+
+    def __unicode__(self):
+        return self.name
+
+    @property
+    def url(self):
+        return "/rents/%s/" % self.id
+
+
 class UserRequest(models.Model):
     owner = models.ForeignKey(ExtUser, related_name="request_owner")
     vacancy = models.ForeignKey(Vacancy, blank=True, null=True)
+    rent = models.ForeignKey(Rent, blank=True, null=True)
     object = models.ForeignKey(ExtUser, related_name="request_object")
 
     text = models.TextField()
@@ -53,9 +73,12 @@ class UserRequest(models.Model):
     class Meta:
         verbose_name = u'Запрос пользователя'
         verbose_name_plural = u'Запросы пользователей'
-        unique_together = ['owner', 'vacancy', 'object']
-    #  def __unicode__(self):
-    #      return self.name
+        unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
+
+    def clean(self):
+        # Don't allow draft entries to have a pub_date.
+        if self.vacancy is not None and self.rent is not None:
+            raise ValidationError('User request can contain only one field vacancy or rent')
 
 
 class UserResponse(models.Model):

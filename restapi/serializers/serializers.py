@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from authentication.models import Resume, Company
 # from django.contrib.auth.models import User
-from core.models import Rubric, Vacancy, UserRequest, UserResponse
+from core.models import Rubric, Vacancy, UserRequest, UserResponse, Rent
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -61,11 +61,19 @@ class VacancySZ(serializers.ModelSerializer):
         fields = ('url', 'id', 'name', 'owner', 'description', 'rubrics', 'price')
 
 
+class RentSZ(serializers.ModelSerializer):
+    url = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Rent
+        fields = ('url', 'id', 'name', 'owner', 'description', 'price')
+
+
 class UserRequestSZ(serializers.ModelSerializer):
 
     class Meta:
         model = UserRequest
-        fields = ('id', 'owner', 'vacancy', 'object', 'text')
+        fields = ('id', 'owner', 'vacancy', 'rent', 'object', 'text')
 
 
 class UserResponseSZ(serializers.ModelSerializer):

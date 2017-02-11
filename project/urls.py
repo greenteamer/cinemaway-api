@@ -14,6 +14,7 @@ router.register(r'companies', viewsets.CompanyViewSet)
 #  router.register(r'profiles', viewsets.ProfileViewSet)
 router.register(r'rubrics', viewsets.RubricViewSet)
 router.register(r'vacancies', viewsets.VacancyViewSet)
+router.register(r'rents', viewsets.RentViewSet)
 router.register(r'requests', viewsets.UserRequestViewSet)
 router.register(r'responses', viewsets.UserResponseViewSet)
 
