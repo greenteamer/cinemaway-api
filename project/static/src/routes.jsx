@@ -2,7 +2,20 @@ import React from 'react';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import { Provider } from 'mobx-react';
 import { Store, UIStore } from './stores';
-import { Home, SubRubrics, Register, Profile, Vacancies, VacancyItem, Requests, RequestItem } from './pages';
+import {
+  Home,
+  SubRubrics,
+  Rubrics,
+  Register,
+  Profile,
+  Vacancies,
+  ProfileRents,
+  VacancyItem,
+  ResumeItem,
+  RentItem,
+  Requests,
+  RequestItem,
+} from './pages';
 import { Layout, BGLayout } from './components';
 import { Nav } from './components/Nav';
 
@@ -40,12 +53,20 @@ export const routes = <Router history={browserHistory}>
           <IndexRoute components={{ content: Requests, nav: Nav }} />
           <Route path=":requestId" components={{ content: RequestItem, nav: Nav}} />
         </Route>
+        <Route path="rents" components={{ content: ProfileRents, nav: Nav}} />
       </Route>
       <Route path="rubrics">
+        <IndexRoute components={{ content: Rubrics, nav: Nav}} />
         <Route path=":rubricId" components={{ content: SubRubrics, nav: Nav}}/>
       </Route>
       <Route path="vacancies">
         <Route path=":vacancyId" components={{ content: VacancyItem, nav: Nav}}/>
+      </Route>
+      <Route path="rents">
+        <Route path=":rentId" components={{ content: RentItem, nav: Nav}}/>
+      </Route>
+      <Route path="users">
+        <Route path=":userId" components={{ content: ResumeItem, nav: Nav}}/>
       </Route>
       <Route path="oauth">
         <Route path="success" components={{ content: Oauth, nav: Nav}} />

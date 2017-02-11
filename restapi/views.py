@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from restapi.serializers import serializers
 from authentication.models import Resume, Company
-from core.models import Rubric, Vacancy, UserRequest, UserResponse
+from core.models import Rubric, Vacancy, UserRequest, UserResponse, Rent
 #  from authentication.models import ExtUser
 from restapi import permissions
 #  from rest_framework.permissions import AllowAny
@@ -63,11 +63,11 @@ class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = serializers.VacancySZ
 
-    #  def get_serializer_class(self):
-    #      serializer_class = self.serializer_class
-    #      if self.request.method == 'PUT':
-    #          serializer_class = serializers.ProtectedVacancySZ
-    #      return serializer_class
+
+class RentViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsOwnerOrReadOnly, )
+    queryset = Rent.objects.all()
+    serializer_class = serializers.RentSZ
 
 
 class UserRequestViewSet(viewsets.ModelViewSet):

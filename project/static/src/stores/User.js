@@ -54,12 +54,20 @@ export default class User {
     return observable( store.vacancies.filter(v => v.owner === this.id) );
   }
 
-  @computed get requests() {
+  @computed get rents() {
+    return observable( store.rents.filter(rent => rent.owner === this.id) );
+  }
+
+  @computed get inputRequests() {
     return observable( store.userRequests.filter(req => req.owner === this.id) );
   }
 
-  @computed get requestsInvites() {
+  @computed get outputRequests() {
     return observable( store.userRequests.filter(req => req.object === this.id) );
+  }
+
+  @computed get absoluteUrl() {
+    return `/users/${this.id}`;
   }
 }
 

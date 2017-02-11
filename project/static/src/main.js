@@ -1,8 +1,8 @@
 // styles
 // import '../bower_components/bootstrap/scss/bootstrap.scss';
 // import '../bower_components/bootstrap-material-design/dist/bootstrap-material-design.min.css';
-import '../bootstrap/_bootstrap.scss';
-import './styles/main.sass';
+import '../bootstrap/bootstrap.scss';
+import './styles/base.sass';
 import './styles/tachyons.css';
 // libs
 // import '../bower_components/bootstrap-material-design/js/base';

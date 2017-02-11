@@ -16,6 +16,10 @@ export const POST_VACANCY = () => ({url: 'api/v1/vacancies/', method: 'POST'});
 export const PUT_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'PUT'});
 export const DELETE_VACANCY = (id) => ({url: `api/v1/vacancies/${id}/`, method: 'DELETE'});
 
+export const POST_RENT = () => ({url: 'api/v1/rents/', method: 'POST'});
+export const PUT_RENT = (id) => ({url: `api/v1/rents/${id}/`, method: 'PUT'});
+export const DELETE_RENT = (id) => ({url: `api/v1/rents/${id}/`, method: 'DELETE'});
+
 export const POST_USERREQUEST = () => ({url: 'api/v1/requests/', method: 'POST'});
 export const PUT_USERREQUEST = (id) => ({url: `api/v1/requests/${id}/`, method: 'PUT'});
 export const DELETE_USERREQUEST = (id) => ({url: `api/v1/requests/${id}/`, method: 'DELETE'});

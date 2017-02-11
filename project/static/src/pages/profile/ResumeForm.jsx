@@ -75,7 +75,7 @@ export default class ResumeForm extends Component {
 
       {user.resume &&
         <div>
-          <h3>Заполните поля вакансии</h3>
+          <h3>Заполните резюме</h3>
           <TextField
             type="text"
             name="city"

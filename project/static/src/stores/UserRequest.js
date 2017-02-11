@@ -35,6 +35,10 @@ export default class UserRequest {
     return store.vacancies.find(v => v.id === this.vacancy);
   }
 
+  @computed get rentObj() {
+    return store.rents.find(rent => rent.id === this.rent);
+  }
+
   @computed get objectObj() {
     return store.users.find(u => u.id === this.object);
   }
