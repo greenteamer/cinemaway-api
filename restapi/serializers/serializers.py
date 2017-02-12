@@ -67,7 +67,7 @@ class RentSZ(serializers.ModelSerializer):
 
     class Meta:
         model = Rent
-        fields = ('url', 'id', 'name', 'owner', 'description', 'price')
+        fields = ('url', 'id', 'name', 'owner', 'description', 'image', 'price')
 
 
 class UserRequestSZ(serializers.ModelSerializer):

@@ -27,6 +27,8 @@ export default class ProfileRent extends Component {
       name: '',
       description: '',
       owner: null,
+      image: null,
+      imageFile: null,
     };
     this.dialog.show = false;
   }
@@ -71,4 +73,6 @@ const initialRent = {
   name: '',
   description: '',
   owner: null,
+  image: null,
+  imageFile: null,
 };

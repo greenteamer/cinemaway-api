@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { observer, inject } from 'mobx-react';
 import AppBar from 'material-ui/AppBar';
-import Avatar from 'material-ui/Avatar';
+// import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';

@@ -5,6 +5,7 @@ import { inject, observer } from 'mobx-react';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Dropzone from 'react-dropzone';
 
 
 @inject('store') @observer
@@ -19,11 +20,32 @@ export class RentFormFields extends Component {
     console.log('_handleOnBlur value: ', this.refs[e.target.name]);
   }
 
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    console.log('Accepted files: ', acceptedFiles);
+    console.log('Rejected files: ', rejectedFiles);
+    const { rent } = this.props;
+    rent.imageFile = acceptedFiles[0];
+  }
+
   render() {
     const { rent } = this.props;
     return <div className="row">
 
       <div className="col-sm-12 col-md-6">
+        <Dropzone onDrop={this.onDrop}
+          style={{
+            width: '100%',
+            minHeight: '200px',
+            border: '2px dashed #000',
+            borderRadius: '4px',
+            cursor: 'pointer',
+          }}
+          className="ba">
+          {rent.image &&
+            <img src={rent.imageFile ? rent.imageFile.preview : rent.image} />
+            || <img src={rent.imageFile ? rent.imageFile.preview : rent.image} />
+          }
+        </Dropzone>
         <TextField
           ref="name"
           name="name"
@@ -37,7 +59,7 @@ export class RentFormFields extends Component {
         <br />
         <TextField
           hintText="Описание"
-          floatingLabelText="Описание вакансии"
+          floatingLabelText="Описание аренды"
           defaultValue={rent.description}
           multiLine={true}
           rows={3}

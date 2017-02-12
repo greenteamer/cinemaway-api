@@ -5,6 +5,7 @@ import * as API from '../api';
 
 export default class Rent {
   @observable id = null;
+  @observable imageFile = null;
 
   constructor(obj) {
     extendObservable(this, obj ? obj : {});
@@ -15,11 +16,18 @@ export default class Rent {
   }
 
   @action save = async () => {
-    if (this.id) {
-      await API.request(API.ENDPOINTS.PUT_RENT(this.id), toJS(this));
+    const obj = toJS(this);
+    if (obj.imageFile) {
+      obj.image = obj.imageFile;
     }
     else {
-      const response = await API.request(API.ENDPOINTS.POST_RENT(), toJS(this));
+      delete obj.image;
+    }
+    if (obj.id) {
+      await API.request(API.ENDPOINTS.PUT_RENT(obj.id), obj);
+    }
+    else {
+      const response = await API.request(API.ENDPOINTS.POST_RENT(), obj);
       if (response) {
         this.id = response.id;
         store.rents.push(this);
