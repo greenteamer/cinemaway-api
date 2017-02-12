@@ -25,8 +25,10 @@ class Logged extends Component {
     const { store } = this.props;
     if (!store.user) return null;
     return <IconMenu
-      iconButtonElement={store.profile && store.profile.image
-        ? <IconButton><Avatar size={26} src={store.profile.image} /></IconButton>
+      iconButtonElement={store.user && store.user.avatar
+        ? <IconButton style={{ width: '34px', height: '34px', margin: '8px', padding: '0px', overflow: 'hidden', borderRadius: '17px' }}>
+          <img src={store.user.avatar} />
+        </IconButton>
         : <IconButton><MoreVertIcon color="white" /></IconButton>
       }
       targetOrigin={{horizontal: 'right', vertical: 'top'}}

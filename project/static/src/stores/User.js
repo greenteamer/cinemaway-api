@@ -5,6 +5,7 @@ import * as API from '../api';
 
 export default class User {
   @observable groups = [];
+  @observable avatarFile = null;
 
   constructor(obj) {
     extendObservable(this, initialData, obj ? obj : {});
@@ -35,11 +36,18 @@ export default class User {
   }
 
   async serverSave() {
-    if (this.id) {
-      await API.request(API.ENDPOINTS.PUT_USER(this.id), toJS(this));
+    const obj = toJS(this);
+    if (obj.avatarFile) {
+      obj.avatar = obj.avatarFile;
     }
     else {
-      const response = await API.request(API.ENDPOINTS.POST_USER(), toJS(this));
+      delete obj.avatar;
+    }
+    if (obj.id) {
+      await API.request(API.ENDPOINTS.PUT_USER(obj.id), obj);
+    }
+    else {
+      const response = await API.request(API.ENDPOINTS.POST_USER(), obj);
       if (response) {
         this.id = response.id;
       }
