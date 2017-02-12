@@ -10,6 +10,7 @@ User = get_user_model()
 class UserSZ(serializers.ModelSerializer):
     # user = User.objects.all()
     class Meta:
+        avatar = serializers.ImageField(use_url=True, allow_empty_file=True)
         model = User
         exclude = (
             'password',
