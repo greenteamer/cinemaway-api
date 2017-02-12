@@ -29,7 +29,7 @@ class Vacancy(models.Model):
     owner = models.ForeignKey(ExtUser)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    rubrics = models.ManyToManyField(Rubric)
+    rubrics = models.ManyToManyField(Rubric, blank=True, null=True)
     price = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:

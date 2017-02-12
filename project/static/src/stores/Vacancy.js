@@ -15,6 +15,7 @@ export default class Vacancy {
   }
 
   @action save = async () => {
+    console.log('Vacancy rubrics: ', toJS(this));
     if (this.id) {
       await API.request(API.ENDPOINTS.PUT_VACANCY(this.id), toJS(this));
     }
