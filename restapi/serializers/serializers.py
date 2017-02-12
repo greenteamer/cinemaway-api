@@ -10,6 +10,7 @@ User = get_user_model()
 class UserSZ(serializers.ModelSerializer):
     # user = User.objects.all()
     class Meta:
+        avatar = serializers.ImageField(use_url=True, allow_empty_file=True)
         model = User
         exclude = (
             'password',
@@ -66,7 +67,7 @@ class RentSZ(serializers.ModelSerializer):
 
     class Meta:
         model = Rent
-        fields = ('url', 'id', 'name', 'owner', 'description', 'price')
+        fields = ('url', 'id', 'name', 'owner', 'description', 'image', 'price')
 
 
 class UserRequestSZ(serializers.ModelSerializer):

@@ -2,6 +2,7 @@ import React from 'react';
 import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
@@ -12,6 +13,9 @@ const RentCard = ({rent, onRequest}) => <Card>
   <CardHeader
     title={rent.name}
     subtitle="Subtitle"
+    avatar={<IconButton style={{ width: '100', height: '70', margin: '4px', padding: '0px'}}>
+      <img src={rent.image} />
+    </IconButton>}
     actAsExpander={true}
     showExpandableButton={true}
   />

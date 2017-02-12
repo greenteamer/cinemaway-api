@@ -1,34 +1,40 @@
 import React from 'react';
 import { observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
-import Divider from 'material-ui/Divider';
+// import Divider from 'material-ui/Divider';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
 import ResumeDialog from './ResumeDialog';
 
 
-const ResumeCard = ({worker, onRequest}) => <div><div className="flex items-center">
-    <div className="w-20">
-      <span>{`${worker.firstname} ${worker.lastname}`}</span>
-    </div>
-    <div className="w-50 pv3">
-      {worker.resume.text.split(' ').slice(0, 20).join(' ')}
-    </div>
-    <div className="w-30">
-      <RaisedButton
-        label="Откликнуться"
-        primary={true}
-        onTouchTap={() => onRequest(worker)}
-      />
-      <FlatButton
-        label="Подробнее"
-        onTouchTap={() => browserHistory.push(worker.absoluteUrl)}
-      />
-    </div>
-  </div>
-  <Divider />
-</div>;
+const ResumeCard = ({worker, onRequest}) => <Card>
+  <CardHeader
+    title={`${worker.firstname} ${worker.lastname}`}
+    subtitle="Subtitle"
+    avatar={<IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px' }}>
+      <img src={worker.avatar} />
+    </IconButton>}
+    actAsExpander={true}
+    showExpandableButton={true}
+  />
+  <CardActions>
+    <RaisedButton
+      label="Откликнуться"
+      primary={true}
+      onTouchTap={() => onRequest(worker)}
+    />
+    <FlatButton
+      label="Подробнее"
+      onTouchTap={() => browserHistory.push(worker.absoluteUrl)}
+    />
+  </CardActions>
+  <CardText expandable={true}>
+    {worker.resume.text.split(' ').slice(0, 20).join(' ')}
+  </CardText>
+</Card>;
 
 ResumeCard.propTypes = {
   worker: React.PropTypes.object,

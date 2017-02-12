@@ -49,6 +49,7 @@ class Rent(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     price = models.PositiveIntegerField(null=True, blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to="rent")
 
     class Meta:
         verbose_name = u'Аренда'
