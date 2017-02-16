@@ -3,8 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
-from 'material-ui/Table';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import { Modal, ModalManager, Effect } from '../../../components/dialog';
 import Status from '../../../components/status';

@@ -47,15 +47,15 @@ export default class ProfileForm extends Component {
       <div className="flex justify-between">
         <Dropzone onDrop={this.onDrop}
           style={{
-            width: '50%',
+            maxWidth: '50%',
             border: '2px dashed #000',
             borderRadius: '4px',
             cursor: 'pointer',
           }}
           className="ba">
           {user.avatar &&
-              <img src={user.avatarFile ? user.avatarFile.preview : user.avatar} /> ||
-              <div>Try dropping some files here, or click to select files to upload.</div>
+            <img src={user.avatarFile ? user.avatarFile.preview : user.avatar} />
+              || <img src={user.avatarFile ? user.avatarFile.preview : '/static/src/images/default_large.png'} />
           }
         </Dropzone>
 

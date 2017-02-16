@@ -74,6 +74,10 @@ export default class User {
     return observable( store.userRequests.filter(req => req.object === this.id) );
   }
 
+  @computed get fullName() {
+    return `${this.firstname} ${this.lastname}`;
+  }
+
   @computed get absoluteUrl() {
     return `/users/${this.id}`;
   }

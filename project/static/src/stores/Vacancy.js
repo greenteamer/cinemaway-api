@@ -28,9 +28,16 @@ export default class Vacancy {
     }
   }
 
+  @computed get inputRequests() {
+    return observable(store.userRequests.filter(req => req.vacancy === this.id));
+  }
+
   @computed get absoluteUrl() {
     return `/vacancies/${this.id}`;
   }
 
+  @computed get profileUrl() {
+    return `/profile/vacancies/${this.id}`;
+  }
 }
 

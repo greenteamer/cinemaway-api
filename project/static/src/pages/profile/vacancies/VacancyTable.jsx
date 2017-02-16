@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { inject, observer } from 'mobx-react';
 import styles from '../styles';
 import VacancyDialog from './VacancyForm';
@@ -46,20 +47,25 @@ export default class Vacancies extends Component {
     console.log('VacancyTable render');
     return <div style={styles.fields}>
       <h1>Ваши ваканисии</h1>
-      <Table>
-        <TableHeader>
+      <Table
+        selectable={false}
+      >
+        <TableHeader
+          adjustForCheckbox={false}
+          displaySelectAll={false}
+        >
           <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
-            <TableHeaderColumn>Actions</TableHeaderColumn>
+            <TableHeaderColumn>Вакансия</TableHeaderColumn>
+            <TableHeaderColumn>Отклики</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody
+          displayRowCheckbox={false}
+        >
           {vacancies.length &&
             vacancies.map((v, key) => <TableRow key={key}>
-              <TableRowColumn>{v.id}</TableRowColumn>
-              <TableRowColumn>{v.name}</TableRowColumn>
+              <TableRowColumn><Link to={v.profileUrl} >{v.name}</Link></TableRowColumn>
               <TableRowColumn>{v.status}</TableRowColumn>
               <TableRowColumn>
                 <IconButton
