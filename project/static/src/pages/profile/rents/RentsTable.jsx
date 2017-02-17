@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { Link } from 'react-router';
 import styles from '../styles';
 import RentDialog from './RentForm';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import IconButton from 'material-ui/IconButton';
 import { observable } from 'mobx';
 import FlatButton from 'material-ui/FlatButton';
-import { Modal, ModalManager, Effect } from '../../../components/dialog';
+import { browserHistory } from 'react-router';
+// import FlatButton from 'material-ui/FlatButton';
+// import { Modal, ModalManager, Effect } from '../../../components/dialog';
 
 
 @inject('store', 'uiStore') @observer
@@ -16,7 +19,7 @@ export default class Vacancies extends Component {
     show: false,
     delete: false,
   };
-  @observable tmpVacancy = initialVacancy;
+  @observable tmpRent = initialRent;
 
   static propTypes = {
     store: React.PropTypes.object,
@@ -25,32 +28,14 @@ export default class Vacancies extends Component {
     ActionButton: React.PropTypes.func,
   }
 
-  _handleEditVacancy = (vacancy) => {
+  _handleEditRent = (rent) => {
     this.dialog.show = true;
-    this.tmpVacancy = vacancy;
+    this.tmpRent = rent;
   }
 
-  _handleDeleteVacancy(id) {
-    const { store } = this.props;
-    ModalManager.open(<Modal
-      effect={Effect.Newspaper}
-      onRequestClose={() => true}>
-      <div style={{ padding: 10 }}>
-        <h2>Удалить вакансию ?</h2>
-        <div style={{ float: 'right', padding: 10 }}>
-          <FlatButton
-            label="Закрыть"
-            primary={true}
-            onTouchTap={ModalManager.close}
-          />
-          <FlatButton
-            label="Удалить"
-            primary={true}
-            onTouchTap={() => store.deleteVacancy(id)}
-          />
-        </div>
-      </div>
-    </Modal>);
+  _handleDeleteRent(id) {
+    this.dialog.delete = true;
+    this.tmpRent.id = id;
   }
 
 
@@ -61,29 +46,44 @@ export default class Vacancies extends Component {
     }
     return <div style={styles.fields}>
       <h1>Ваши позиции добавленные в аренду</h1>
-      <Table>
-        <TableHeader>
+      <Table
+        selectable={false}
+      >
+        <TableHeader
+          adjustForCheckbox={false}
+          displaySelectAll={false}
+        >
           <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
+            <TableHeaderColumn>Отклики</TableHeaderColumn>
             <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
             <TableHeaderColumn>Actions</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody
+          displayRowCheckbox={false}
+        >
           {rents.length &&
-            rents.map((v, key) => <TableRow key={key}>
-              <TableRowColumn>{v.id}</TableRowColumn>
-              <TableRowColumn>{v.name}</TableRowColumn>
-              <TableRowColumn>{v.status}</TableRowColumn>
+            rents.map((rent, key) => <TableRow key={key}>
+              <TableRowColumn>
+                {rent.inputRequests.length !== 0 &&
+                  <FlatButton
+                    label={rent.inputRequests.length}
+                    primary={true}
+                    onTouchTap={() => browserHistory.push(rent.profileUrl)}
+                  />
+                }
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={rent.profileUrl}>{rent.name}</Link>
+              </TableRowColumn>
               <TableRowColumn>
                 <IconButton
                   iconClassName="ion-edit"
-                  onTouchTap={() => this._handleEditVacancy(v)}
+                  onTouchTap={() => this._handleEditRent(rent)}
                 />
                 <IconButton
                   iconClassName="ion-trash-b"
-                  onTouchTap={() => this._handleDeleteVacancy(v.id)}
+                  onTouchTap={() => this._handleDeleteRent(rent.id)}
                 />
               </TableRowColumn>
             </TableRow>)
@@ -93,16 +93,17 @@ export default class Vacancies extends Component {
       <RentDialog
         ref='dialog'
         dialog={this.dialog}
-        vacancy={this.tmpVacancy}
+        rent={this.tmpRent}
       />
     </div>;
   }
 }
 
 
-const initialVacancy = {
+const initialRent = {
   name: '',
   description: '',
-  rubrics: [],
   owner: null,
+  image: null,
+  imageFile: null,
 };

@@ -40,7 +40,7 @@ function toFormData(obj) {
       }
     }
     else {
-      formData.append(key, obj[key]);
+      formData.append(key, obj[key] ? obj[key] : '');
     }
   });
   return formData;

@@ -55,6 +55,7 @@ const FlatButtonExampleSimple = () => {
     <FlatButton label="Главная" style={styles.button} onTouchTap={() => browserHistoryHandler('/')}/>
     <FlatButton label="Рубрики" style={styles.button} onTouchTap={() => browserHistoryHandler('/rubrics')}/>
     <FlatButton label="Добавить вакансию" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/vacancies')} />
+    <FlatButton label="Добавить аренду" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/rents')} />
     <FlatButton label="Отклики и приглашения" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/requests')} />
   </div>;
 };

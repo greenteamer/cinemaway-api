@@ -38,6 +38,7 @@ export default class ProfileRent extends Component {
     if (!user) {
       return <div>no user</div>;
     }
+    console.log('ProfileRent render rent', this.tmpRent);
     return <div style={{height: '100%'}}>
       <RentsTable rents={user.rents} />
       <RentForm
@@ -52,20 +53,6 @@ export default class ProfileRent extends Component {
         <ContentAdd />
       </FloatingActionButton>
     </div>;
-    // return <div style={{height: '100%'}}>
-    //   <RentsTable rents={user.rents} />
-    //   <RentForm
-    //     dialog={this.dialog}
-    //     rent={this.tmpRent}
-    //     onSubmit={this.handleOnSubmit}
-    //   />
-    //   <FloatingActionButton
-    //     style={styles.floatingButton}
-    //     onTouchTap={() => { this.dialog.show = true; }}
-    //   >
-    //     <ContentAdd />
-    //   </FloatingActionButton>
-    // </div>;
   }
 }
 

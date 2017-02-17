@@ -121,7 +121,6 @@ class Store extends singleton {
   @action addRent(rent) {
     const newObj = new Rent(rent);
     newObj.save();
-    console.log('store add rent id: ', newObj.id);
   }
 
   @action addUserRequest = async (userRequestObj) => {

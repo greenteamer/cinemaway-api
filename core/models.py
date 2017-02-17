@@ -65,8 +65,8 @@ class Rent(models.Model):
 
 class UserRequest(models.Model):
     owner = models.ForeignKey(ExtUser, related_name="request_owner")
-    vacancy = models.ForeignKey(Vacancy, blank=True, null=True)
-    rent = models.ForeignKey(Rent, blank=True, null=True)
+    vacancy = models.ForeignKey(Vacancy, null=True)
+    rent = models.ForeignKey(Rent, null=True)
     object = models.ForeignKey(ExtUser, related_name="request_object")
 
     text = models.TextField()
@@ -74,7 +74,7 @@ class UserRequest(models.Model):
     class Meta:
         verbose_name = u'Запрос пользователя'
         verbose_name_plural = u'Запросы пользователей'
-        unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
+        #  unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
 
     def clean(self):
         # Don't allow draft entries to have a pub_date.

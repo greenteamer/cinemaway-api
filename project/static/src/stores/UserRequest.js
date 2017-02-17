@@ -19,6 +19,7 @@ export default class UserRequest {
       await API.request(API.ENDPOINTS.PUT_USERREQUEST(this.id), toJS(this));
     }
     else {
+      console.log('userrequest post to js: ', toJS(this));
       const response = await API.request(API.ENDPOINTS.POST_USERREQUEST(), toJS(this));
       if (response) {
         this.id = response.id;

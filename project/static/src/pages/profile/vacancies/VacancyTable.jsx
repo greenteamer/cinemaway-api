@@ -4,11 +4,13 @@ import { inject, observer } from 'mobx-react';
 import styles from '../styles';
 import VacancyDialog from './VacancyForm';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+// import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import { observable } from 'mobx';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import { browserHistory } from 'react-router';
 // import { Modal, ModalManager, Effect } from '../../../components/dialog';
 
 
@@ -55,8 +57,8 @@ export default class Vacancies extends Component {
           displaySelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn>Вакансия</TableHeaderColumn>
             <TableHeaderColumn>Отклики</TableHeaderColumn>
+            <TableHeaderColumn>Вакансия</TableHeaderColumn>
             <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
@@ -65,8 +67,18 @@ export default class Vacancies extends Component {
         >
           {vacancies.length &&
             vacancies.map((v, key) => <TableRow key={key}>
-              <TableRowColumn><Link to={v.profileUrl} >{v.name}</Link></TableRowColumn>
-              <TableRowColumn>{v.status}</TableRowColumn>
+              <TableRowColumn>
+                {v.inputRequests.length !== 0 &&
+                  <FlatButton
+                    label={v.inputRequests.length}
+                    primary={true}
+                    onTouchTap={() => browserHistory.push(v.profileUrl)}
+                  />
+                }
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={v.profileUrl}>{v.name}</Link>
+              </TableRowColumn>
               <TableRowColumn>
                 <IconButton
                   iconClassName="ion-edit"

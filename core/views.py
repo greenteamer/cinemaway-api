@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+#  import json
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -42,9 +42,10 @@ def index(request, **kwargs):
 
 # @ensure_csrf_cookie
 def mailer(request):
-    received_json_data = json.loads(request.body)
-    ownerEMail = User.objects.get(id=received_json_data['owner']).email
-    objectEMail = User.objects.get(id=received_json_data['object']).email
+    #  received_json_data = json.loads(request.body)
+    received_json_data = request.POST
+    ownerEMail = User.objects.get(id=int(received_json_data['owner'])).email
+    objectEMail = User.objects.get(id=int(received_json_data['object'])).email
     subject = u'Уведомление cw'
     message = u'Новые действия на сайте'
     send_mail(subject, message, ADMIN_EMAIL, [ownerEMail, objectEMail], fail_silently=False)

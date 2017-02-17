@@ -14,6 +14,7 @@ import {
   ProfileVacancyItem,
   ResumeItem,
   RentItem,
+  ProfileRentItem,
   Requests,
   RequestItem,
 } from './pages';
@@ -57,7 +58,10 @@ export const routes = <Router history={browserHistory}>
           <IndexRoute components={{ content: Requests, nav: Nav }} />
           <Route path=":requestId" components={{ content: RequestItem, nav: Nav}} />
         </Route>
-        <Route path="rents" components={{ content: ProfileRents, nav: Nav}} />
+        <Route path="rents" >
+          <IndexRoute components={{ content: ProfileRents, nav: Nav}} />
+          <Route path=":rentId" components={{ content: ProfileRentItem, nav: Nav}}/>
+        </Route>
       </Route>
       <Route path="rubrics">
         <IndexRoute components={{ content: Rubrics, nav: Nav}} />

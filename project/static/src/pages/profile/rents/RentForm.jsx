@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import Formsy from 'formsy-react';
-// import { FormsyCheckbox, FormsyText } from 'formsy-material-ui/lib';
 import { inject, observer } from 'mobx-react';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
@@ -29,6 +27,7 @@ export class RentFormFields extends Component {
 
   render() {
     const { rent } = this.props;
+    console.log('test console log: ', rent);
     return <div className="row">
 
       <div className="col-sm-12 col-md-6">
