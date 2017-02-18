@@ -28,4 +28,5 @@ export const POST_USERRESPONSE = () => ({url: 'api/v1/responses/', method: 'POST
 export const PUT_USERRESPONSE = (id) => ({url: `api/v1/responses/${id}/`, method: 'PUT'});
 export const DELETE_USERRESPONSE = (id) => ({url: `api/v1/responses/${id}/`, method: 'DELETE'});
 
-export const SEND_MAIL = () => ({url: 'send-mail/', method: 'POST'});
+export const SEND_REQUEST_MAIL = () => ({url: 'send-mail/', method: 'POST'});
+export const SEND_RESPONSE_MAIL = () => ({url: 'send-mail/', method: 'POST'});

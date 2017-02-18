@@ -1,0 +1,21 @@
+{% if response.status %}
+  <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел положительный ответ</h3>
+{% else %}
+  <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел отрицательный ответ</h3>
+{% endif %}
+
+<div>
+  <p>
+    id ответа: {{ response.id }}
+  </p>
+  <p>
+    Вакансия: {{ request.vacancy.name }}
+  </p>
+</div>
+
+<div>
+  <br />
+  <h3>Служба поддержки, www.cinemaway.ru</h3>
+  <p><a␣href="http://cinemawy.ru/">http://cinemaway.ru/</a></p>
+  <p><a␣href="mailto:support@cinemaway.ru">support@cinemaway.ru</a></p>
+</div>

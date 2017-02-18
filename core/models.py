@@ -76,6 +76,9 @@ class UserRequest(models.Model):
         verbose_name_plural = u'Запросы пользователей'
         #  unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
 
+    #  def get_owner(self):
+    #      return ExtUser.objects.get(id)
+
     def clean(self):
         # Don't allow draft entries to have a pub_date.
         if self.vacancy is not None and self.rent is not None:

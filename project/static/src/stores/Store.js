@@ -135,7 +135,7 @@ class Store extends singleton {
       const userRequest = new UserRequest(userRequestObj);
       userRequest.save();
       const { owner, object } = userRequestObj;
-      await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
+      // await API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {owner, object});
     }
     else {
       console.log('userRequest not verified');

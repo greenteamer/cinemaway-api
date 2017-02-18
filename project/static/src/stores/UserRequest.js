@@ -24,6 +24,9 @@ export default class UserRequest {
       if (response) {
         this.id = response.id;
         store.userRequests.push(this);
+        API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {
+          request: response.id,
+        });
       }
     }
   }
