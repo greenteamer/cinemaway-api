@@ -30,7 +30,7 @@ class Vacancy(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     rubrics = models.ManyToManyField(Rubric, blank=True, null=True)
-    price = models.PositiveIntegerField(null=True, blank=True)
+    price = models.CharField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = u'Вакансия'
@@ -48,7 +48,7 @@ class Rent(models.Model):
     owner = models.ForeignKey(ExtUser)
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    price = models.PositiveIntegerField(null=True, blank=True)
+    price = models.CharField(max_length=200, blank=True)
     image = models.ImageField(blank=True, null=True, upload_to="rent")
 
     class Meta:

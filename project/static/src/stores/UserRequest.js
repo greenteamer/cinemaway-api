@@ -51,5 +51,13 @@ export default class UserRequest {
   @computed get userResponse() {
     return store.userResponses.find(res => res.userRequest === this.id);
   }
+
+  @computed get absoluteUrl() {
+    return `/profile/requests/${this.id}`;
+  }
+
+  // @computed get userResponses() {
+  //   return store.userResponses.find(res => res.userRequest === this.id);
+  // }
 }
 

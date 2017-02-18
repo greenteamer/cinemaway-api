@@ -44,9 +44,7 @@ class RentCard extends React.Component {
           {rent.description}
         </CardText>
       </Card>
-      <h3 className="mv3">
-        Отклики на эту вакансию
-      </h3>
+      <h3 className="mv3">Отклики на эту позицию аренды</h3>
       <InputRequests requests={rent.inputRequests}/>
     </div>;
   }

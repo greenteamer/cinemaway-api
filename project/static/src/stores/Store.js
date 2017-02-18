@@ -123,6 +123,11 @@ class Store extends singleton {
     newObj.save();
   }
 
+  @action deleteRent = async (id) => {
+    await API.request(API.ENDPOINTS.DELETE_RENT(id));
+    this.rents.replace(this.rents.filter(rent => rent.id !== id));
+  }
+
   @action addUserRequest = async (userRequestObj) => {
     const checkOwner = userRequestObj.owner !== userRequestObj.object;
     const checkSubject = userRequestObj.vacancy || userRequestObj.rent;

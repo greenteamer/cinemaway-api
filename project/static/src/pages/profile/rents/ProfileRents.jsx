@@ -38,7 +38,6 @@ export default class ProfileRent extends Component {
     if (!user) {
       return <div>no user</div>;
     }
-    console.log('ProfileRent render rent', this.tmpRent);
     return <div style={{height: '100%'}}>
       <RentsTable rents={user.rents} />
       <RentForm

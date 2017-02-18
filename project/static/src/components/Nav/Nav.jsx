@@ -36,7 +36,7 @@ class Logged extends Component {
     >
       <MenuItem className="menu-item" primaryText="Мой профиль" onTouchTap={() => browserHistory.push('/profile')}/>
       <MenuItem className="menu-item" primaryText="Мои вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
-      <MenuItem className="menu-item" primaryText="Отклики и приглашения" onTouchTap={() => browserHistory.push('/profile/requests')}/>
+      <MenuItem className="menu-item" primaryText="Мои отклики" onTouchTap={() => browserHistory.push('/profile/requests')}/>
       <MenuItem className="menu-item" primaryText="Моя аренда" onTouchTap={() => browserHistory.push('/profile/rents')}/>
       <MenuItem className="menu-item" primaryText="Выйти" onTouchTap={this.logout} />
     </IconMenu>;
@@ -56,7 +56,7 @@ const FlatButtonExampleSimple = () => {
     <FlatButton label="Рубрики" style={styles.button} onTouchTap={() => browserHistoryHandler('/rubrics')}/>
     <FlatButton label="Добавить вакансию" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/vacancies')} />
     <FlatButton label="Добавить аренду" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/rents')} />
-    <FlatButton label="Отклики и приглашения" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/requests')} />
+    <FlatButton label="Мои отклики" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/requests')} />
   </div>;
 };
 

@@ -8,6 +8,8 @@ import IconButton from 'material-ui/IconButton';
 import { observable } from 'mobx';
 import FlatButton from 'material-ui/FlatButton';
 import { browserHistory } from 'react-router';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 // import FlatButton from 'material-ui/FlatButton';
 // import { Modal, ModalManager, Effect } from '../../../components/dialog';
 
@@ -40,7 +42,8 @@ export default class Vacancies extends Component {
 
 
   render() {
-    const { store: { user }, rents } = this.props;
+    const { store, rents } = this.props;
+    const { user } = store;
     if (!user) {
       return <div>no user</div>;
     }
@@ -55,8 +58,8 @@ export default class Vacancies extends Component {
         >
           <TableRow>
             <TableHeaderColumn>Отклики</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Actions</TableHeaderColumn>
+            <TableHeaderColumn>Название позиции</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody
@@ -95,6 +98,30 @@ export default class Vacancies extends Component {
         dialog={this.dialog}
         rent={this.tmpRent}
       />
+      <Dialog
+        ref="dialog"
+        title="Удалить аренду"
+        actions={[
+          <FlatButton
+            label="Отмена"
+            primary={true}
+            onTouchTap={() => { this.dialog.delete = false; }}
+          />,
+          <RaisedButton
+            label="Удалить"
+            secondary={true}
+            onTouchTap={() => {
+              store.deleteRent(this.tmpRent.id);
+              this.dialog.delete = false;
+            }}
+          />,
+        ]}
+        modal={true}
+        open={this.dialog.delete}
+        autoScrollBodyContent={true}
+      >
+        <p>Вы уверены что хотите удалить позицию аренды?</p>
+      </Dialog>
     </div>;
   }
 }
