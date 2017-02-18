@@ -33,7 +33,15 @@ export {ENDPOINTS};
 function toFormData(obj) {
   const formData = new FormData();
   Object.keys(obj).forEach((key) => {
-    formData.append(key, obj[key]);
+    if (Array.isArray(obj[key])) {
+      // если значение ключа массив, добавляем более аккуратно
+      for (let i = 0; i < obj[key].length; i++) {
+        formData.append(`${key}`, obj[key][i]);
+      }
+    }
+    else {
+      formData.append(key, obj[key] ? obj[key] : '');
+    }
   });
   return formData;
 }

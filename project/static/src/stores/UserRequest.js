@@ -19,10 +19,14 @@ export default class UserRequest {
       await API.request(API.ENDPOINTS.PUT_USERREQUEST(this.id), toJS(this));
     }
     else {
+      console.log('userrequest post to js: ', toJS(this));
       const response = await API.request(API.ENDPOINTS.POST_USERREQUEST(), toJS(this));
       if (response) {
         this.id = response.id;
         store.userRequests.push(this);
+        API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {
+          request: response.id,
+        });
       }
     }
   }
@@ -50,5 +54,13 @@ export default class UserRequest {
   @computed get userResponse() {
     return store.userResponses.find(res => res.userRequest === this.id);
   }
+
+  @computed get absoluteUrl() {
+    return `/profile/requests/${this.id}`;
+  }
+
+  // @computed get userResponses() {
+  //   return store.userResponses.find(res => res.userRequest === this.id);
+  // }
 }
 

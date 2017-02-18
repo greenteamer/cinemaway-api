@@ -67,11 +67,15 @@ export default class User {
   }
 
   @computed get inputRequests() {
-    return observable( store.userRequests.filter(req => req.owner === this.id) );
+    return observable( store.userRequests.filter(req => req.object === this.id) );
   }
 
   @computed get outputRequests() {
-    return observable( store.userRequests.filter(req => req.object === this.id) );
+    return observable( store.userRequests.filter(req => req.owner === this.id) );
+  }
+
+  @computed get fullName() {
+    return `${this.firstname} ${this.lastname}`;
   }
 
   @computed get absoluteUrl() {

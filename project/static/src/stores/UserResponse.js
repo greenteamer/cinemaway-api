@@ -19,6 +19,9 @@ export default class UserResponse {
       if (response) {
         this.id = response.id;
         store.userResponses.push(this);
+        API.request(API.ENDPOINTS.SEND_RESPONSE_MAIL(), {
+          response: response.id,
+        });
       }
     }
   }

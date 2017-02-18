@@ -1,207 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
-import IconButton from 'material-ui/IconButton';
-import TextField from 'material-ui/TextField';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
-from 'material-ui/Table';
-import FlatButton from 'material-ui/FlatButton';
-import { Modal, ModalManager, Effect } from '../../../components/dialog';
-import Status from '../../../components/status';
-// import TextField from 'material-ui/TextField';
-// import Toggle from 'material-ui/Toggle';
-
-
-@inject('store') @observer
-export class InputRequests extends React.Component {
-  static propTypes = {
-    store: React.PropTypes.object,
-    requests: React.PropTypes.object,
-  }
-
-  _handleDeleteRequest = (id) => {
-    const { store } = this.props;
-    ModalManager.open(<Modal
-      effect={Effect.Newspaper}
-      onRequestClose={() => true}>
-      <div style={{ padding: 10 }}>
-        <h2>Удалить предложение?</h2>
-        <div style={{ float: 'right', padding: 10 }}>
-          <FlatButton
-            label="Закрыть"
-            primary={true}
-            onTouchTap={ModalManager.close}
-          />
-          <FlatButton
-            label="Удалить"
-            primary={true}
-            onTouchTap={() => {
-              store.deleteRequest(id);
-              ModalManager.close();
-            }}
-          />
-        </div>
-      </div>
-    </Modal>);
-  }
-
-  render() {
-    const { store, requests } = this.props;
-    if (!store.user) return null;
-    return <div>
-      <Table
-        selectable={false}
-      >
-        <TableHeader
-          adjustForCheckbox={false}
-          displaySelectAll={false}
-        >
-          <TableRow>
-            <TableHeaderColumn>Отправленные предложения</TableHeaderColumn>
-            <TableHeaderColumn>Вакансия</TableHeaderColumn>
-            <TableHeaderColumn>Резюме</TableHeaderColumn>
-            <TableHeaderColumn></TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody
-          displayRowCheckbox={false}
-        >
-          {requests &&
-            requests.map( (req, index) => <TableRow key={index}>
-              <TableRowColumn><Status user={store.user} req={req} /></TableRowColumn>
-              <TableRowColumn>{req.vacancyObj ? req.vacancyObj.name : ''}</TableRowColumn>
-              <TableRowColumn>{req.objectObj ? req.objectObj.firstname : ''}</TableRowColumn>
-              <TableRowColumn>
-              </TableRowColumn>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>;
-  }
-}
-
-
-@inject('store') @observer
-export class OutputRequests extends React.Component {
-
-  @observable tmpObj = { text: '' };
-
-  static propTypes = {
-    store: React.PropTypes.object,
-    requests: React.PropTypes.object,
-  }
-
-  _handleDeleteRequest = (id) => {
-    const { store } = this.props;
-    ModalManager.open(<Modal
-      effect={Effect.Newspaper}
-      onRequestClose={() => true}>
-      <div style={{ padding: 10 }}>
-        <h2>Удалить предложение?</h2>
-        <div style={{ float: 'right', padding: 10 }}>
-          <FlatButton
-            label="Закрыть"
-            primary={true}
-            onTouchTap={ModalManager.close}
-          />
-          <FlatButton
-            label="Удалить"
-            primary={true}
-            onTouchTap={() => {
-              store.deleteRequest(id);
-              ModalManager.close();
-            }}
-          />
-        </div>
-      </div>
-    </Modal>);
-  }
-
-  handleChangeText = (e, value) => {
-    this.tmpObj.text = value;
-  }
-
-  _handleAddResponse = (requestId) => {
-    const { store } = this.props;
-    const self = this;
-    ModalManager.open(<Modal
-      effect={Effect.Newspaper}
-      onRequestClose={() => true}>
-      <div style={{ padding: 10 }}>
-        <h2>Согласиться на предложение</h2>
-        <TextField
-          hintText="Ваш комментарий"
-          floatingLabelText="Ваш комментарий"
-          multiLine={true}
-          rows={2}
-          onChange={self.handleChangeText}
-        />
-        <div style={{ float: 'right', padding: 10 }}>
-          <FlatButton
-            label="Отказать"
-            primary={true}
-            onTouchTap={() => {
-              store.addUserResponse(store.user.id, requestId, false, self.tmpObj.text);
-              ModalManager.close();
-            }}
-          />
-          <FlatButton
-            label="Согласиться"
-            primary={true}
-            onTouchTap={() => {
-              store.addUserResponse(store.user.id, requestId, true, self.tmpObj.text);
-              ModalManager.close();
-            }}
-          />
-        </div>
-      </div>
-    </Modal>);
-  }
-
-  render() {
-    const { store, requests } = this.props;
-    if (!store.user) return null;
-    return <div>
-      <Table
-        selectable={false}
-      >
-        <TableHeader
-          adjustForCheckbox={false}
-          displaySelectAll={false}
-        >
-          <TableRow>
-            <TableHeaderColumn>Полученные предложения</TableHeaderColumn>
-            <TableHeaderColumn>Вакансия</TableHeaderColumn>
-            {!store.user.isWorker &&
-              <TableHeaderColumn>Резюме</TableHeaderColumn>
-            }
-            <TableHeaderColumn></TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody
-          displayRowCheckbox={false}
-        >
-          {requests &&
-            requests.map( (req, index) => <TableRow key={index}>
-              <TableRowColumn><Status user={store.user} req={req} isInvites/></TableRowColumn>
-              <TableRowColumn>{req.vacancyObj ? req.vacancyObj.name : ''}</TableRowColumn>
-              {!store.user.isWorker &&
-                <TableRowColumn>{req.objectObj ? req.ownerObj.firstname : ''}</TableRowColumn>
-              }
-              <TableRowColumn>
-                <IconButton
-                  iconClassName="ion-compose"
-                  onTouchTap={() => this._handleAddResponse(req.id)}
-                />
-              </TableRowColumn>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>;
-  }
-}
+import TableRequests from '../../../components/requests/TableRequests';
 
 
 @inject('store') @observer
@@ -214,10 +15,68 @@ export default class RequestList extends React.Component {
   render() {
     const { store } = this.props;
     if (!store.user) return null;
+    const vacanciesRequests = observable(
+      store.user.outputRequests
+        .filter(r => r.vacancyObj && r.vacancyObj.owner !== r.owner)
+    );
+    const resumeRequests = observable(
+      store.user.outputRequests
+        .filter(r => r.vacancyObj && r.vacancyObj.owner === r.owner)
+    );
+    const rentRequests = observable(
+      store.user.outputRequests
+        .filter(r => r.rentObj && r.rentObj.owner !== r.owner)
+    );
     return <div>
-      <InputRequests requests={store.user.inputRequests}/>
       <br />
-      <OutputRequests requests={store.user.outputRequests}/>
+      {vacanciesRequests.length !== 0 &&
+        <div>
+          <h3>
+            Мои отклики на вакансии
+          </h3>
+          <TableRequests
+            requests={vacanciesRequests}
+            columnName="Вакансия"
+            getLinkFunc={(req) => <Link
+              to={ req.vacancyObj.absoluteUrl }>
+              { req.vacancyObj.name }
+            </Link>
+            }
+          />
+        </div>
+      }
+      {resumeRequests.length !== 0 &&
+        <div>
+          <h3>
+            Мои отклики на резюме
+          </h3>
+          <TableRequests
+            requests={resumeRequests}
+            columnName="Резюме"
+            getLinkFunc={(req) => <Link
+              to={ req.objectObj.absoluteUrl }>
+              { req.objectObj.fullName }
+            </Link>
+            }
+          />
+        </div>
+      }
+      {rentRequests.length !== 0 &&
+        <div>
+          <h3>
+            Мои отклики на аренду
+          </h3>
+          <TableRequests
+            requests={rentRequests}
+            columnName="Вакансия"
+            getLinkFunc={(req) => <Link
+              to={ req.rentObj.absoluteUrl }>
+              { req.rentObj.name }
+            </Link>
+            }
+          />
+        </div>
+      }
     </div>;
   }
 }

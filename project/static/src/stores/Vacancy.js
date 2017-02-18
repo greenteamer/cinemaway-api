@@ -15,6 +15,7 @@ export default class Vacancy {
   }
 
   @action save = async () => {
+    console.log('Vacancy rubrics: ', toJS(this));
     if (this.id) {
       await API.request(API.ENDPOINTS.PUT_VACANCY(this.id), toJS(this));
     }
@@ -27,9 +28,16 @@ export default class Vacancy {
     }
   }
 
+  @computed get inputRequests() {
+    return observable(store.userRequests.filter(req => req.vacancy === this.id));
+  }
+
   @computed get absoluteUrl() {
     return `/vacancies/${this.id}`;
   }
 
+  @computed get profileUrl() {
+    return `/profile/vacancies/${this.id}`;
+  }
 }
 

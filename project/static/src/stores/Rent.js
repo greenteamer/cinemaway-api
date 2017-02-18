@@ -24,12 +24,15 @@ export default class Rent {
       delete obj.image;
     }
     if (obj.id) {
-      await API.request(API.ENDPOINTS.PUT_RENT(obj.id), obj);
+      const response = await API.request(API.ENDPOINTS.PUT_RENT(obj.id), obj);
+      console.log('response: ', response);
     }
     else {
       const response = await API.request(API.ENDPOINTS.POST_RENT(), obj);
       if (response) {
+        console.log('response: ', response);
         this.id = response.id;
+        this.image = response.image;
         store.rents.push(this);
       }
     }
@@ -37,6 +40,14 @@ export default class Rent {
 
   @computed get absoluteUrl() {
     return `/rents/${this.id}`;
+  }
+
+  @computed get inputRequests() {
+    return observable(store.userRequests.filter(req => req.rent === this.id));
+  }
+
+  @computed get profileUrl() {
+    return `/profile/rents/${this.id}`;
   }
 
 }

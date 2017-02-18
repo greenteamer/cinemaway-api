@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.shortcuts import HttpResponse
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
-import ast
+#  import ast
 import json
 #  from authentication.utils import generate_random_username
 from restapi.serializers import serializers
@@ -27,7 +27,8 @@ def logout_user(request):
 def login_user(request):
     data = {}
     if request.method == 'POST':
-        body = ast.literal_eval(request.body)
+        #  body = ast.literal_eval(request.body)
+        body = request.POST
         try:
             if body['email'] == "":
                 raise Exception('Пустое поле email')
@@ -50,7 +51,8 @@ def login_user(request):
 def registration_user(request):
     data = {}
     if request.method == 'POST':
-        body = ast.literal_eval(request.body)
+        #  body = ast.literal_eval(request.body)
+        body = request.POST
         # пытаемся получить пользователя по email
         try:
             if body['email'] == "":

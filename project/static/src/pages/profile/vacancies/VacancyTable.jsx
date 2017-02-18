@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { inject, observer } from 'mobx-react';
 import styles from '../styles';
 import VacancyDialog from './VacancyForm';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+// import Badge from 'material-ui/Badge';
 import IconButton from 'material-ui/IconButton';
 import { observable } from 'mobx';
 import FlatButton from 'material-ui/FlatButton';
-import { Modal, ModalManager, Effect } from '../../../components/dialog';
+import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import { browserHistory } from 'react-router';
+// import { Modal, ModalManager, Effect } from '../../../components/dialog';
 
 
 @inject('store', 'uiStore') @observer
@@ -31,51 +36,49 @@ export default class Vacancies extends Component {
   }
 
   _handleDeleteVacancy(id) {
-    const { store } = this.props;
-    ModalManager.open(<Modal
-      effect={Effect.Newspaper}
-      onRequestClose={() => true}>
-      <div style={{ padding: 10 }}>
-        <h2>Удалить вакансию ?</h2>
-        <div style={{ float: 'right', padding: 10 }}>
-          <FlatButton
-            label="Закрыть"
-            primary={true}
-            onTouchTap={ModalManager.close}
-          />
-          <FlatButton
-            label="Удалить"
-            primary={true}
-            onTouchTap={() => store.deleteVacancy(id)}
-          />
-        </div>
-      </div>
-    </Modal>);
+    this.dialog.delete = true;
+    this.tmpVacancy.id = id;
   }
 
 
   render() {
-    const { store: { user }, vacancies } = this.props;
-    if (!user) {
-      return <div>no user</div>;
-    }
+    const { store, vacancies } = this.props;
+    // if (!store.user) {
+    //   return <div>no user</div>;
+    // }
+    console.log('VacancyTable render');
     return <div style={styles.fields}>
       <h1>Ваши ваканисии</h1>
-      <Table>
-        <TableHeader>
+      <Table
+        selectable={false}
+      >
+        <TableHeader
+          adjustForCheckbox={false}
+          displaySelectAll={false}
+        >
           <TableRow>
-            <TableHeaderColumn>ID</TableHeaderColumn>
-            <TableHeaderColumn>Name</TableHeaderColumn>
-            <TableHeaderColumn>Status</TableHeaderColumn>
-            <TableHeaderColumn>Actions</TableHeaderColumn>
+            <TableHeaderColumn>Отклики</TableHeaderColumn>
+            <TableHeaderColumn>Вакансия</TableHeaderColumn>
+            <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody
+          displayRowCheckbox={false}
+        >
           {vacancies.length &&
             vacancies.map((v, key) => <TableRow key={key}>
-              <TableRowColumn>{v.id}</TableRowColumn>
-              <TableRowColumn>{v.name}</TableRowColumn>
-              <TableRowColumn>{v.status}</TableRowColumn>
+              <TableRowColumn>
+                {v.inputRequests.length !== 0 &&
+                  <FlatButton
+                    label={v.inputRequests.length}
+                    primary={true}
+                    onTouchTap={() => browserHistory.push(v.profileUrl)}
+                  />
+                }
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={v.profileUrl}>{v.name}</Link>
+              </TableRowColumn>
               <TableRowColumn>
                 <IconButton
                   iconClassName="ion-edit"
@@ -95,6 +98,30 @@ export default class Vacancies extends Component {
         dialog={this.dialog}
         vacancy={this.tmpVacancy}
       />
+      <Dialog
+        ref="dialog"
+        title="Удалить вакансию"
+        actions={[
+          <FlatButton
+            label="Отмена"
+            primary={true}
+            onTouchTap={() => { this.dialog.delete = false; }}
+          />,
+          <RaisedButton
+            label="Удалить"
+            secondary={true}
+            onTouchTap={() => {
+              store.deleteVacancy(this.tmpVacancy.id);
+              this.dialog.delete = false;
+            }}
+          />,
+        ]}
+        modal={true}
+        open={this.dialog.delete}
+        autoScrollBodyContent={true}
+      >
+        <p>Вы уверены что хотите удалить вакансию?</p>
+      </Dialog>
     </div>;
   }
 }

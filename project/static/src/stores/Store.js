@@ -121,7 +121,11 @@ class Store extends singleton {
   @action addRent(rent) {
     const newObj = new Rent(rent);
     newObj.save();
-    console.log('store add rent id: ', newObj.id);
+  }
+
+  @action deleteRent = async (id) => {
+    await API.request(API.ENDPOINTS.DELETE_RENT(id));
+    this.rents.replace(this.rents.filter(rent => rent.id !== id));
   }
 
   @action addUserRequest = async (userRequestObj) => {
@@ -131,7 +135,7 @@ class Store extends singleton {
       const userRequest = new UserRequest(userRequestObj);
       userRequest.save();
       const { owner, object } = userRequestObj;
-      await API.request(API.ENDPOINTS.SEND_MAIL(), {owner, object});
+      // await API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {owner, object});
     }
     else {
       console.log('userRequest not verified');

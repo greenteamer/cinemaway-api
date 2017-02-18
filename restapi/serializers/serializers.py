@@ -71,6 +71,8 @@ class RentSZ(serializers.ModelSerializer):
 
 
 class UserRequestSZ(serializers.ModelSerializer):
+    #  vacancy = serializers.PrimaryKeyRelatedField(read_only=True)
+    #  rent = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = UserRequest
