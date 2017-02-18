@@ -21,8 +21,10 @@ save_2gis_data.py
 get_2gis_data.py
 get_2gis_filials.py
 media/
+static/
 project/static/node_modules/
 npm-debug.log
+db.sqlite3
 
 
 # Environment
