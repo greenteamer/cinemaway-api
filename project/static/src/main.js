@@ -17,11 +17,9 @@ import Router from './routes';
 // import DevTools from 'mobx-react-devtools';
 
 
-
 const App = () => <MuiThemeProvider muiTheme={muiTheme}>
   <Router />
 </MuiThemeProvider>;
-
 
 render(
   <App />,
