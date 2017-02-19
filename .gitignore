@@ -23,6 +23,7 @@ get_2gis_filials.py
 media/
 static/
 project/static/node_modules/
+project/static/dist/
 npm-debug.log
 db.sqlite3
 

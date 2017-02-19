@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "lint": "node_modules/.bin/eslint src/** --ext .js,.jsx",
-    "build": "node_modules/.bin/webpack --progress --watch",
+    "watch": "node_modules/.bin/webpack --progress --watch",
+    "build:dev": "node_modules/.bin/webpack --env=dev --progress --profile --colors",
+    "build:dist": "node_modules/.bin/webpack --env=prod --progress --profile --colors",
     "server:dev": "webpack-dev-server --progress --colors --inline --content-base ./dist",
-    "start": "npm run build",
+    "start": "npm run watch",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
   "author": "",
