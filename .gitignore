@@ -17,7 +17,7 @@ save_2gis_data.py
 get_2gis_data.py
 get_3gis_filials.py
 media/
-./static
+# /static/
 project/static/node_modules/
 project/static/dist/
 npm-debug.log
