@@ -74,7 +74,7 @@ class UserRequest(models.Model):
     class Meta:
         verbose_name = u'Запрос пользователя'
         verbose_name_plural = u'Запросы пользователей'
-        #  unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
+        unique_together = (('owner', 'vacancy', 'object'), ('owner', 'rent', 'object'))
 
     #  def get_owner(self):
     #      return ExtUser.objects.get(id)

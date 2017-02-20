@@ -97,8 +97,10 @@ export class InputRequests extends React.Component {
           displaySelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn>Резюме</TableHeaderColumn>
-            <TableHeaderColumn>Сообщение</TableHeaderColumn>
+            <TableHeaderColumn>Статус</TableHeaderColumn>
+            <TableHeaderColumn>Пользователь</TableHeaderColumn>
+            <TableHeaderColumn>Сообщение запроса</TableHeaderColumn>
+            <TableHeaderColumn>Сообщение ответа</TableHeaderColumn>
             <TableHeaderColumn></TableHeaderColumn>
           </TableRow>
         </TableHeader>
@@ -107,8 +109,16 @@ export class InputRequests extends React.Component {
         >
           {requests &&
             requests.map( (req, index) => <TableRow key={index}>
-              <TableRowColumn><Link to={req.ownerObj.absoluteUrl}>{ req.ownerObj.fullName }</Link></TableRowColumn>
+              <TableRowColumn>
+                { req.userResponse ? req.userResponse.status ? 'Согласие' : 'Отказ' :  'В ожидании' }
+              </TableRowColumn>
+              <TableRowColumn>
+                <Link to={req.renterUserObj.absoluteUrl}>
+                  { req.renterUserObj.fullName }
+                </Link>
+              </TableRowColumn>
               <TableRowColumn>{req.text ? req.text : ''}</TableRowColumn>
+              <TableRowColumn>{req.userResponse ? req.userResponse.text : ''}</TableRowColumn>
               <TableRowColumn>
                 <FlatButton
                   label="Ответить"

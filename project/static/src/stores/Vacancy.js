@@ -32,6 +32,10 @@ export default class Vacancy {
     return observable(store.userRequests.filter(req => req.vacancy === this.id));
   }
 
+  @computed get ownerObj() {
+    return store.users.find(user => user.id === this.owner);
+  }
+
   @computed get absoluteUrl() {
     return `/vacancies/${this.id}`;
   }
