@@ -7,11 +7,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
 import VacancyDialog from './VacancyDialog';
 
+const VacancySubtitle = ({vacancy}) => {
+  const rubrics = store.rubrics.filter(r => vacancy.rubrics.includes(r.id));
+  return <div>
+    <p className="mb0 b">{vacancy.price}</p>
+    {rubrics.map(r => <span>{r.name}, </span>)}
+  </div>;
+};
 
 const VacancyCard = ({vacancy, onRequest}) => <Card>
   <CardHeader
     title={vacancy.name}
-    subtitle="Subtitle"
+    subtitle={<VacancySubtitle vacancy={vacancy} />}
     actAsExpander={true}
     showExpandableButton={true}
   />

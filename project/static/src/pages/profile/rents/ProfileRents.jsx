@@ -6,6 +6,7 @@ import RentsTable from './RentsTable';
 import styles from '../styles';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 @inject('store', 'uiStore') @observer
@@ -45,12 +46,12 @@ export default class ProfileRent extends Component {
         rent={this.tmpRent}
         onSubmit={this.handleOnSubmit}
       />
-      <FloatingActionButton
-        style={styles.floatingButton}
+      <RaisedButton
+        label="Добавить аренду"
+        primary={true}
         onTouchTap={() => { this.dialog.show = true; }}
-      >
-        <ContentAdd />
-      </FloatingActionButton>
+        style={{ float: 'right' }}
+      />
     </div>;
   }
 }

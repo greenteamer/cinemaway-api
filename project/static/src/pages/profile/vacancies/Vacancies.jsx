@@ -7,7 +7,7 @@ import styles from '../styles';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 // import Dialog from 'material-ui/Dialog';
-// import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 @inject('store', 'uiStore') @observer
@@ -46,12 +46,12 @@ export default class Vacancies extends Component {
         vacancy={this.tmpVacancy}
         onSubmit={this.handleOnSubmit}
       />
-      <FloatingActionButton
-        style={styles.floatingButton}
+      <RaisedButton
+        label="Добавить вакансию"
+        primary={true}
         onTouchTap={() => { this.dialog.show = true; }}
-      >
-        <ContentAdd />
-      </FloatingActionButton>
+        style={{ float: 'right' }}
+      />
     </div>;
   }
 }

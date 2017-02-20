@@ -52,8 +52,9 @@ const FlatButtonExampleSimple = () => {
     browserHistory.push(path);
   };
   return <div>
+    <img src="/static/img/logo4min.png" style={{height: '50px', verticalAlign: 'top' }}/>
     <FlatButton label="Главная" style={styles.button} onTouchTap={() => browserHistoryHandler('/')}/>
-    <FlatButton label="Рубрики" style={styles.button} onTouchTap={() => browserHistoryHandler('/rubrics')}/>
+    <FlatButton label="Все предложения" style={styles.button} onTouchTap={() => browserHistoryHandler('/all')}/>
     <FlatButton label="Добавить вакансию" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/vacancies')} />
     <FlatButton label="Добавить аренду" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/rents')} />
     <FlatButton label="Мои отклики" style={styles.button} onTouchTap={() => browserHistoryHandler('/profile/requests')} />
@@ -77,6 +78,8 @@ export default class Nav extends React.Component {
       id="menu"
       iconElementLeft={<FlatButtonExampleSimple/>}
       iconElementRight={<Logged />}
+      iconStyleLeft={{ marginLeft: '0px', marginTop: '0px' }}
+      style={{ paddingLeft: '0px' }}
     >
     </AppBar>;
   }

@@ -47,7 +47,7 @@ export const routes = <Router history={browserHistory}>
       <IndexRoute components={{ content: Register, nav: Nav}} />
     </Route>
     <Route component={Layout}>
-      <IndexRoute components={{ content: Home, nav: Nav}} />
+      <IndexRoute components={{ content: Rubrics, nav: Nav}} />
       <Route path="profile">
         <IndexRoute components={{ content: Profile, nav: Nav }} />
         <Route path="vacancies" >
@@ -63,8 +63,10 @@ export const routes = <Router history={browserHistory}>
           <Route path=":rentId" components={{ content: ProfileRentItem, nav: Nav}}/>
         </Route>
       </Route>
+      <Route path="all">
+        <IndexRoute components={{ content: Home, nav: Nav}} />
+      </Route>
       <Route path="rubrics">
-        <IndexRoute components={{ content: Rubrics, nav: Nav}} />
         <Route path=":rubricId" components={{ content: SubRubrics, nav: Nav}}/>
       </Route>
       <Route path="vacancies">
