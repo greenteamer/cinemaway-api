@@ -51,6 +51,16 @@ export default class UserRequest {
     return store.users.find(u => u.id === this.owner);
   }
 
+  @computed get resumeUserObj() {
+    if (!this.vacancy) return null;
+    return this.vacancyObj.owner === this.owner ? this.objectObj : this.ownerObj;
+  }
+
+  @computed get renterUserObj() {
+    if (!this.rent) return null;
+    return this.rentObj.owner === this.owner ? this.objectObj : this.ownerObj;
+  }
+
   @computed get userResponse() {
     return store.userResponses.find(res => res.userRequest === this.id);
   }
