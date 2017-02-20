@@ -23,7 +23,11 @@ class Logged extends Component {
   }
   render() {
     const { store } = this.props;
-    if (!store.user) return null;
+    if (!store.user) return <MenuItem
+      primaryText="Войти"
+      style={{ color: 'white' }}
+      onTouchTap={() => browserHistory.push('/auth')}
+    />;
     return <IconMenu
       iconButtonElement={store.user && store.user.avatar
         ? <IconButton style={{ width: '34px', height: '34px', margin: '8px', padding: '0px', overflow: 'hidden', borderRadius: '17px' }}>
@@ -47,10 +51,15 @@ class Logged extends Component {
 Logged.muiName = 'IconMenu';
 
 
-const FlatButtonExampleSimple = () => {
+const FlatButtonExampleSimple = ({user}) => {
   const browserHistoryHandler = (path) => {
     browserHistory.push(path);
   };
+  if (!user) return  <div>
+    <img src="/static/img/logo4min.png" style={{height: '50px', verticalAlign: 'top' }}/>
+    <FlatButton label="Главная" style={styles.button} onTouchTap={() => browserHistoryHandler('/')}/>
+    <FlatButton label="Все предложения" style={styles.button} onTouchTap={() => browserHistoryHandler('/all')}/>
+  </div>;
   return <div>
     <img src="/static/img/logo4min.png" style={{height: '50px', verticalAlign: 'top' }}/>
     <FlatButton label="Главная" style={styles.button} onTouchTap={() => browserHistoryHandler('/')}/>
@@ -62,7 +71,7 @@ const FlatButtonExampleSimple = () => {
 };
 
 
-@observer
+@inject('store') @observer
 export default class Nav extends React.Component {
   state = {
     logged: true,
@@ -73,10 +82,11 @@ export default class Nav extends React.Component {
   }
 
   render() {
+    const { store } = this.props;
     return <AppBar
       title={null}
       id="menu"
-      iconElementLeft={<FlatButtonExampleSimple/>}
+      iconElementLeft={<FlatButtonExampleSimple user={store.user}/>}
       iconElementRight={<Logged />}
       iconStyleLeft={{ marginLeft: '0px', marginTop: '0px' }}
       style={{ paddingLeft: '0px' }}

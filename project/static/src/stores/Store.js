@@ -30,22 +30,22 @@ class Store extends singleton {
     super();
     this.getAllData();
 
-    autorun(() => {
-      if (!this.user) {
-        browserHistory.push('/auth');
-      }
-      else {
-        browserHistory.push('/profile');
-      }
-    });
+    // autorun(() => {
+    //   if (!this.user) {
+    //     browserHistory.push('/auth');
+    //   }
+    //   else {
+    //     browserHistory.push('/profile');
+    //   }
+    // });
   }
 
   @computed get avaliableVacancies() {
-    if (!this.user) return [];
-    // const vacancies = this.vacancies.filter(v => _.intersection(v.rubrics, this.user.rubrics).length);
-    return observable(this.vacancies.filter(v => {
-      return !this.user.inputRequests.map(req => req.vacancy).includes(v.id);
-    }));
+    // if (!this.user) return [];
+    // return observable(this.vacancies.filter(v => {
+    //   return !this.user.inputRequests.map(req => req.vacancy).includes(v.id);
+    // }));
+    return this.vacancies;
   }
 
   @computed get workers() {
