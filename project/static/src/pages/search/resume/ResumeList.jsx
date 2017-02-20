@@ -13,7 +13,6 @@ import ResumeDialog from './ResumeDialog';
 const ResumeCard = ({worker, onRequest}) => <Card>
   <CardHeader
     title={`${worker.firstname} ${worker.lastname}`}
-    subtitle="Subtitle"
     avatar={<IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px' }}>
       <img src={worker.avatar} />
     </IconButton>}

@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 @inject('store') @observer
@@ -118,7 +119,7 @@ export default class VacancyDialog extends React.Component {
         primary={true}
         onTouchTap={this._handleCancelVacancy}
       />,
-      <FlatButton
+      <RaisedButton
         label="Сохранить"
         primary={true}
         onTouchTap={onSubmit ? onSubmit : this._handleSaveVacancy}

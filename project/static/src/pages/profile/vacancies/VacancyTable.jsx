@@ -109,7 +109,7 @@ export default class Vacancies extends Component {
           />,
           <RaisedButton
             label="Удалить"
-            secondary={true}
+            primary={true}
             onTouchTap={() => {
               store.deleteVacancy(this.tmpVacancy.id);
               this.dialog.delete = false;

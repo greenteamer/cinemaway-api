@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 
 
@@ -14,7 +15,7 @@ const DialogModal = observer(({rent, store, open, onClose}) => {
       primary={true}
       onTouchTap={onClose}
     />,
-    <FlatButton
+    <RaisedButton
       label="Submit"
       primary={true}
       onTouchTap={() => {

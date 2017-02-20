@@ -2,7 +2,8 @@ import React from 'react';
 import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
 // import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
+// import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 // import Dialog from 'material-ui/Dialog';
 import RentDialog from './RentDialog';
 
@@ -30,11 +31,12 @@ class RentItem extends React.Component {
     const rent = store.rents.find(rent => rent.id === id);
     return <div>
       <h1>{rent.name}</h1>
-      <FlatButton
+      <p>{rent.description}</p>
+      <RaisedButton
         label="Откликнуться"
+        primary={true}
         onTouchTap={() => this.onRequest(rent)}
       />
-      <p>{rent.description}</p>
       <RentDialog
         rent={this.rent}
         store={store}

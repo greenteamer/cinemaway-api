@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import TextField from 'material-ui/TextField';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dropzone from 'react-dropzone';
 
 
@@ -108,7 +109,7 @@ export default class RentDialog extends React.Component {
         primary={true}
         onTouchTap={this._handleCancelVacancy}
       />,
-      <FlatButton
+      <RaisedButton
         label="Сохранить"
         primary={true}
         onTouchTap={onSubmit ? onSubmit : this._handleSaveVacancy}

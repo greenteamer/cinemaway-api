@@ -36,10 +36,12 @@ class ResumeCard extends React.Component {
       <div className="flex justify-between">
         <div className="">
           <h1>{user.firstname} {user.lastname}</h1>
+          <img src={user.avatar} style={{ height: 200 }}/>
         </div>
       </div>
       {user.resume &&
-        <div>
+        <div className="mt3">
+          <h2>Резюме</h2>
           <Paper className="pa2" zDepth={1} >
             <List>
               <Subheader>Общая информация:</Subheader>

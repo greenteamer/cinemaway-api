@@ -12,7 +12,6 @@ import RentDialog from './RentDialog';
 const RentCard = ({rent, onRequest}) => <Card>
   <CardHeader
     title={rent.name}
-    subtitle="Subtitle"
     avatar={<IconButton style={{ width: '100', height: '70', margin: '4px', padding: '0px'}}>
       <img src={rent.image} />
     </IconButton>}

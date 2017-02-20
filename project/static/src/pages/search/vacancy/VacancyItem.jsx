@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import VacancyDialog from './VacancyDialog';
 
 
@@ -25,11 +25,12 @@ class VacancyCard extends React.Component {
     const vacancy = store.vacancies.find(v => v.id === id);
     return <div>
       <h1>{vacancy.name}</h1>
-      <FlatButton
+      <p>{vacancy.description}</p>
+      <RaisedButton
         label="Откликнуться"
+        primary={true}
         onTouchTap={this.onRequest}
       />
-      <p>{vacancy.description}</p>
       <VacancyDialog
         vacancy={vacancy}
         store={store}
