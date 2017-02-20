@@ -52,8 +52,6 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         default=False
     )
 
-
-    # Django require define this method
     def get_full_name(self):
         return self.email
 
