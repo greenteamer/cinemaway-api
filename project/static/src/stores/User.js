@@ -20,12 +20,6 @@ export default class User {
     this.groups.replace([value]);
   }
 
-  // @action toggleRubric(value) {
-  //   const newArr = this.rubrics.includes(value)
-  //     ? this.rubrics.filter(r => r !== value)
-  //     : [...this.rubrics, value];
-  //   this.rubrics.replace(newArr);
-  // }
 
   @action setData(name, value) {
     this[name] = value;

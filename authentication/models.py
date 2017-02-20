@@ -52,9 +52,6 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         default=False
     )
 
-    #  rubrics = models.ManyToManyField('core.Rubric')
-
-    # Django require define this method
     def get_full_name(self):
         return self.email
 
@@ -98,6 +95,8 @@ class Resume(models.Model):
     ad = models.TextField(blank=True, null=True)
     languages = models.TextField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
+
+    rubrics = models.ManyToManyField('core.Rubric')
 
     class Meta:
         verbose_name = u'Резюме'

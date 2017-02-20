@@ -25,7 +25,15 @@ export default class Resume {
       }
     }
   }
+
+  @action toggleRubric(value) {
+    const newArr = this.rubrics.includes(value)
+      ? this.rubrics.filter(r => r !== value)
+      : [...this.rubrics, value];
+    this.rubrics.replace(newArr);
+  }
 }
+
 
 const initialData = {
   phone: '',
@@ -35,5 +43,6 @@ const initialData = {
   ad: '',
   languages: '',
   text: '',
+  rubrics: [],
 };
 
