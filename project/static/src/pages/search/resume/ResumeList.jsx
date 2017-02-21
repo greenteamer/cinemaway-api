@@ -92,6 +92,11 @@ export default class ResumeList extends React.Component {
       }}>
         <h5 className="pa3">Рубрики: </h5>
         <List>
+          <ListItem
+            primaryText="Показать все"
+            onTouchTap={() => { this.rubricFilter = null; }}
+            style={{}}
+          />
           {store.rubrics.length !== 0 &&
               store.rubrics.map(r => <ListItem
                 value={r.id}
