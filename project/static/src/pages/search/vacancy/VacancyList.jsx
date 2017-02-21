@@ -6,19 +6,25 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
 import VacancyDialog from './VacancyDialog';
+import Paper from 'material-ui/Paper';
+import { List, ListItem } from 'material-ui/List';
 
-const VacancySubtitle = ({vacancy}) => {
+const VacancySubtitle = ({vacancy, store}) => {
   const rubrics = store.rubrics.filter(r => vacancy.rubrics.includes(r.id));
   return <div>
     <p className="mb0 b">{vacancy.price}</p>
     {rubrics.map(r => <span>{r.name}, </span>)}
   </div>;
 };
+VacancySubtitle.propTypes = {
+  vacancy: React.PropTypes.object,
+  store: React.PropTypes.object,
+};
 
-const VacancyCard = ({vacancy, onRequest}) => <Card>
+const VacancyCard = ({vacancy, onRequest, store}) => <Card className="mb3">
   <CardHeader
     title={vacancy.name}
-    subtitle={<VacancySubtitle vacancy={vacancy} />}
+    subtitle={<VacancySubtitle store={store} vacancy={vacancy} />}
     actAsExpander={true}
     showExpandableButton={true}
   />
@@ -39,6 +45,7 @@ const VacancyCard = ({vacancy, onRequest}) => <Card>
 </Card>;
 VacancyCard.propTypes = {
   vacancy: React.PropTypes.object,
+  store: React.PropTypes.object,
   onRequest: React.PropTypes.func,
 };
 
@@ -50,6 +57,7 @@ export default class VacancyList extends React.Component {
   @observable tmpObj = { text: '' };
   @observable vacancy = { id: null, owner: null };
   @observable workerId = null;
+  @observable rubricFilter = null;
 
   static propTypes = {
     store: React.PropTypes.object,
@@ -70,20 +78,46 @@ export default class VacancyList extends React.Component {
     this.vacancy.owner = vacancy.owner;
   }
 
+  handleFilter = (e) => {
+    this.rubricFilter = e;
+  }
+
   render() {
     const { store, vacancies } = this.props;
-    console.log('store.avaliableVacancies: ', store.avaliableVacancies);
-    return <div>
-      {vacancies.length &&
-        vacancies.map((vacancy, key) => {
-          return <VacancyCard
-            key={key}
-            vacancy={vacancy}
-            onRequest={this._handleOnRequest}
-          />;
-        }) ||
-        <h1>Нет доступных вакансий</h1>
-      }
+    const filteredVacancy = this.rubricFilter
+      ? vacancies.filter(v => v.rubrics.includes(this.rubricFilter))
+      : vacancies;
+    return <div className="flex">
+      <Paper style={{
+        display: 'inline-block',
+        margin: '16px 32px 16px 2px',
+        width: '30%',
+      }}>
+        <h5 className="pa3">Рубрики: </h5>
+        <List>
+          {store.rubrics.length !== 0 &&
+              store.rubrics.map(r => <ListItem
+                value={r.id}
+                primaryText={r.name}
+                onTouchTap={() => this.handleFilter(r.id)}
+                style={{}}
+              />)
+          }
+        </List>
+      </Paper>
+      <div className="mt3 mr1 w-100">
+        {filteredVacancy.length &&
+            filteredVacancy.map((vacancy, key) => {
+              return <VacancyCard
+                key={key}
+                vacancy={vacancy}
+                onRequest={this._handleOnRequest}
+                store={store}
+              />;
+            }) ||
+            <h1>Нет доступных вакансий</h1>
+        }
+      </div>
       <VacancyDialog
         vacancy={this.vacancy}
         store={store}

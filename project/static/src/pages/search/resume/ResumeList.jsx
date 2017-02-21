@@ -8,6 +8,8 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
 import ResumeDialog from './ResumeDialog';
+import { List, ListItem } from 'material-ui/List';
+import Paper from 'material-ui/Paper';
 
 
 const ResumeCard = ({worker, onRequest}) => <Card>
@@ -48,6 +50,7 @@ export default class ResumeList extends React.Component {
   @observable tmpObj = { text: '' };
   @observable vacancy = { id: null };
   @observable workerId = null;
+  @observable rubricFilter = null;
 
   static propTypes = {
     store: React.PropTypes.object,
@@ -72,19 +75,45 @@ export default class ResumeList extends React.Component {
     this.workerId = worker.id;
   }
 
+  handleFilter = (e) => {
+    this.rubricFilter = e;
+  }
+
   render() {
     const { store, workers } = this.props;
-    return <div className="">
-      {workers.length &&
-        workers.map((worker, key) => {
-          return <ResumeCard
-            key={key}
-            worker={worker}
-            onRequest={this._handleOnRequest}
-          />;
-        }) ||
-        <h1>Нет доступных резюме</h1>
-      }
+    const filteredWorkers = this.rubricFilter
+      ? workers.filter(w => w.resume.rubrics.includes(this.rubricFilter))
+      : workers;
+    return <div className="flex">
+      <Paper style={{
+        display: 'inline-block',
+        margin: '16px 32px 16px 2px',
+        width: '30%',
+      }}>
+        <h5 className="pa3">Рубрики: </h5>
+        <List>
+          {store.rubrics.length !== 0 &&
+              store.rubrics.map(r => <ListItem
+                value={r.id}
+                primaryText={r.name}
+                onTouchTap={() => this.handleFilter(r.id)}
+                style={{}}
+              />)
+          }
+        </List>
+      </Paper>
+      <div className="mt3 mr1 w-100">
+        {filteredWorkers.length &&
+            filteredWorkers.map((worker, key) => {
+              return <ResumeCard
+                key={key}
+                worker={worker}
+                onRequest={this._handleOnRequest}
+              />;
+            }) ||
+            <h1>Нет доступных резюме</h1>
+        }
+      </div>
       <ResumeDialog
         vacancy={this.vacancy}
         store={store}
