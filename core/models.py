@@ -25,6 +25,23 @@ class Rubric(MPTTModel):
         return "/rubrics/%s/" % self.id
 
 
+class RentRubric(MPTTModel):
+    name = models.CharField(max_length=200)
+    parent = TreeForeignKey('self', related_name='children', blank=True, null=True)
+    image = models.ImageField(blank=True, null=True, upload_to="category")
+
+    class Meta:
+        verbose_name = u'Рубрика аренды'
+        verbose_name_plural = u'Рубрики аренды'
+
+    def __unicode__(self):
+        return self.name
+
+    @property
+    def url(self):
+        return "/rent-rubrics/%s/" % self.id
+
+
 class Vacancy(models.Model):
     owner = models.ForeignKey(ExtUser)
     name = models.CharField(max_length=200)
@@ -47,6 +64,7 @@ class Vacancy(models.Model):
 class Rent(models.Model):
     owner = models.ForeignKey(ExtUser)
     name = models.CharField(max_length=200)
+    rentRubrics = models.ManyToManyField(RentRubric, blank=True, null=True)
     description = models.TextField(blank=True)
     price = models.CharField(max_length=200, blank=True)
     image = models.ImageField(blank=True, null=True, upload_to="rent")

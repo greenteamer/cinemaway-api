@@ -1,4 +1,4 @@
-import { action, autorun, observable, runInAction, computed, toJS} from 'mobx';
+import { action, observable, runInAction, computed, toJS} from 'mobx';
 import * as API from '../api';
 import User from './User';
 import Resume from './Resume';
@@ -21,6 +21,7 @@ class Store extends singleton {
   @observable resumes = [];
   @observable dialog = {};
   @observable rubrics = [];
+  @observable rentRubrics = [];
   @observable vacancies = [];
   @observable rents = [];
   @observable userRequests = [];
@@ -67,6 +68,7 @@ class Store extends singleton {
         this.resumes.replace(response.resumes.map(r => new Resume(r)));
         this.groups.replace(response.groups);
         this.rubrics.replace(response.rubrics);
+        this.rentRubrics.replace(response.rentRubrics);
         this.vacancies.replace(response.vacancies.map(v => new Vacancy(v)));
         this.rents.replace(response.rents.map(rent => new Rent(rent)));
         this.userRequests.replace(response.requests.map(req => new UserRequest(req)));
@@ -134,7 +136,7 @@ class Store extends singleton {
     if (checkOwner && checkSubject) {
       const userRequest = new UserRequest(userRequestObj);
       userRequest.save();
-      const { owner, object } = userRequestObj;
+      // const { owner, object } = userRequestObj;
       // await API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {owner, object});
     }
     else {

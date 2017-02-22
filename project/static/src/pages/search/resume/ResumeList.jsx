@@ -98,7 +98,8 @@ export default class ResumeList extends React.Component {
             style={{}}
           />
           {store.rubrics.length !== 0 &&
-              store.rubrics.map(r => <ListItem
+              store.rubrics.map(( r, index ) => <ListItem
+                key={index}
                 value={r.id}
                 primaryText={r.name}
                 onTouchTap={() => this.handleFilter(r.id)}

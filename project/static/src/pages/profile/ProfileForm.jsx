@@ -80,15 +80,6 @@ export default class ProfileForm extends Component {
         value={user.lastname ? user.lastname : ''}
         onChange={this._handleFieldChange}/>
 
-      <TextField
-        name="text"
-        multiLine={true}
-        value={user.text ? user.text : ''}
-        rows={3}
-        fullWidth={true}
-        onChange={this._handleFieldChange}
-        floatingLabelText="Дополнительные сведения о себе" />
-
       <RaisedButton
         label="Сохранить профиль"
         primary={true}

@@ -13,7 +13,7 @@ const VacancySubtitle = ({vacancy, store}) => {
   const rubrics = store.rubrics.filter(r => vacancy.rubrics.includes(r.id));
   return <div>
     <p className="mb0 b">{vacancy.price}</p>
-    {rubrics.map(r => <span>{r.name}, </span>)}
+    {rubrics.map((r, index) => <span key={index}>{r.name}, </span>)}
   </div>;
 };
 VacancySubtitle.propTypes = {
@@ -101,12 +101,33 @@ export default class VacancyList extends React.Component {
             style={{}}
           />
           {store.rubrics.length !== 0 &&
-              store.rubrics.map(r => <ListItem
+            store.rubrics.map(( r, index ) => {
+              if (r.level !== 0) return null;
+              const children = store.rubrics.filter(rubric => rubric.parent === r.id);
+              if (children.length !== 0) {
+                return <ListItem
+                  key={index}
+                  value={r.id}
+                  primaryText={r.name}
+                  onNestedListToggle={() => this.handleFilter(r.id)}
+                  initiallyOpen={false}
+                  primaryTogglesNestedList={true}
+                  nestedItems={children.map((rr, index) => <ListItem
+                    key={index}
+                    value={rr.id}
+                    primaryText={rr.name}
+                    onTouchTap={() => this.handleFilter(rr.id)}
+                  />)}
+                />;
+              }
+              return <ListItem
+                key={index}
                 value={r.id}
                 primaryText={r.name}
                 onTouchTap={() => this.handleFilter(r.id)}
                 style={{}}
-              />)
+              />;
+            })
           }
         </List>
       </Paper>

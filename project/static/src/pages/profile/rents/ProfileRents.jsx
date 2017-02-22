@@ -3,9 +3,9 @@ import { observable, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import RentForm from './RentForm';
 import RentsTable from './RentsTable';
-import styles from '../styles';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+// import styles from '../styles';
+// import FloatingActionButton from 'material-ui/FloatingActionButton';
+// import ContentAdd from 'material-ui/svg-icons/content/add';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
@@ -62,4 +62,5 @@ const initialRent = {
   owner: null,
   image: null,
   imageFile: null,
+  rentRubrics: [],
 };

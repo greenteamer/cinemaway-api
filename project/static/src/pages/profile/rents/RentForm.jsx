@@ -5,6 +5,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dropzone from 'react-dropzone';
+import Checkbox from 'material-ui/Checkbox';
 
 
 @inject('store') @observer
@@ -26,9 +27,18 @@ export class RentFormFields extends Component {
     rent.imageFile = acceptedFiles[0];
   }
 
+  _handleRubricOnCheck = (e) => {
+    const { rent } = this.props;
+    const value = parseInt(e.target.value, 10);
+    const newArr = rent.rentRubrics.includes(value)
+      ? rent.rentRubrics.filter(r => r !== value)
+      : [...rent.rentRubrics, value];
+    rent.rentRubrics.replace(newArr);
+  }
+
   render() {
     const { rent } = this.props;
-    console.log('test console log: ', rent);
+    const { store: { rentRubrics } } = this.props;
     return <div className="row">
 
       <div className="col-sm-12 col-md-6">
@@ -75,6 +85,17 @@ export class RentFormFields extends Component {
           defaultValue={rent.price}
           onChange={(e) => { rent.price = parseInt( e.target.value, 10 ); }}
         />
+
+        <h4>Выберите подходящие рубрики</h4>
+        {rentRubrics.length !== 0
+          && rentRubrics.map((rubric, key) => <Checkbox
+              key={key}
+              label={rubric.name}
+              checked={rent.rentRubrics.includes(rubric.id)}
+              onCheck={this._handleRubricOnCheck}
+              value={rubric.id}
+            />
+        )}
 
       </div>
     </div>;
