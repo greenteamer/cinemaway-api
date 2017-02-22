@@ -8,6 +8,7 @@ import { browserHistory } from 'react-router';
 import VacancyDialog from './VacancyDialog';
 import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
+import IconButton from 'material-ui/IconButton';
 
 const VacancySubtitle = ({vacancy, store}) => {
   const rubrics = store.rubrics.filter(r => vacancy.rubrics.includes(r.id));
@@ -24,6 +25,14 @@ VacancySubtitle.propTypes = {
 const VacancyCard = ({vacancy, onRequest, store}) => <Card className="mb3">
   <CardHeader
     title={vacancy.name}
+    avatar={<div style={{ width: '100px', float: 'right', marginRight: '30px' }}>
+      <IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px', textAlign: 'right' }}>
+        <img src={vacancy.ownerObj.avatar} />
+      </IconButton>
+      <p onTouchTap={() => browserHistory.push(vacancy.ownerObj.absoluteUrl)}>
+        {vacancy.ownerObj.fullName}
+      </p>
+    </div>}
     subtitle={<VacancySubtitle store={store} vacancy={vacancy} />}
     actAsExpander={true}
     showExpandableButton={true}
