@@ -58,7 +58,7 @@ class RentRubricSZ(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
 
     class Meta:
-        model = Rubric
+        model = RentRubric
         fields = ('url', 'id', 'name', 'parent', 'image', 'level', 'tree_id')
 
 class VacancySZ(serializers.ModelSerializer):
