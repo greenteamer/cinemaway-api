@@ -38,6 +38,10 @@ export default class Rent {
     }
   }
 
+  @computed get ownerObj() {
+    return store.users.find(user => user.id === this.owner);
+  }
+
   @computed get absoluteUrl() {
     return `/rents/${this.id}`;
   }

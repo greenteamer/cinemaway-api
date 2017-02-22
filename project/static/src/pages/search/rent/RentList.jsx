@@ -14,9 +14,19 @@ import { List, ListItem } from 'material-ui/List';
 const RentCard = ({rent, onRequest}) => <Card className="mb3">
   <CardHeader
     title={rent.name}
-    avatar={<IconButton style={{ width: '100', height: '70', margin: '4px', padding: '0px'}}>
-      <img src={rent.image} />
-    </IconButton>}
+    avatar={<div className="flex justify-between">
+      <IconButton style={{ width: '100', height: '70', margin: '4px', padding: '0px' }}>
+        <img src={rent.image} />
+      </IconButton>
+      <div style={{width: '100px', marginRight: '30px'}}>
+        <IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px', textAlign: 'right' }}>
+          <img src={rent.ownerObj.avatar} />
+        </IconButton>
+        <p onTouchTap={() => browserHistory.push(rent.ownerObj.absoluteUrl)}>
+          {rent.ownerObj.fullName}
+        </p>
+      </div>
+    </div>}
     actAsExpander={true}
     showExpandableButton={true}
   />
@@ -32,7 +42,9 @@ const RentCard = ({rent, onRequest}) => <Card className="mb3">
     />
   </CardActions>
   <CardText expandable={true}>
-    {rent.description}
+    <div>
+      {rent.description}
+    </div>
   </CardText>
 </Card>;
 RentCard.propTypes = {
