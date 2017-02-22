@@ -12,7 +12,7 @@ import { List, ListItem } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
 
 
-const ResumeCard = ({worker, onRequest}) => <Card>
+const ResumeCard = ({worker, onRequest}) => <Card className="mb3">
   <CardHeader
     title={`${worker.firstname} ${worker.lastname}`}
     avatar={<IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px' }}>

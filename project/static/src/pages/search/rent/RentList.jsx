@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 
 
-const RentCard = ({rent, onRequest}) => <Card>
+const RentCard = ({rent, onRequest}) => <Card className="mb3">
   <CardHeader
     title={rent.name}
     avatar={<IconButton style={{ width: '100', height: '70', margin: '4px', padding: '0px'}}>
