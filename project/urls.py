@@ -18,6 +18,8 @@ router.register(r'vacancies', viewsets.VacancyViewSet)
 router.register(r'rents', viewsets.RentViewSet)
 router.register(r'requests', viewsets.UserRequestViewSet)
 router.register(r'responses', viewsets.UserResponseViewSet)
+router.register(r'messages', viewsets.MessageViewSet)
+router.register(r'rooms', viewsets.RoomViewSet)
 
 
 urlpatterns = [

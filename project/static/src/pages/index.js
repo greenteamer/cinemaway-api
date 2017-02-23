@@ -12,6 +12,8 @@ import RentItem from './search/rent/RentItem';
 import ResumeItem from './search/resume/ResumeItem';
 import { Requests } from './profile/requests';
 import SearchPage from './search';
+import Rooms from './profile/messages/Rooms';
+import Messages from './profile/messages/Messages';
 
 
 export {
@@ -28,5 +30,7 @@ export {
   RentItem,
   ResumeItem,
   Requests,
+  Rooms,
+  Messages,
   SearchPage,
 };

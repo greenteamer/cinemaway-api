@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # custom apps:
     'authentication',
     'core',
+    'rooms',
     'restapi'
 ]
 

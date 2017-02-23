@@ -39,6 +39,7 @@ class Logged extends Component {
       anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
       <MenuItem className="menu-item" primaryText="Мой профиль" onTouchTap={() => browserHistory.push('/profile')}/>
+      <MenuItem className="menu-item" primaryText="Мои сообщения" onTouchTap={() => browserHistory.push('/profile/rooms')}/>
       <MenuItem className="menu-item" primaryText="Мои вакансии" onTouchTap={() => browserHistory.push('/profile/vacancies')}/>
       <MenuItem className="menu-item" primaryText="Мои отклики" onTouchTap={() => browserHistory.push('/profile/requests')}/>
       <MenuItem className="menu-item" primaryText="Моя аренда" onTouchTap={() => browserHistory.push('/profile/rents')}/>

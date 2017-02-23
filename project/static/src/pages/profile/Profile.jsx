@@ -7,7 +7,6 @@ import {CardHeader, CardTitle } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 // import RaisedButton from 'material-ui/RaisedButton';
 import TableRequests from '../../components/requests/TableRequests';
-
 import styles from './styles';
 import ProfileForm from './ProfileForm';
 import ResumeForm from './ResumeForm';

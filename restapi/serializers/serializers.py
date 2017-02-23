@@ -3,6 +3,7 @@ from rest_framework import serializers
 from authentication.models import Resume, Company
 # from django.contrib.auth.models import User
 from core.models import Rubric, Vacancy, UserRequest, UserResponse, Rent, RentRubric
+from rooms.models import Message, Room
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -91,3 +92,17 @@ class UserResponseSZ(serializers.ModelSerializer):
     class Meta:
         model = UserResponse
         fields = ('id', 'owner', 'userRequest', 'status', 'text')
+
+
+class MessageSZ(serializers.ModelSerializer):
+
+    class Meta:
+        model = Message
+        fields = ('id', 'owner', 'object', 'text', 'room')
+
+
+class RoomSZ(serializers.ModelSerializer):
+
+    class Meta:
+        model = Room
+        fields = ('id', 'user1', 'user2')
