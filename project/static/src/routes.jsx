@@ -17,6 +17,7 @@ import {
   ProfileRentItem,
   Requests,
   RequestItem,
+  // Messages,
 } from './pages';
 import { Layout, BGLayout } from './components';
 import { Nav } from './components/Nav';

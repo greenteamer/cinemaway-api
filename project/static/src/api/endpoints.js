@@ -30,3 +30,5 @@ export const DELETE_USERRESPONSE = (id) => ({url: `api/v1/responses/${id}/`, met
 
 export const SEND_REQUEST_MAIL = () => ({url: 'send-mail/', method: 'POST'});
 export const SEND_RESPONSE_MAIL = () => ({url: 'send-mail/', method: 'POST'});
+
+export const POST_MESSAGE = () => ({url: 'api/v1/messages/', method: 'POST'});

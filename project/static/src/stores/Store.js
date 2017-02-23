@@ -6,6 +6,8 @@ import Vacancy from './Vacancy';
 import Rent from './Rent';
 import UserRequest from './UserRequest';
 import UserResponse from './UserResponse';
+import Message from './Message';
+import Room from './Room';
 import uiStore from './UIStore';
 import singleton from 'singleton';
 import { browserHistory } from 'react-router';
@@ -26,6 +28,8 @@ class Store extends singleton {
   @observable rents = [];
   @observable userRequests = [];
   @observable userResponses = [];
+  @observable messages = [];
+  @observable rooms = [];
 
   constructor() {
     super();
@@ -73,6 +77,8 @@ class Store extends singleton {
         this.rents.replace(response.rents.map(rent => new Rent(rent)));
         this.userRequests.replace(response.requests.map(req => new UserRequest(req)));
         this.userResponses.replace(response.responses.map(res => new UserResponse(res)));
+        this.messages.replace(response.messages.map(res => new Message(res)));
+        this.rooms.replace(response.rooms.map(res => new Room(res)));
       }
       uiStore.finishLoading();
     });
@@ -125,6 +131,13 @@ class Store extends singleton {
     newObj.save();
   }
 
+  @action addMessage(text, object) {
+    const owner = this.user.id;
+    const room = this.findRoom(owner, object).id;
+    const newObj = new Message({ text, owner, object, room });
+    newObj.save();
+  }
+
   @action deleteRent = async (id) => {
     await API.request(API.ENDPOINTS.DELETE_RENT(id));
     this.rents.replace(this.rents.filter(rent => rent.id !== id));
@@ -153,6 +166,19 @@ class Store extends singleton {
     const userResponse = new UserResponse({owner, userRequest, status, text});
     userResponse.save();
   }
+
+  findRoom = (user1, user2) => {
+    return this.rooms.find(r => {
+      const condition1 = r.user1 === user1 && r.user2 === user2;
+      const condition2 = r.user2 === user1 && r.user1 === user2;
+      return condition1 || condition2;
+    });
+  }
+
+  findMessgaes = (user1, user2) => {
+    const room = this.findRoom(user1, user2);
+    return observable(this.messages.filter(m => room ? room.id === m.room : false));
+  }
 }
 
 const store = Store.get();
@@ -172,4 +198,6 @@ const initialData = {
   rents: [],
   userRequests: [],
   userResponses: [],
+  messages: [],
+  rooms: [],
 };
