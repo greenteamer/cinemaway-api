@@ -32,3 +32,4 @@ export const SEND_REQUEST_MAIL = () => ({url: 'send-mail/', method: 'POST'});
 export const SEND_RESPONSE_MAIL = () => ({url: 'send-mail/', method: 'POST'});
 
 export const POST_MESSAGE = () => ({url: 'api/v1/messages/', method: 'POST'});
+export const POST_ROOM = () => ({url: 'api/v1/rooms/', method: 'POST'});

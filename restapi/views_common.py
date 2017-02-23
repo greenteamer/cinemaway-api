@@ -50,7 +50,7 @@ def all_data(request):
     messages_q = Message.objects.filter(Q(owner=request.user.id) | Q(object=request.user.id))
     messages_sz = MessageSZ(messages_q, many=True)
 
-    rooms_q = Room.objects.all()
+    rooms_q = Room.objects.filter(Q(user1=request.user.id) | Q(user2=request.user.id))
     rooms_sz = RoomSZ(rooms_q, many=True)
 
     response_object = {

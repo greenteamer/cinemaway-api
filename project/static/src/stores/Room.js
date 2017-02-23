@@ -24,7 +24,9 @@ export default class Room {
   }
 
   @computed get messages() {
-    return store.messages.filter(m => m.room === this.id);
+    const messages = observable(store.messages.filter(m => m.room === this.id));
+    console.log('room.js messages: ', toJS(messages));
+    return messages;
   }
 
   @computed get user1Obj() {
@@ -33,6 +35,13 @@ export default class Room {
 
   @computed get user2Obj() {
     return store.users.find(u => u.id === this.user2);
+  }
+
+  @computed get objectObj() {
+    if (this.user1 !== store.user.id) {
+      return this.user1Obj;
+    }
+    return this.user2Obj;
   }
 
 }

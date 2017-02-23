@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Link } from 'react-router';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { observable, toJS } from 'mobx';
 // import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 // import {CardHeader, CardTitle } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
@@ -32,6 +32,7 @@ export default class MessageList extends React.Component {
 
   render() {
     const { messages, sendMessage } = this.props;
+    console.log('messages: ', toJS(messages));
     return <Paper zDepth={1} rounded={false} className="mt4 pa3">
       <h3>Сообщения</h3>
       {messages.length !== 0 &&

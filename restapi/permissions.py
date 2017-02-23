@@ -23,9 +23,6 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 class IsOwnerOrObjectReadOnly(permissions.BasePermission):
 
-    #  def has_permission(self, request, view):
-    #      return obj.owner.id == request.user.id
-
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             isOwner = obj.owner.id == request.user.id
@@ -33,3 +30,16 @@ class IsOwnerOrObjectReadOnly(permissions.BasePermission):
             return isOwner or isObject
 
         return obj.owner.id == request.user.id
+
+
+class IsPostOrMemberSafe(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            isUser1 = obj.user1 == request.user.id
+            isUser2 = obj.user2 == request.user.id
+            return isUser1 or isUser2
+            #  return True
+
+        if request.method == 'POST':
+            return True

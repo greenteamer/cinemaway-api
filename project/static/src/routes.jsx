@@ -17,7 +17,8 @@ import {
   ProfileRentItem,
   Requests,
   RequestItem,
-  // Messages,
+  Rooms,
+  Messages,
 } from './pages';
 import { Layout, BGLayout } from './components';
 import { Nav } from './components/Nav';
@@ -51,6 +52,10 @@ export const routes = <Router history={browserHistory}>
       <IndexRoute components={{ content: Rubrics, nav: Nav}} />
       <Route path="profile">
         <IndexRoute components={{ content: Profile, nav: Nav }} />
+        <Route path="rooms" >
+          <IndexRoute components={{ content: Rooms, nav: Nav}}/>
+          <Route path=":roomId" components={{ content: Messages, nav: Nav}}/>
+        </Route>
         <Route path="vacancies" >
           <IndexRoute components={{ content: Vacancies, nav: Nav}}/>
           <Route path=":vacancyId" components={{ content: ProfileVacancyItem, nav: Nav}}/>

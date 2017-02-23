@@ -102,5 +102,12 @@ class MessageViewSet(viewsets.ModelViewSet):
 
 
 class RoomViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsPostOrMemberSafe, )
     queryset = Room.objects.all()
     serializer_class = serializers.RoomSZ
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Room.objects.all()
+        else:
+            return Room.objects.filter(Q(user1=self.request.user.id) | Q(user2=self.request.user.id))

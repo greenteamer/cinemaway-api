@@ -1,13 +1,11 @@
 import React from 'react';
 import { observer, inject } from 'mobx-react';
 import { observable } from 'mobx';
-// import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ResumeDialog from './ResumeDialog';
 import Paper from 'material-ui/Paper';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-// import RoomList from '../../../components/messages/RoomList';
 import MessageList from '../../../components/messages/MessageList';
 
 
@@ -88,9 +86,7 @@ class ResumeCard extends React.Component {
         }
       </div>
       <div className="col-xs-12 col-md-4">
-        {messages.length !== 0 &&
-          <MessageList messages={messages} sendMessage={this.handleSendMessage}/>
-        }
+        <MessageList messages={messages} sendMessage={this.handleSendMessage}/>
       </div>
     </div>;
   }

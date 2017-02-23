@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-// import { observable } from 'mobx';
+import { observable } from 'mobx';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -12,9 +12,10 @@ export default class MessageForm extends React.Component {
     sendMessage: React.PropTypes.func,
   }
 
+  @observable message = '';
+
   render() {
     const { sendMessage } = this.props;
-    let { message } = this.props;
     return <div>
       <h5 className="mv3">Написать сообщение</h5>
       <TextField
@@ -23,13 +24,17 @@ export default class MessageForm extends React.Component {
         multiLine={true}
         onChange={(e, value) => {
           console.log('text field on change: ', value);
-          message = value;
+          this.message = value;
         }}
+        value={this.message}
         rows={2}
       />
       <RaisedButton
         primary={true}
-        onTouchTap={() => sendMessage(message)}
+        onTouchTap={() => {
+          sendMessage(this.message);
+          this.message = '';
+        }}
         label="Отправить"
       />
     </div>;

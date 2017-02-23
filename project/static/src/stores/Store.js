@@ -131,11 +131,25 @@ class Store extends singleton {
     newObj.save();
   }
 
-  @action addMessage(text, object) {
+  @action addMessage = async (text, object) => {
     const owner = this.user.id;
-    const room = this.findRoom(owner, object).id;
-    const newObj = new Message({ text, owner, object, room });
-    newObj.save();
+    const roomObj = this.findRoom(owner, object);
+    let room = null;
+    if (roomObj) {
+      room = roomObj.id;
+      const newObj = new Message({ text, owner, object, room });
+      newObj.save();
+    }
+    else {
+      const user2 = store.users.find(u => u.id === object);
+      const response = await API.request(API.ENDPOINTS.POST_ROOM(), {user1: this.user.id, user2: user2.id});
+      if (response) {
+        this.rooms.push(new Room(response));
+        room = response.id;
+        const newObj = new Message({ text, owner, object, room });
+        newObj.save();
+      }
+    }
   }
 
   @action deleteRent = async (id) => {
