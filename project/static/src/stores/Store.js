@@ -1,4 +1,4 @@
-import { action, observable, runInAction, computed, toJS} from 'mobx';
+import { action, autorun, observable, runInAction, computed, toJS} from 'mobx';
 import * as API from '../api';
 import User from './User';
 import Resume from './Resume';
@@ -30,31 +30,28 @@ class Store extends singleton {
   @observable userResponses = [];
   @observable messages = [];
   @observable rooms = [];
+  @observable geolocation = {
+    fullCity: '',
+  }
 
   constructor() {
     super();
     this.getAllData();
-
-    // autorun(() => {
-    //   if (!this.user) {
-    //     browserHistory.push('/auth');
-    //   }
-    //   else {
-    //     browserHistory.push('/profile');
-    //   }
-    // });
+    autorun(() => {
+      if (this.user && this.user.resume && this.user.resume.city === '') {
+        getCity();
+      }
+    });
   }
 
   @computed get avaliableVacancies() {
-    // if (!this.user) return [];
-    // return observable(this.vacancies.filter(v => {
-    //   return !this.user.inputRequests.map(req => req.vacancy).includes(v.id);
-    // }));
     return this.vacancies;
   }
 
   @computed get workers() {
-    return observable(this.users.filter(user => !!user.resume));
+    return observable(this.users.filter(user => {
+      return user.resume ? user.resume.isActive : false;
+    }));
   }
 
   @action clearData() {
@@ -65,7 +62,7 @@ class Store extends singleton {
     uiStore.startLoading();
     console.log('Store getAllData ');
     const response = await API.request(API.ENDPOINTS.GET_ALL_DATA());
-    runInAction('update state after fetching data', () => {
+    runInAction('update state after fetching data', async () => {
       if (response) {
         this.user = response.user ? new User(response.user) : response.user;
         this.users.replace(response.users.map(u => new User(u)));
@@ -215,3 +212,23 @@ const initialData = {
   messages: [],
   rooms: [],
 };
+
+
+function getCity() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const point = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+      new google.maps.Geocoder().geocode({latLng: point}, (res, status) => {
+        if (status === google.maps.GeocoderStatus.OK && typeof res[0] !== 'undefined') {
+          const obj = res.find(r => r.types.includes('locality'));
+          if (obj) {
+            store.geolocation.fullCity = obj.formatted_address;
+            store.user.resume.city = obj.formatted_address;
+          }
+        }
+      });
+    }, () => {
+      console.log('geoposition error');
+    });
+  }
+}

@@ -14,11 +14,12 @@ export default class Resume {
 
   @action save = async () => {
     this.owner = store.user.id;
+    const obj = toJS(this);
     if (this.id) {
-      await API.request(API.ENDPOINTS.PUT_RESUME(this.id), toJS(this));
+      await API.request(API.ENDPOINTS.PUT_RESUME(obj.id), obj);
     }
     else {
-      const response = await API.request(API.ENDPOINTS.POST_RESUME(), toJS(this));
+      const response = await API.request(API.ENDPOINTS.POST_RESUME(), obj);
       if (response) {
         this.id = response.id;
         store.resumes.push(this);
@@ -32,6 +33,11 @@ export default class Resume {
       : [...this.rubrics, value];
     this.rubrics.replace(newArr);
   }
+
+  @action toggleActive() {
+    console.log('Resume store: ', toJS(this));
+    this.isActive = !this.isActive;
+  }
 }
 
 
@@ -43,6 +49,7 @@ const initialData = {
   ad: '',
   languages: '',
   text: '',
+  isActive: true,
   rubrics: [],
 };
 

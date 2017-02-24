@@ -96,7 +96,9 @@ class Resume(models.Model):
     languages = models.TextField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
 
-    rubrics = models.ManyToManyField('core.Rubric')
+    rubrics = models.ManyToManyField('core.Rubric', blank=True, null=True)
+
+    isActive = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = u'Резюме'

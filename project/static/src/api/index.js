@@ -39,6 +39,9 @@ function toFormData(obj) {
         formData.append(`${key}`, obj[key][i]);
       }
     }
+    else if (typeof obj[key] === 'boolean') {
+      formData.append(key, obj[key] ? 'true' : 'false');
+    }
     else {
       formData.append(key, obj[key] ? obj[key] : '');
     }

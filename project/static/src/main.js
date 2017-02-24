@@ -6,6 +6,7 @@ import './styles/base.sass';
 import './styles/tachyons.css';
 import './styles/_px_sizing.sass';
 import './styles/_rem_sizing.sass';
+import './styles/geosuggest.css';
 // libs
 // import '../bower_components/bootstrap-material-design/js/base';
 // import '../bower_components/bootstrap-material-design/dist/js/material';
