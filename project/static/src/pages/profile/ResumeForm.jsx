@@ -56,6 +56,10 @@ export default class ResumeForm extends Component {
     user.resume.city = suggest.label;
   }
 
+  handleCustomCity = (value) => {
+    user.resume.city = value;
+  }
+
   render() {
     const { store: { user, rubrics } } = this.props;
     if (!user) {
@@ -86,6 +90,7 @@ export default class ResumeForm extends Component {
           <Geosuggest
             placeholder="Ваш город"
             initialValue={resume.city}
+            onBlur={this.handleCustomCity}
             onSuggestSelect={this.onSuggestSelect}
           />
 
