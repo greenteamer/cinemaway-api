@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { inject, observer } from 'mobx-react';
-import { observable, toJS, extendObservable } from 'mobx';
+import { observable } from 'mobx';
 import TextField from 'material-ui/TextField';
 // import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,68 +12,48 @@ import Checkbox from 'material-ui/Checkbox';
 import styles from './styles';
 // import FlatButton from 'material-ui/FlatButton';
 // import { Modal, ModalManager, Effect } from '../../components/dialog';
+import Toggle from 'material-ui/Toggle';
+import Geosuggest from 'react-geosuggest';
 
 
 @inject('store', 'uiStore') @observer
 export default class ResumeForm extends Component {
 
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     populateProfile: false,
-  //   };
-  // }
   tmpResume = {};
   @observable open = false;
-
-  constructor(props) {
-    super();
-    const { store } = props;
-    extendObservable(this.tmpResume, initialData, store.user.resume ? toJS(store.user.resume) : {});
-  }
 
   static propTypes = {
     store: React.PropTypes.object,
     uiStore: React.PropTypes.object,
   }
 
-  // _handleFileChange = () => {
-  // }
-
   _handleSaveResume = () => {
-    // const { store: { user } } = this.props;
-    // user.resume.save();
-    const { store } = this.props;
-    store.addResume(toJS(this.tmpResume));
+    const { store: { user } } = this.props;
+    user.resume.save();
   }
 
   _handleOnPopulateProfile = () => {
     this.open = true;
-    // const { store } = this.props;
-    // store.addResume();
+    const { store } = this.props;
+    if (!store.user.resume) {
+      store.addResume();
+    }
   }
 
   _handleRubricOnCheck = (e) => {
-    // console.log('rubruc e: ', e.target.value);
-    // const { store } = this.props;
-    // const id = parseInt(e.target.value, 10);
-    // store.user.toggleRubric(id);
-
-    const value = parseInt(e.target.value, 10);
-    const newArr = this.tmpResume.rubrics.includes(value)
-      ? this.tmpResume.rubrics.filter(r => r !== value)
-      : [...this.tmpResume.rubrics, value];
-    this.tmpResume.rubrics.replace(newArr);
-  }
-
-  _openFileDialog = () => {
-    const fileUploadDom = ReactDOM.findDOMNode(this.refs.fileUpload);
-    fileUploadDom.click();
+    const { store } = this.props;
+    const id = parseInt(e.target.value, 10);
+    store.user.resume.toggleRubric(id);
   }
 
   _handleFieldChange = (e, value) => {
-    // const { store: { user } } = this.props;
-    this.tmpResume[e.target.name] = value;
+    const { store: { user } } = this.props;
+    user.resume[e.target.name] = value;
+  }
+
+  onSuggestSelect = (suggest) => {
+    const { store: { user } } = this.props;
+    user.resume.city = suggest.label;
   }
 
   render() {
@@ -81,9 +61,8 @@ export default class ResumeForm extends Component {
     if (!user) {
       return null;
     }
-    // const { resume } = user;
-    const resume = this.tmpResume;
-    // console.log('resume tmp : ', toJS(resume));
+    const { resume } = user;
+    const isOpen = this.open && resume;
     return <div style={styles.fields}>
       {!this.open &&
         <RaisedButton
@@ -93,17 +72,22 @@ export default class ResumeForm extends Component {
           onTouchTap={this._handleOnPopulateProfile} />
       }
 
-      {this.open &&
+      {isOpen &&
         <div>
           <h3>Заполните резюме</h3>
 
-          <TextField
-            type="text"
-            name="city"
-            value={resume.city ? resume.city : ''}
-            fullWidth={true}
-            onChange={this._handleFieldChange}
-            floatingLabelText="Город" />
+          <Toggle
+            label={resume.isActive ? 'Скрыть резюме' : 'Сделать резюме видимым'}
+            onToggle={() => { resume.isActive = !resume.isActive; }}
+            toggled={resume.isActive}
+            style={styles.toggle}
+          />
+
+          <Geosuggest
+            placeholder="Ваш город"
+            initialValue={resume.city}
+            onSuggestSelect={this.onSuggestSelect}
+          />
 
           <TextField
             type="text"
@@ -183,15 +167,4 @@ export default class ResumeForm extends Component {
     </div>;
   }
 }
-
-const initialData = {
-  phone: '',
-  city: '',
-  edu: '',
-  filmography: '',
-  ad: '',
-  languages: '',
-  text: '',
-  rubrics: [],
-};
 
