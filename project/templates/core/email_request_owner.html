@@ -5,7 +5,11 @@
     id Вашего запроса: {{ id }}
   </p>
   <p>
-    Вакансия: {{ vacancy }}
+    {% if request.vacancy %}
+      Вакансия: {{ request.vacancy.name }}
+    {% else %}
+      Аренда: {{ request.rent.name }}
+    {% endif %}
   </p>
 </div>
 

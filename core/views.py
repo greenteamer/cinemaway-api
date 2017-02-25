@@ -17,39 +17,17 @@ User = get_user_model()
 
 @ensure_csrf_cookie
 def index(request, **kwargs):
-    # ip = utils.get_client_ip(request)
-    # if ip == '127.0.0.1':
-    #     ip = '178.155.5.189'
-    # print ip
-    # ipgeobases = IPGeoBase.objects.by_ip(ip)
-    # if ipgeobases.exists():
-    #     ipgeobase = ipgeobases[0]
-    #     print ipgeobase.country  # Страна
-    #     print ipgeobase.district  # Округ (для указанного ip - Уральский)
-    #     print ipgeobase.region  # Регион (Свердловская область)
-    #     print ipgeobase.city  # Населенный пункт (Екатеринбург)
-    #     print ipgeobase.ip_block  # IP-блок, в который попали (212.49.98.0 - 212.49.98.255)
-    #     print ipgeobase.start_ip, ipgeobase.end_ip  # IP-блок в числовом формате
-    #     print ipgeobase.latitude, ipgeobase.longitude  # широта и долгота
-
-    #  user = User.objects.filter(id=request.user.id)
-
-    #  perm = request.user.has_perm()
-    #  print "perm: %s" % perm
     return render(request, 'core/index.html', {
         'user': request.user
     })
 
 
-# @ensure_csrf_cookie
 def mailer(request):
-    #  received_json_data = json.loads(request.body)
-    #  received_json_data = request.POST
     if request.POST.get('request', None):
         requestObj = UserRequest.objects.get(id=request.POST['request'])
         context_dict = {
             'id': requestObj.id,
-            'vacancy': requestObj.vacancy.name,
+            'request': requestObj,
         }
 
         send_mail_func('core/email_request_owner.html', context_dict, requestObj.owner.email)
@@ -64,11 +42,6 @@ def mailer(request):
 
         send_mail_func('core/email_response_owner.html', context_dict, responseObj.userRequest.owner.email)
 
-    #  ownerEMail = User.objects.get(id=int(received_json_data['owner'])).email
-    #  objectEMail = User.objects.get(id=int(received_json_data['object'])).email
-    #  subject = u'Уведомление cw'
-    #  message = u'Новые действия на сайте'
-    #  send_mail(subject, message, ADMIN_EMAIL, [ownerEMail, objectEMail], fail_silently=False)
     response_object = {
         'response': 'ok'
     }
