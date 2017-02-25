@@ -1,7 +1,15 @@
 {% if response.status %}
-  <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел положительный ответ</h3>
+  {% if request.vacancy %}
+    <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел положительный ответ</h3>
+  {% else %}
+    <h3>На Ваш запрос "{{ request.rent.name }}" пришел положительный ответ</h3>
+  {% endif %}
 {% else %}
-  <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел отрицательный ответ</h3>
+  {% if request.vacancy %}
+    <h3>На Ваш запрос "{{ request.vacancy.name }}" пришел отрицательный ответ</h3>
+  {% else %}
+    <h3>На Ваш запрос "{{ request.rent.name }}" пришел отрицательный ответ</h3>
+  {% endif %}
 {% endif %}
 
 <div>
@@ -9,7 +17,11 @@
     id ответа: {{ response.id }}
   </p>
   <p>
-    Вакансия: {{ request.vacancy.name }}
+    {% if request.vacancy %}
+      Вакансия: {{ request.vacancy.name }}
+    {% else %}
+      Аренда: {{ request.rent.name }}
+    {% endif %}
   </p>
 </div>
 

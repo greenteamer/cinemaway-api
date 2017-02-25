@@ -64,11 +64,33 @@ def mailer(request):
 
         send_mail_func('core/email_response_owner.html', context_dict, responseObj.userRequest.owner.email)
 
-    #  ownerEMail = User.objects.get(id=int(received_json_data['owner'])).email
-    #  objectEMail = User.objects.get(id=int(received_json_data['object'])).email
-    #  subject = u'Уведомление cw'
-    #  message = u'Новые действия на сайте'
-    #  send_mail(subject, message, ADMIN_EMAIL, [ownerEMail, objectEMail], fail_silently=False)
+    response_object = {
+        'response': 'ok'
+    }
+    response_data = JSONRenderer().render(response_object)
+    return HttpResponse(response_data, content_type='application/json')
+
+
+def rent_mailer(request):
+    if request.POST.get('request', None):
+        requestObj = UserRequest.objects.get(id=request.POST['request'])
+        context_dict = {
+            'id': requestObj.id,
+            'rent': requestObj.rent.name,
+        }
+
+        send_mail_func('core/email_rent_request_owner.html', context_dict, requestObj.owner.email)
+        send_mail_func('core/email_rent_request_object.html', context_dict, requestObj.object.email)
+
+    if request.POST.get('response', None):
+        responseObj = UserResponse.objects.get(id=request.POST['response'])
+        context_dict = {
+            'request': responseObj.userRequest,
+            'response': responseObj,
+        }
+
+        send_mail_func('core/email_rent_response_owner.html', context_dict, responseObj.userRequest.owner.email)
+
     response_object = {
         'response': 'ok'
     }
