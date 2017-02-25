@@ -17,39 +17,17 @@ User = get_user_model()
 
 @ensure_csrf_cookie
 def index(request, **kwargs):
-    # ip = utils.get_client_ip(request)
-    # if ip == '127.0.0.1':
-    #     ip = '178.155.5.189'
-    # print ip
-    # ipgeobases = IPGeoBase.objects.by_ip(ip)
-    # if ipgeobases.exists():
-    #     ipgeobase = ipgeobases[0]
-    #     print ipgeobase.country  # Страна
-    #     print ipgeobase.district  # Округ (для указанного ip - Уральский)
-    #     print ipgeobase.region  # Регион (Свердловская область)
-    #     print ipgeobase.city  # Населенный пункт (Екатеринбург)
-    #     print ipgeobase.ip_block  # IP-блок, в который попали (212.49.98.0 - 212.49.98.255)
-    #     print ipgeobase.start_ip, ipgeobase.end_ip  # IP-блок в числовом формате
-    #     print ipgeobase.latitude, ipgeobase.longitude  # широта и долгота
-
-    #  user = User.objects.filter(id=request.user.id)
-
-    #  perm = request.user.has_perm()
-    #  print "perm: %s" % perm
     return render(request, 'core/index.html', {
         'user': request.user
     })
 
 
-# @ensure_csrf_cookie
 def mailer(request):
-    #  received_json_data = json.loads(request.body)
-    #  received_json_data = request.POST
     if request.POST.get('request', None):
         requestObj = UserRequest.objects.get(id=request.POST['request'])
         context_dict = {
             'id': requestObj.id,
-            'vacancy': requestObj.vacancy.name,
+            'request': requestObj,
         }
 
         send_mail_func('core/email_request_owner.html', context_dict, requestObj.owner.email)
@@ -63,33 +41,6 @@ def mailer(request):
         }
 
         send_mail_func('core/email_response_owner.html', context_dict, responseObj.userRequest.owner.email)
-
-    response_object = {
-        'response': 'ok'
-    }
-    response_data = JSONRenderer().render(response_object)
-    return HttpResponse(response_data, content_type='application/json')
-
-
-def rent_mailer(request):
-    if request.POST.get('request', None):
-        requestObj = UserRequest.objects.get(id=request.POST['request'])
-        context_dict = {
-            'id': requestObj.id,
-            'rent': requestObj.rent.name,
-        }
-
-        send_mail_func('core/email_rent_request_owner.html', context_dict, requestObj.owner.email)
-        send_mail_func('core/email_rent_request_object.html', context_dict, requestObj.object.email)
-
-    if request.POST.get('response', None):
-        responseObj = UserResponse.objects.get(id=request.POST['response'])
-        context_dict = {
-            'request': responseObj.userRequest,
-            'response': responseObj,
-        }
-
-        send_mail_func('core/email_rent_response_owner.html', context_dict, responseObj.userRequest.owner.email)
 
     response_object = {
         'response': 'ok'
