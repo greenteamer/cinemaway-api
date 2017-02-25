@@ -68,7 +68,7 @@ export default class RequestList extends React.Component {
           </h3>
           <TableRequests
             requests={rentRequests}
-            columnName="Вакансия"
+            columnName="Позиция"
             getLinkFunc={(req) => <Link
               to={ req.rentObj.absoluteUrl }>
               { req.rentObj.name }

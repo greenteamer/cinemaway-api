@@ -29,6 +29,7 @@ class RentItem extends React.Component {
     const { store, params } = this.props;
     const id = parseInt(params.rentId, 10);
     const rent = store.rents.find(rent => rent.id === id);
+    if (!rent) return null;
     return <div>
       <h1>{rent.name}</h1>
       <p>{rent.description}</p>

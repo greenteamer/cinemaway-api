@@ -11,12 +11,12 @@ const DialogModal = observer(({rent, store, open, onClose}) => {
   let text = observable('');
   const actions = [
     <FlatButton
-      label="Cancel"
+      label="Отмена"
       primary={true}
       onTouchTap={onClose}
     />,
     <RaisedButton
-      label="Submit"
+      label="Откликнуться"
       primary={true}
       onTouchTap={() => {
         const userRequestObj = {
