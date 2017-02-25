@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -12,12 +13,12 @@ const DialogModal = observer(({vacancy, store, workerId, open, onClose}) => {
   let text = observable('');
   const actions = [
     <FlatButton
-      label="Cancel"
+      label="Отмена"
       primary={true}
       onTouchTap={onClose}
     />,
-    <FlatButton
-      label="Submit"
+    <RaisedButton
+      label="Откликнуться"
       primary={true}
       onTouchTap={() => {
         const userRequestObj = {

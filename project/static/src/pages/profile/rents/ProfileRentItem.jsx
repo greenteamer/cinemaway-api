@@ -9,6 +9,7 @@ import UIDialog from '../../../components/uidialog';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
 
 
 @inject('store') @observer
@@ -29,6 +30,7 @@ class RentCard extends React.Component {
     const { store, params } = this.props;
     const id = parseInt(params.rentId, 10);
     const rent = store.rents.find(rent => rent.id === id);
+    if (!rent) return null;
     console.log('rent : ', rent);
     return <div>
       <Card>
@@ -63,6 +65,8 @@ export class InputRequests extends React.Component {
   @observable dialog = false;
   @observable text = '';
   @observable requestId = null;
+  @observable tmpMessage = '';
+  @observable messageDialog = false;
 
   _handleOpenDialog = (requestId) => {
     this.requestId = requestId;
@@ -83,6 +87,11 @@ export class InputRequests extends React.Component {
     const { store } = this.props;
     store.addUserResponse(store.user.id, this.requestId, false, this.text);
     this.dialog = false;
+  }
+
+  _handleShowMessage = (message) => {
+    this.tmpMessage = message;
+    this.messageDialog = true;
   }
 
   render() {
@@ -117,8 +126,24 @@ export class InputRequests extends React.Component {
                   { req.renterUserObj.fullName }
                 </Link>
               </TableRowColumn>
-              <TableRowColumn>{req.text ? req.text : ''}</TableRowColumn>
-              <TableRowColumn>{req.userResponse ? req.userResponse.text : ''}</TableRowColumn>
+              <TableRowColumn>
+                {req.text &&
+                  <FlatButton
+                    label="Прочитать"
+                    primary={true}
+                    onTouchTap={() => this._handleShowMessage(req.text)}
+                  />
+                }
+              </TableRowColumn>
+              <TableRowColumn>
+                {req.userResponse &&
+                  <FlatButton
+                    label="Прочитать"
+                    primary={true}
+                    onTouchTap={() => this._handleShowMessage(req.userResponse.text)}
+                  />
+                }
+              </TableRowColumn>
               <TableRowColumn>
                 <FlatButton
                   label="Ответить"
@@ -167,6 +192,20 @@ export class InputRequests extends React.Component {
         </div>
         }
       </UIDialog>
+      <Dialog
+        title="Сообщение"
+        modal={false}
+        open={this.messageDialog}
+        onRequestClose={() => { this.messageDialog = false; }}
+        actions={[
+          <FlatButton
+            label="Закрыть"
+            primary={true}
+            onTouchTap={() => { this.messageDialog = false; }}
+          />,
+        ]}>
+        {this.tmpMessage}
+      </Dialog>
     </div>;
   }
 }
