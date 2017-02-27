@@ -25,6 +25,17 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 DEBUG = True
 WEBPACK_DEV_SERVER = True
 ALLOWED_HOSTS = []
+SITE_ID = 1
+
+#  SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+#  SOCIALACCOUNT_EMAIL_REQUIRED = False
+#  SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_EMAIL_FIELD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/oauth/success/'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -33,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # installed apps:
     'mptt',
     'mptt_tree_editor',
@@ -42,7 +54,11 @@ INSTALLED_APPS = [
     # 'django_ipgeobase',
     # 'ipgeo',
 
-    # custom apps:
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',   # custom apps:
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.vk',
     'authentication',
     'core',
     'rooms',

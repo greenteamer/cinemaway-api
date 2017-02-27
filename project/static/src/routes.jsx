@@ -50,6 +50,11 @@ export const routes = <Router history={browserHistory}>
     </Route>
     <Route component={Layout}>
       <IndexRoute components={{ content: Rubrics, nav: Nav}} />
+      <Route path="accounts">
+        <Route path="profile">
+          <IndexRoute components={{ content: Profile, nav: Nav }} />
+        </Route>
+      </Route>
       <Route path="profile">
         <IndexRoute components={{ content: Profile, nav: Nav }} />
         <Route path="rooms" >

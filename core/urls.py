@@ -7,6 +7,6 @@ urlpatterns = [
     url(r'^rubrics/(?P<id>[-\w]+)/$', views.index, name="index"),
     url(r'^auth/$', views.index, name="index"),
     url(r'^send-mail/$', views.mailer, name="mailer"),
-    # url(r'^oauth/facebook/$', views.facebook, name="facebook"),
-    # url(r'^oauth/success/$', views.success, name="success"),
+    url(r'^oauth/facebook/$', views.facebook, name="facebook"),
+    url(r'^oauth/success/$', views.success, name="success"),
 ]
