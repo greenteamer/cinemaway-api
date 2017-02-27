@@ -6,6 +6,7 @@ urlpatterns = [
     #  url(r'^profile/$', views.profile, name="profile"),
     #  url(r'^profile/vacancies/$', views.profile, name="profile"),
     url(r'^profile/', views.profile, name="profile"),
+    url(r'^accounts/profile/', views.profile, name="profile"),
     url(r'^all/', views.profile, name="profile"),
     url(r'^vacancies/', views.profile, name="profile"),
     url(r'^rents/', views.profile, name="profile"),

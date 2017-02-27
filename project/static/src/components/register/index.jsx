@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
-
+// import { browserHistory } from 'react-router';
 
 
 @inject('store') @observer
@@ -86,6 +86,8 @@ export class LoginForm extends React.Component {
   }
 
   render() {
+    const appId = '370148180028806';
+    const redirectUri = 'http://localhost:8000/';
     return <Card id="login-form">
       <CardTitle title="Вход" subtitle="Введите данные в поля ниже" />
       <CardText>
@@ -117,11 +119,13 @@ export class LoginForm extends React.Component {
       </CardText>
       <CardActions className="social-container">
         <FlatButton
+          onTouchTap={() => { window.location = `/accounts/facebook/login/`; }}
           className="btn btn-fb"
           href="#"
           label=" Facebook"
           icon={<i className="fa fa-facebook left" />} />
         <FlatButton
+          onTouchTap={() => { window.location = `/accounts/vk/login/`; }}
           className="btn btn-vk"
           href="#"
           label=" Vkontakte"
