@@ -56,7 +56,7 @@ export class VacancyFormFields extends Component {
           hintText="Описание"
           floatingLabelText="Описание вакансии"
           defaultValue={vacancy.description}
-          multiLine={true}
+            multiLine={true}
           rows={3}
           onChange={(e) => { vacancy.description = e.target.value; }}
         />
@@ -64,11 +64,10 @@ export class VacancyFormFields extends Component {
 
       <div className="col-sm-12 col-md-6">
         <TextField
-          type="number"
           hintText="Оплата"
           floatingLabelText="Оплата"
           defaultValue={vacancy.price}
-          onChange={(e) => { vacancy.price = parseInt( e.target.value, 10 ); }}
+          onChange={(e) => { vacancy.price = e.target.value; }}
         />
         <br />
         <h4>Выберите рубрики</h4>

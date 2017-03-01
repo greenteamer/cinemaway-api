@@ -14,10 +14,16 @@ import Paper from 'material-ui/Paper';
 
 const ResumeCard = ({worker, onRequest}) => <Card className="mb3">
   <CardHeader
-    title={`${worker.firstname} ${worker.lastname}`}
-    avatar={<IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px' }}>
-      <img src={worker.avatar} />
-    </IconButton>}
+    title=""
+    avatar={
+      <div>
+        <IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px' }}>
+          <img src={worker.avatar} />
+        </IconButton>
+        <p className="fs-120r">{`${worker.firstname} ${worker.lastname}`}</p>
+        <p className="fs-80r gray">{worker.resume.city}</p>
+      </div>
+    }
     actAsExpander={true}
     showExpandableButton={true}
   />
