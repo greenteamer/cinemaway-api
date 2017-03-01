@@ -13,8 +13,9 @@ import IconButton from 'material-ui/IconButton';
 const VacancySubtitle = ({vacancy, store}) => {
   const rubrics = store.rubrics.filter(r => vacancy.rubrics.includes(r.id));
   return <div>
+    <p className="mb0 fs-120r">{vacancy.name}</p>
     <p className="mb0 b">{vacancy.price}</p>
-    {rubrics.map((r, index) => <span key={index}>{r.name}, </span>)}
+    {rubrics.map((r, index) => <span key={index} className="gray fs-80r">{r.name}, <br /></span>)}
   </div>;
 };
 VacancySubtitle.propTypes = {
@@ -24,16 +25,18 @@ VacancySubtitle.propTypes = {
 
 const VacancyCard = ({vacancy, onRequest, store}) => <Card className="mb3">
   <CardHeader
-    title={vacancy.name}
-    avatar={<div style={{ width: '100px', float: 'right', marginRight: '30px' }}>
-      <IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px', textAlign: 'right' }}>
-        <img src={vacancy.ownerObj.avatar} />
-      </IconButton>
-      <p onTouchTap={() => browserHistory.push(vacancy.ownerObj.absoluteUrl)}>
-        {vacancy.ownerObj.fullName}
-      </p>
+    title=""
+    avatar={<div className="">
+      <div style={{width: '20%', marginRight: '30px'}}>
+        <IconButton style={{ width: '50', height: '50px', margin: '4px', padding: '0px', overflow: 'hidden', borderRadius: '25px', textAlign: 'right' }}>
+          <img src={vacancy.ownerObj.avatar} />
+        </IconButton>
+        <p onTouchTap={() => browserHistory.push(vacancy.ownerObj.absoluteUrl)}>
+          {vacancy.ownerObj.fullName}
+        </p>
+      </div>
+      <VacancySubtitle store={store} vacancy={vacancy} />
     </div>}
-    subtitle={<VacancySubtitle store={store} vacancy={vacancy} />}
     actAsExpander={true}
     showExpandableButton={true}
   />
