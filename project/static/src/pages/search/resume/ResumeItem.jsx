@@ -42,14 +42,17 @@ class ResumeCard extends React.Component {
     const id = parseInt(params.userId, 10);
     if (store.users.length === 0) return null;
     const user = store.users.find(u => u.id === id);
-    const messages = store.findMessgaes(user.id, store.user.id);
+    const messages = store.findMessgaes(user.id, store.user ? store.user.id : null);
     return <div className="pv4 row">
       <div className="col-xs-12 col-md-8">
         <div className="flex justify-between">
           <div className="">
             <h1>{user.firstname} {user.lastname}</h1>
             {user.resume &&
-              <p className="fs-80r gray">{user.resume.city}</p>
+              <div>
+                <p className="fs-80r gray">{user.resume.strokeRubrics}</p>
+                <p className="fs-80r gray">{user.resume.city}</p>
+              </div>
             }
             <img src={user.avatar} style={{ height: 200 }}/>
           </div>
