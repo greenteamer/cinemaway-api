@@ -1,8 +1,6 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import {GridList, GridTile} from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 
 const styles = {
@@ -13,7 +11,7 @@ const styles = {
   },
   gridList: {
     width: '100%',
-    height: 450,
+    height: '100%',
     overflowY: 'auto',
   },
 };
@@ -29,7 +27,7 @@ const GridListComponent = ({ rubrics }) => <div style={styles.root}>
     cellHeight={200}
     padding={1}
     style={styles.gridList}>
-    {rubrics.map((rubric, i) => <GridTile
+    {rubrics.map((rubric) => <GridTile
         key={rubric.id}
         title={rubric.name}
       >
