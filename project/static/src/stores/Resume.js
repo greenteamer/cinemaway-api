@@ -1,5 +1,5 @@
 import { action, extendObservable, toJS, computed } from 'mobx';
-import { Store as store } from '../stores';
+import { Store as store, UIStore as uiStore } from '../stores';
 import * as API from '../api';
 
 
@@ -17,12 +17,16 @@ export default class Resume {
     const obj = toJS(this);
     if (this.id) {
       await API.request(API.ENDPOINTS.PUT_RESUME(obj.id), obj);
+      uiStore.snackbar.open = true;
+      uiStore.snackbar.message = 'Ваш профиль сохранен';
     }
     else {
       const response = await API.request(API.ENDPOINTS.POST_RESUME(), obj);
       if (response) {
         this.id = response.id;
         store.resumes.push(this);
+        uiStore.snackbar.open = true;
+        uiStore.snackbar.message = 'Ваш профиль сохранен';
       }
     }
   }

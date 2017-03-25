@@ -1,4 +1,4 @@
-import { action, autorun, observable } from 'mobx';
+import { toJS, action, autorun, observable } from 'mobx';
 import singleton from 'singleton';
 
 
@@ -6,12 +6,19 @@ class UIStore extends singleton {
   @observable isLoading = false;
   @observable dialog = false;
   @observable dialogMessage = 'dialog message';
+  @observable snackbar = {
+    open: false,
+    message: '',
+  };
 
   constructor() {
     super();
     this.isLoading = false;
     autorun(() => {
-      console.log('isLoading: ', this.isLoading);
+      if (this.snackbar.open) {
+        setTimeout(() => { this.snackbar.open = false; }, 4000);
+      }
+      console.log('snackbar: ', toJS(this.snackbar));
     });
     autorun(() => {
       console.log('uiStore dialog : ', this.dialog);
