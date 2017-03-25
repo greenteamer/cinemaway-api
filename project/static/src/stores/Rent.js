@@ -25,7 +25,8 @@ export default class Rent {
     }
     if (obj.id) {
       const response = await API.request(API.ENDPOINTS.PUT_RENT(obj.id), obj);
-      console.log('response: ', response);
+      uiStore.snackbar.open = true;
+      uiStore.snackbar.message = "Позиция сохранена";
     }
     else {
       const response = await API.request(API.ENDPOINTS.POST_RENT(), obj);
@@ -34,6 +35,8 @@ export default class Rent {
         this.id = response.id;
         this.image = response.image;
         store.rents.push(this);
+        uiStore.snackbar.open = true;
+        uiStore.snackbar.message = "Позиция добавлена";
       }
     }
   }

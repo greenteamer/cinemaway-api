@@ -2,7 +2,7 @@ import styles from './styles';
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { observer, inject } from 'mobx-react';
-import AppBar from 'material-ui/AppBar';
+// import AppBar from 'material-ui/AppBar';
 // import Avatar from 'material-ui/Avatar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -23,11 +23,13 @@ class Logged extends Component {
   }
   render() {
     const { store } = this.props;
-    if (!store.user) return <MenuItem
-      primaryText="Войти"
-      style={{ color: 'white' }}
-      onTouchTap={() => browserHistory.push('/auth')}
-    />;
+    if (!store.user) {
+      return <MenuItem
+        primaryText="Войти"
+        style={{ color: 'white' }}
+        onTouchTap={() => browserHistory.push('/auth')}
+      />;
+    }
     return <IconMenu
       iconButtonElement={store.user && store.user.avatar
         ? <IconButton style={{ width: '34px', height: '34px', margin: '8px', padding: '0px', overflow: 'hidden', borderRadius: '17px' }}>
@@ -84,14 +86,18 @@ export default class Nav extends React.Component {
 
   render() {
     const { store } = this.props;
-    return <AppBar
-      title={null}
-      id="menu"
-      iconElementLeft={<FlatButtonExampleSimple user={store.user}/>}
-      iconElementRight={<Logged />}
-      iconStyleLeft={{ marginLeft: '0px', marginTop: '0px' }}
-      style={{ paddingLeft: '0px' }}
-    >
-    </AppBar>;
+    // return <AppBar
+    //   title={null}
+    //   id="menu"
+    //   iconElementLeft={<FlatButtonExampleSimple user={store.user}/>}
+    //   // iconElementRight={<Logged />}
+    //   // iconStyleLeft={{ marginLeft: '0px', marginTop: '0px' }}
+    //   // style={{ paddingLeft: '0px' }}
+    // >
+    // </AppBar>;
+    return <div className="flex justify-between bg-mid-gray">
+      <FlatButtonExampleSimple user={store.user}/>
+      <Logged />
+    </div>;
   }
 }

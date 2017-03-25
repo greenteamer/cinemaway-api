@@ -90,6 +90,9 @@ export default class ResumeList extends React.Component {
     const filteredWorkers = this.rubricFilter
       ? workers.filter(w => w.resume.rubrics.includes(this.rubricFilter))
       : workers;
+    const sortedWorkers = filteredWorkers.sort(( r1, r2 ) => new Date(r2.resume.created_at) - new Date(r1.resume.created_at));
+    console.log('sortedWorkers: ', sortedWorkers.map(w => w.id));
+    console.log('filteredWorkers: ', filteredWorkers.map(w => w.id));
     return <div className="flex">
       <Paper style={{
         display: 'inline-block',
@@ -115,8 +118,8 @@ export default class ResumeList extends React.Component {
         </List>
       </Paper>
       <div className="mt3 mr1 w-100">
-        {filteredWorkers.length &&
-            filteredWorkers.map((worker, key) => {
+        {sortedWorkers.length &&
+            sortedWorkers.map((worker, key) => {
               return <ResumeCard
                 key={key}
                 worker={worker}

@@ -89,6 +89,9 @@ class UserRequest(models.Model):
 
     text = models.TextField()
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = u'Запрос пользователя'
         verbose_name_plural = u'Запросы пользователей'
@@ -109,6 +112,9 @@ class UserResponse(models.Model):
     status = models.BooleanField(default=False)
 
     text = models.TextField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = u'Ответ пользователя'

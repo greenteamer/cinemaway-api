@@ -34,6 +34,7 @@ export default class SearchPage extends React.Component {
   render() {
     const { store, rubricId } = this.props;
     const rubric = store.rubrics.find(r => r.id === rubricId);
+    if (!rubric) return null;
     const parentRubric = store.rubrics.find(r => r.id === rubric.parent);
     const vacancies = observable(store.avaliableVacancies.filter(v => v.rubrics.includes(rubricId)));
     const rubricImage = parentRubric ? parentRubric.image : rubric.image;
@@ -41,7 +42,9 @@ export default class SearchPage extends React.Component {
       <div className="" style={{ background: `url(${rubricImage})` }}>
         <div className="col-xs-12 col-sm-4 pa2 title-gradient">
           <p className="f3 ttu mb0">{rubric.name}</p>
-          <Link className="f6 ttu gray" to={`/rubrics/${parentRubric.id}`} >{parentRubric.name}</Link>
+          {parentRubric &&
+            <Link className="f6 ttu gray" to={`/rubrics/${parentRubric.id}`} >{parentRubric.name}</Link>
+          }
         </div>
       </div>
       <Tabs

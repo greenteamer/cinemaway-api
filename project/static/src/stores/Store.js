@@ -178,6 +178,10 @@ class Store extends singleton {
     userResponse.save();
   }
 
+  @computed get sortedResumes() {
+    return observable(this.resumes.sort(( r1, r2 ) => new Date(r2.created_at) - new Date(r1.created_at)));
+  }
+
   findRoom = (user1, user2) => {
     return this.rooms.find(r => {
       const condition1 = r.user1 === user1 && r.user2 === user2;

@@ -1,6 +1,6 @@
 import { action, autorun, computed, extendObservable, observable, toJS} from 'mobx';
 import * as API from '../api';
-import { Store as store } from '../stores';
+import { Store as store, UIStore as uiStore } from '../stores';
 
 
 export default class UserRequest {
@@ -17,6 +17,8 @@ export default class UserRequest {
   @action save = async () => {
     if (this.id) {
       await API.request(API.ENDPOINTS.PUT_USERREQUEST(this.id), toJS(this));
+      uiStore.snackbar.open = true;
+      uiStore.snackbar.message = 'Запрос обновлен';
     }
     else {
       console.log('userrequest post to js: ', toJS(this));
@@ -27,6 +29,8 @@ export default class UserRequest {
         API.request(API.ENDPOINTS.SEND_REQUEST_MAIL(), {
           request: response.id,
         });
+        uiStore.snackbar.open = true;
+        uiStore.snackbar.message = 'Запрос отправлен пользователю';
       }
     }
   }

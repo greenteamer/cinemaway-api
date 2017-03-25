@@ -4,8 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { observable } from 'mobx';
 // import {Card, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import {CardHeader, CardTitle } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-// import RaisedButton from 'material-ui/RaisedButton';
 // import TableRequests from '../../components/requests/TableRequests';
 import styles from './styles';
 import ProfileForm from './ProfileForm';
@@ -20,6 +20,7 @@ import UIDialog from '../../components/uidialog';
 
 @inject('store') @observer
 export default class Profile extends React.Component {
+  @observable open = false;
 
   static propTypes = {
     store: React.PropTypes.object,
@@ -36,6 +37,14 @@ export default class Profile extends React.Component {
     console.log('on success request id: ', reqId);
     const { store } = this.props;
     store.addUserResponse(store.user.id, reqId, true, newMessage);
+  }
+
+  _handleOnPopulateProfile = () => {
+    this.open = true;
+    const { store } = this.props;
+    if (!store.user.resume) {
+      store.addResume();
+    }
   }
 
   render() {
@@ -59,6 +68,15 @@ export default class Profile extends React.Component {
           <ProfileForm />
         </Paper>
       </div>
+      {!this.open &&
+        <Paper zDepth={1} rounded={false}  style={{ marginTop: 10 }}>
+          <RaisedButton
+            label="Заполнить резюме"
+            primary={true}
+            fullWidth={true}
+            onTouchTap={this._handleOnPopulateProfile} />
+        </Paper>
+      }
       <Paper zDepth={1} rounded={false} className="mt4">
         <div className="pa3">
           <h3>
@@ -73,7 +91,7 @@ export default class Profile extends React.Component {
         </div>
       </Paper>
       <Paper zDepth={1} rounded={false} className="mt4">
-        <ResumeForm />
+        <ResumeForm open={this.open}/>
       </Paper>
 
     </div>;

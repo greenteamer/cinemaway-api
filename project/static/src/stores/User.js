@@ -39,11 +39,15 @@ export default class User {
     }
     if (obj.id) {
       await API.request(API.ENDPOINTS.PUT_USER(obj.id), obj);
+      uiStore.snackbar.open = true;
+      uiStore.snackbar.message = 'Информация пользователя обновлена';
     }
     else {
       const response = await API.request(API.ENDPOINTS.POST_USER(), obj);
       if (response) {
         this.id = response.id;
+        uiStore.snackbar.open = true;
+        uiStore.snackbar.message = 'Пользователь добавлен';
       }
     }
   }

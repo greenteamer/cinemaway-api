@@ -97,8 +97,11 @@ class Resume(models.Model):
     text = models.TextField(blank=True, null=True)
 
     rubrics = models.ManyToManyField('core.Rubric', blank=True, null=True)
-
     isActive = models.BooleanField(default=True)
+    phoneIsActive = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = u'Резюме'

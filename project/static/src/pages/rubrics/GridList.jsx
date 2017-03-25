@@ -11,6 +11,11 @@ const styles = {
     flexWrap: 'wrap',
     justifyContent: 'space-around',
   },
+  gridList: {
+    width: '100%',
+    height: 450,
+    overflowY: 'auto',
+  },
 };
 
 const handleGoto = (path) => {
@@ -27,12 +32,6 @@ const GridListComponent = ({ rubrics }) => <div style={styles.root}>
     {rubrics.map((rubric, i) => <GridTile
         key={rubric.id}
         title={rubric.name}
-        actionIcon={<IconButton><StarBorder color="white" /></IconButton>}
-        actionPosition="left"
-        titlePosition="top"
-        titleBackground="linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)"
-        cols={i === 0 || i % 7 === 0 ? 2 : 1}
-        rows={i === 0 || i % 7 === 0 ? 2 : 1}
       >
         <img src={rubric.image} onTouchTap={() => handleGoto(rubric.url)}/>
       </GridTile>
