@@ -63,6 +63,9 @@ class ResumeCard extends React.Component {
               <Paper className="pa2" zDepth={1} >
                 <List>
                   <Subheader>Общая информация:</Subheader>
+                  {user.resume.phoneIsActive &&
+                    <ListItem primaryText="Телефон" secondaryText={user.resume.phone} />
+                  }
                   <ListItem primaryText="Город" secondaryText={user.resume.city} />
                   <ListItem primaryText="Образование" secondaryText={user.resume.edu} />
                   <ListItem primaryText="Знание языков" secondaryText={user.resume.languages} />

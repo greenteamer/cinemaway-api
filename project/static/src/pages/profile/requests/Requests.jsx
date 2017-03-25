@@ -15,10 +15,9 @@ export default class RequestList extends React.Component {
   render() {
     const { store } = this.props;
     if (!store.user) return null;
-    const vacanciesRequests = observable(
-      store.user.outputRequests
-        .filter(r => r.vacancyObj && r.vacancyObj.owner !== r.owner)
-    );
+    const vacanciesRequests = store.user.outputRequests
+      .filter(r => r.vacancyObj && r.vacancyObj.owner !== r.owner)
+      .sort((r1, r2) => new Date(r2.created_at) - new Date(r1.created_at));
     const resumeRequests = observable(
       store.user.outputRequests
         .filter(r => r.vacancyObj && r.vacancyObj.owner === r.owner)
@@ -27,6 +26,7 @@ export default class RequestList extends React.Component {
       store.user.outputRequests
         .filter(r => r.rentObj && r.rentObj.owner !== r.owner)
     );
+    console.log('vacanciesRequests: ', vacanciesRequests.map(r => r.id));
     return <div>
       <br />
       {vacanciesRequests.length !== 0 &&

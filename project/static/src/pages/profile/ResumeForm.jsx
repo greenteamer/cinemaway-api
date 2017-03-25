@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import { inject, observer } from 'mobx-react';
-import { observable } from 'mobx';
+// import { observable } from 'mobx';
 import TextField from 'material-ui/TextField';
 // import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -20,10 +20,11 @@ import Geosuggest from 'react-geosuggest';
 export default class ResumeForm extends Component {
 
   tmpResume = {};
-  @observable open = false;
+  // @observable open = false;
 
   static propTypes = {
     store: React.PropTypes.object,
+    open: React.PropTypes.bool,
     uiStore: React.PropTypes.object,
   }
 
@@ -32,13 +33,13 @@ export default class ResumeForm extends Component {
     user.resume.save();
   }
 
-  _handleOnPopulateProfile = () => {
-    this.open = true;
-    const { store } = this.props;
-    if (!store.user.resume) {
-      store.addResume();
-    }
-  }
+  // _handleOnPopulateProfile = () => {
+  //   this.open = true;
+  //   const { store } = this.props;
+  //   if (!store.user.resume) {
+  //     store.addResume();
+  //   }
+  // }
 
   _handleRubricOnCheck = (e) => {
     const { store } = this.props;
@@ -57,24 +58,18 @@ export default class ResumeForm extends Component {
   }
 
   handleCustomCity = (value) => {
+    const { store: { user } } = this.props;
     user.resume.city = value;
   }
 
   render() {
-    const { store: { user, rubrics } } = this.props;
+    const { store: { user, rubrics }, open } = this.props;
     if (!user) {
       return null;
     }
     const { resume } = user;
-    const isOpen = this.open && resume;
+    const isOpen = open && resume;
     return <div style={styles.fields}>
-      {!this.open &&
-        <RaisedButton
-          label="Заполнить резюме"
-          primary={true}
-          fullWidth={true}
-          onTouchTap={this._handleOnPopulateProfile} />
-      }
 
       {isOpen &&
         <div>
@@ -84,6 +79,12 @@ export default class ResumeForm extends Component {
             label={resume.isActive ? 'Скрыть резюме' : 'Сделать резюме видимым'}
             onToggle={() => { resume.isActive = !resume.isActive; }}
             toggled={resume.isActive}
+            style={styles.toggle}
+          />
+          <Toggle
+            label={resume.isActive ? 'Скрыть телефон' : 'Сделать телефон видимым'}
+            onToggle={() => { resume.phoneIsActive = !resume.phoneIsActive; }}
+            toggled={resume.phoneIsActive}
             style={styles.toggle}
           />
 

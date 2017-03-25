@@ -20,7 +20,7 @@ export default class TableRequests extends React.Component {
 
   static propTypes = {
     store: React.PropTypes.object,
-    requests: React.PropTypes.object,
+    requests: React.PropTypes.array,
     columnName: React.PropTypes.string,
     getLinkFunc: React.PropTypes.func,
     onSuccess: React.PropTypes.func,

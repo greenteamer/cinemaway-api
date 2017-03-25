@@ -1,4 +1,4 @@
-import { action, extendObservable, toJS, observable, computed } from 'mobx';
+import { action, extendObservable, toJS, computed } from 'mobx';
 import { Store as store } from '../stores';
 import * as API from '../api';
 
@@ -35,8 +35,12 @@ export default class Resume {
   }
 
   @action toggleActive() {
-    console.log('Resume store: ', toJS(this));
     this.isActive = !this.isActive;
+  }
+
+  @action togglePhoneActive() {
+    console.log('Resume store: ', toJS(this));
+    this.phoneIsActive = !this.phoneIsActive;
   }
 
   @computed get strokeRubrics() {

@@ -84,14 +84,14 @@ class UserRequestSZ(serializers.ModelSerializer):
 
     class Meta:
         model = UserRequest
-        fields = ('id', 'owner', 'vacancy', 'rent', 'object', 'text')
+        fields = ('id', 'owner', 'vacancy', 'rent', 'object', 'text', 'created_at', 'updated_at')
 
 
 class UserResponseSZ(serializers.ModelSerializer):
 
     class Meta:
         model = UserResponse
-        fields = ('id', 'owner', 'userRequest', 'status', 'text')
+        fields = ('id', 'owner', 'userRequest', 'status', 'text', 'created_at', 'updated_at')
 
 
 class MessageSZ(serializers.ModelSerializer):
