@@ -6,9 +6,9 @@ from django.contrib.auth.models import Group
 from django.shortcuts import HttpResponse
 from rest_framework.authtoken.models import Token
 from rest_framework.renderers import JSONRenderer
-#  import ast
+from project.settings import HOST
+
 import json
-#  from authentication.utils import generate_random_username
 from restapi.serializers import serializers
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -27,7 +27,6 @@ def logout_user(request):
 def login_user(request):
     data = {}
     if request.method == 'POST':
-        #  body = ast.literal_eval(request.body)
         body = request.POST
         try:
             if body['email'] == "":
@@ -89,8 +88,12 @@ class CurrentUserView(views.APIView):
         if request.user.is_authenticated:
             data = json.dumps({
                 "id": request.user.id,
-                # "username": request.user.username,
                 "email": request.user.email,
+                "firstname": request.user.firstname,
+                "lastname": request.user.lastname,
+                "avatar": "http://%s/media/%s" % (HOST, unicode(request.user.avatar)),
+                "is_active": request.user.is_active,
+                "groups": [x.id for x in request.user.groups.all()],
             })
             return HttpResponse(data, content_type='application/json')
         else:

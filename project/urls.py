@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers
-from restapi import views as viewsets, views_auth, views_common
+from restapi import views as viewsets, views_auth, views_auth_app, views_common
 admin.autodiscover()
 
 
@@ -34,6 +34,10 @@ urlpatterns = [
     url(r'^api/v1/logout/$', views_auth.logout_user, name="logout_user"),
     url(r'^api/v1/set-group/$', views_auth.set_group_user_view, name="set_group_user_view"),
     url(r'^api/v1/registration/$', views_auth.registration_user, name="registration_user"),
+
+    url(r'^api/v2/login/$', views_auth_app.login_user_app, name="login_user_app"),
+    url(r'^api/v2/logout/$', views_auth_app.logout_user_app, name="logout_user_app"),
+    url(r'^api/v2/registration/$', views_auth_app.registration_user_app, name="registration_user_app"),
 
     url(r'^authentication/', include('authentication.urls')),
     url(r'^', include('core.urls')),

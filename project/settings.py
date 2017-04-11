@@ -25,6 +25,7 @@ SECRET_KEY = 's7z+3m49iktgu*o3lh2d77ynzw#p@%!n3*-n_+(mz8^on-!-v='
 DEBUG = True
 WEBPACK_DEV_SERVER = True
 ALLOWED_HOSTS = []
+HOST = "localhost:8000"
 SITE_ID = 1
 
 #  SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     # 'django_ipgeobase',
     # 'ipgeo',
 
+    'corsheaders',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',   # custom apps:
@@ -72,12 +74,13 @@ IPGEOBASE_SEND_MESSAGE_FOR_ERRORS = False
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #  'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework.authentication.TokenAuthentication',
-    # ),
+    #  ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #  'rest_framework.authentication.BasicAuthentication',
+        #  'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
